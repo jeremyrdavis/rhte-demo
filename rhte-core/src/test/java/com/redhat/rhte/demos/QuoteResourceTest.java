@@ -56,7 +56,8 @@ public class QuoteResourceTest {
       .assertThat()
       .statusCode(201)
       .body(
-        "id", equalTo(3),
+        // id should be 5 because we have inserted 2 Quotes and 2 Guesses
+        "id", equalTo(5),
         "author", equalTo(Authors.SHAKESPEARE.toString()),
         "text", equalTo(TestQuotes.ALL_THE_WORLDS_A_STAGE.text()));
   }

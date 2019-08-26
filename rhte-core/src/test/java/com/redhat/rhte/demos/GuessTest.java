@@ -13,7 +13,7 @@ public class GuessTest {
   @Test
   public void testQuoteEndpoint() {
     given()
-      .when().get("/quotes")
+      .when().get("/guesses")
       .then()
       .statusCode(200)
       .contentType(MediaType.APPLICATION_JSON)

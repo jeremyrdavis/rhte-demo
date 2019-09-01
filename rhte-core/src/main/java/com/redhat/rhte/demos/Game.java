@@ -2,6 +2,7 @@ package com.redhat.rhte.demos;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -62,10 +63,9 @@ public class Game {
     Quote nextQuote;
     if (this.activeRound.quotes.size() >= 1) {
 
-      List<Long> quoteIds = this.activeRound.quotes.stream()
-        .map(q -> { return q.id; })
-        .collect(toList());
-      nextQuote = Quote.randomNewQuote(quoteIds);
+      List<Quote> existingQuotes = new ArrayList<Quote>();
+      existingQuotes.addAll(this.activeRound.quotes);
+      nextQuote = Quote.randomNewQuote(existingQuotes);
     }else {
 
       nextQuote = Quote.randomNewQuote();

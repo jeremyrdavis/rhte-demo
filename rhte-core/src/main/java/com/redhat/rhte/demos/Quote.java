@@ -8,6 +8,7 @@ import org.hibernate.criterion.Projections;
 import javax.persistence.Entity;
 import javax.swing.text.html.Option;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Quote extends PanacheEntity {
@@ -24,8 +25,17 @@ public class Quote extends PanacheEntity {
     this.text = text;
   }
 
-  public static Quote randomNewQuote(List<Long> quoteIds) {
-    return find("SELECT q FROM Quote WHERE q.id NOT IN ? ORDER BY RAND()", quoteIds).firstResult();
+  public static Quote randomNewQuote(List<Quote> existingQuotes) {
+
+    List<Quote> quotes = listAll();
+
+    List<Quote> newQuotes = quotes
+      .stream()
+      .filter(q -> existingQuotes.contains(q))
+      .collect(Collectors.toList());
+
+    Collections.shuffle(quotes);
+    return quotes.get(0);
   }
 
   public static Quote randomNewQuote() {

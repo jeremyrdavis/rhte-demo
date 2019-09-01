@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -37,7 +38,7 @@ public class QuoteResourceTest {
       .then()
       .statusCode(200)
       .contentType(MediaType.APPLICATION_JSON)
-      .body("", hasSize(2));
+      .body("", hasSize(5));
   }
 
   @Test
@@ -57,7 +58,7 @@ public class QuoteResourceTest {
       .statusCode(201)
       .body(
         // id should be 5 because we have inserted 2 Quotes and 2 Guesses
-        "id", equalTo(5),
+        "id", notNullValue(),
         "author", equalTo(Authors.SHAKESPEARE.toString()),
         "text", equalTo(TestQuotes.ALL_THE_WORLDS_A_STAGE.text()));
   }

@@ -11,6 +11,10 @@ public class Guess extends PanacheEntity {
   public String author;
 
   @ManyToOne
+  @JoinColumn(name = "round_id")
+  public Round round;
+
+  @ManyToOne
   @JoinColumn(name = "quote_id")
   public Quote quote;
 

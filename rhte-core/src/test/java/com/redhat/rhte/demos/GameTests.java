@@ -50,10 +50,13 @@ public class GameTests {
     game.startRound();
     assertEquals(1, game.rounds.size());
     game.rounds.forEach(round -> {
-      assertEquals(1, round.id);
+      assertEquals(Round.RoundStatus.ACTIVE, round.status);
     });
     game.stopRound();
     assertEquals(1, game.rounds.size());
+    game.rounds.forEach(round -> {
+      assertEquals(Round.RoundStatus.COMPLETED, round.status);
+    });
   }
 
   @Test
@@ -63,6 +66,23 @@ public class GameTests {
     flyway.migrate();
 
     Game game = new Game();
+    game.start();
+    game.startRound();
+
+    Quote quote = game.nextQuote();
+    assertNotNull(quote);
+    System.out.println(quote.text);
+  }
+
+  @Test
+  public void testNextQuotes() {
+
+    flyway.clean();
+    flyway.migrate();
+
+    Game game = new Game();
+    game.start();
+    game.startRound();
 
     for (int i = 0; i < 10; i++) {
       Quote quote = game.nextQuote();

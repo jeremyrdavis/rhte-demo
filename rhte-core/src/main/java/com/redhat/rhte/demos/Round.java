@@ -22,6 +22,7 @@ public class Round extends PanacheEntity {
 
   public Round() {
 
+    this.guesses = new HashSet<Guess>();
     this.quotes = new HashSet<Quote>();
   }
 
@@ -42,7 +43,12 @@ public class Round extends PanacheEntity {
 
   public void addGuess(Guess guess) {
 
+    this.guesses.add(guess);
+  }
 
+  public Set<Quote> getQuotes() {
+
+    return this.quotes;
   }
 
   public enum RoundStatus {

@@ -5,9 +5,9 @@ import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class GameTests {
@@ -101,8 +101,30 @@ public class GameTests {
     game.start();
     game.startRound();
 
-      Quote quote = game.nextQuote();
-      Guess guess = new Guess("@contestant", quote.author, game.activeRound, quote);
-      game.addGuess(guess);
+    Quote quote = game.nextQuote();
+    Guess correctGuess = new Guess("@contestant", quote.author, game.activeRound, quote);
+    game.addGuess(correctGuess);
+
+    assertNotNull(game.activeRound.guesses);
+    assertEquals(1, game.activeRound.guesses.size());
+    for (Guess guess: game.activeRound.guesses) {
+
+      assertTrue(guess.isCorrect());
     }
+
+    Guess incorrectGuess = new Guess("@anothercontestant", Authors.HAMILTON.toString(), game.activeRound, quote);
+    game.addGuess(incorrectGuess);
+    assertEquals(2, game.activeRound.guesses.size());
+
+    for (Guess guess: game.activeRound.guesses) {
+
+      if (guess.author.equals(quote.author.toString())) {
+
+        assertTrue(guess.isCorrect());
+      }else{
+
+        assertFalse(guess.isCorrect());
+      }
+    }
+  }
 }

@@ -53,6 +53,7 @@ public class Game {
   public Quote nextQuote() {
 
     Quote nextQuote;
+
     if (this.activeRound.quotes.size() >= 1) {
 
       List<Quote> existingQuotes = new ArrayList<Quote>();
@@ -77,7 +78,19 @@ public class Game {
 
   public void addGuess(Guess guess) {
 
+    verifyStatus();
     this.activeRound.addGuess(guess);
+  }
+
+  private void verifyStatus() {
+
+    if (this.status != GameStatus.ACTIVE) {
+
+      throw new RuntimeException("Game must be started before adding guesses");
+    } else if (this.activeRound.status != Round.RoundStatus.ACTIVE) {
+
+      throw new RuntimeException("Rounds must be active before adding guesses");
+    }
   }
 
   public enum GameStatus {

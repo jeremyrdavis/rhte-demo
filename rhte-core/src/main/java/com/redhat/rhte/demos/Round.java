@@ -16,6 +16,10 @@ public class Round extends PanacheEntity {
   @JoinColumn(name = "quote_id")
   public Set<Quote> quotes;
 
+  @OneToMany
+  @JoinColumn(name = "round_id")
+  public Set<Guess> guesses;
+
   public Round() {
 
     this.quotes = new HashSet<Quote>();
@@ -36,8 +40,9 @@ public class Round extends PanacheEntity {
     return this.quotes.add(quote);
   }
 
-  public Set<Quote> getQuotes() {
-    return this.quotes;
+  public void addGuess(Guess guess) {
+
+
   }
 
   public enum RoundStatus {

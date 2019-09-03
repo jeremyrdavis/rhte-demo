@@ -90,4 +90,19 @@ public class GameTests {
       System.out.println(quote.text);
     }
   }
+
+  @Test
+  public void testAddGuess() {
+
+    flyway.clean();
+    flyway.migrate();
+
+    Game game = new Game();
+    game.start();
+    game.startRound();
+
+      Quote quote = game.nextQuote();
+      Guess guess = new Guess("@contestant", quote.author, game.activeRound, quote);
+      game.addGuess(guess);
+    }
 }

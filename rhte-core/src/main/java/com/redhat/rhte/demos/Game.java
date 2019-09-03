@@ -48,14 +48,6 @@ public class Game {
   public void stopRound() {
 
     this.activeRound.stop();
-/*
-
-    rounds.forEach(round -> {
-      if (round.status.equals(Round.RoundStatus.ACTIVE)) {
-        round.stop();
-      }
-    });
-*/
   }
 
   public Quote nextQuote() {
@@ -80,6 +72,12 @@ public class Game {
     List<Quote> quotes = Quote.findAll().list();
     int i = new Random().nextInt(quotes.size() - 1);
     return quotes.get(i);
+  }
+
+
+  public void addGuess(Guess guess) {
+
+    this.activeRound.addGuess(guess);
   }
 
   public enum GameStatus {

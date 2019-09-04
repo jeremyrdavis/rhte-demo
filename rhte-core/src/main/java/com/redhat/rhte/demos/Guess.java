@@ -19,8 +19,7 @@ public class Guess extends PanacheEntity {
   @JoinColumn(name = "quote_id")
   public Quote quote;
 
-  public Guess() {
-  }
+  public Guess(){}
 
   public Guess(String contestant, String author, Round round, Quote quote) {
     this.contestant = contestant;

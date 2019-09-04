@@ -2,6 +2,7 @@ package com.redhat.rhte.demos;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +19,8 @@ public class Guess extends PanacheEntity {
   @JoinColumn(name = "quote_id")
   public Quote quote;
 
+  public Guess(){}
+
   public Guess(String contestant, String author, Round round, Quote quote) {
     this.contestant = contestant;
     this.author = author;
@@ -25,6 +28,7 @@ public class Guess extends PanacheEntity {
     this.quote = quote;
   }
 
+  @JsonbTransient
   public boolean isCorrect() {
 
     return this.author.equals(this.quote.author.toString());

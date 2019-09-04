@@ -1,18 +1,21 @@
 package com.redhat.rhte.demos;
 
-import javax.enterprise.context.ApplicationScoped;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
+import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
+@Entity
+public class Game extends PanacheEntity {
 
-@ApplicationScoped
-public class Game {
-
+  @Enumerated
   GameStatus status;
 
+  @Transient
   Round activeRound;
 
+  @OneToMany
+  @JoinColumn(name = "game_id")
   Set<Round> rounds;
 
   public Game() {

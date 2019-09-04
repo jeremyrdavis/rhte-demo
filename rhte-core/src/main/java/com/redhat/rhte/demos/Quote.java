@@ -1,13 +1,12 @@
 package com.redhat.rhte.demos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Projections;
 
 import javax.persistence.Entity;
-import javax.swing.text.html.Option;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -25,6 +24,7 @@ public class Quote extends PanacheEntity {
     this.text = text;
   }
 
+  @JsonIgnore
   public static Quote randomNewQuote(List<Quote> existingQuotes) {
 
     List<Quote> quotes = listAll();
@@ -38,6 +38,7 @@ public class Quote extends PanacheEntity {
     return quotes.get(0);
   }
 
+  @JsonIgnore
   public static Quote randomNewQuote() {
     List<Quote> quotes = listAll();
     Collections.shuffle(quotes);

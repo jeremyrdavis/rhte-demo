@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "rhte-game",
+    "description": "Red Hat Tech Exchange ",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/games": {
+      "get": {
+        "summary": "List games",
+        "description": "Returns an array of all Games",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved games",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a game",
+        "description": "Creates a game",
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Game created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/games/{gameId}": {
+      "summary": "Operations for an individual game",
+      "description": "Retrieve information about a specific game",
+      "get": {
+        "summary": "Retrieve a game",
+        "responses": {
+          "200": {
+            "description": "Game retrieved",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a game",
+        "description": "Start or stop a game",
+        "responses": {
+          "200": {
+            "description": "Successful PUT",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "gameId",
+          "in": "path",
+          "description": "Id of the game to retrieve",
+          "required": true,
+          "schema": {
+            "type": "number"
+          }
+        }
+      ]
+    },
+    "/games/start/{gameId}": {},
+    "/games/stop/{gameId}": {},
+    "/games/rounds/{gameId}": {
+      "get": {
+        "summary": "Retrieve rounds for the specified game"
+      }
+    },
+    "/games/rounds/start/{gameId}": {
+      "post": {
+        "summary": "Starts a round for the specified game",
+        "description": "Returns an error if there is already an active round",
+        "responses": {
+          "200": {
+            "description": "Successfully started a new round"
+          },
+          "400": {
+            "description": "Thrown when there is already an active round"
+          }
+        }
+      }
+    },
+    "/games/rounds/stop/{gameId}": {}
+  },
+  "components": {
+    "schemas": {
+      "Game": {
+        "title": "Root Type for Game",
+        "description": "The root of the Game type's schema.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "example": "{\n    \"id\":1234,\n    \"name\":\"game-name\"\n}"
+      }
+    }
+  }
+}

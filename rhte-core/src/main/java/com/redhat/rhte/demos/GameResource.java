@@ -1,21 +1,38 @@
 package com.redhat.rhte.demos;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/games")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GameResource {
 
-  @Path("/v1")
+  Logger LOGGER = LoggerFactory.getLogger(this.getClass().getName());
+
+  @Inject
+  GameManager gameManager;
+
+  @Path("/")
   @GET
   public Response getAllGames() {
 
-    return Response.status(418).build();
+    List<Game> games = Game.listAll();
+    LOGGER.debug("Retrieved " + games.size() + " records.");
+    return Response.status(200).entity(games).build();
+  }
+
+  @Path("/start")
+  @POST
+  public Response startGame() {
+
+    Game game = gameManager.startGame();
+    return Response.status(Response.Status.CREATED).entity(game).build();
   }
 }

@@ -1,5 +1,6 @@
 package com.redhat.rhte.demos;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
@@ -7,6 +8,8 @@ import java.util.*;
 
 @Entity
 public class Game extends PanacheEntity {
+
+  String name;
 
   @Enumerated
   GameStatus status;
@@ -98,7 +101,14 @@ public class Game extends PanacheEntity {
 
   public enum GameStatus {
 
-    ACTIVE, ENDED;
+    ACTIVE("active"), ENDED("ended");
+
+    @JsonValue
+    String name;
+
+    GameStatus(String name) {
+      this.name = name;
+    }
   }
 
 }

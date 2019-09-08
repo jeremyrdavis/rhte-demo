@@ -22,11 +22,10 @@ import static org.hamcrest.Matchers.hasSize;
 public class GameResourceTest {
 
   static final String URI = "/games";
-  static final String URI_VERSION = "/v1";
 
   String buildUri() {
 
-    return URI + URI_VERSION;
+    return URI;
   }
 
   private String buildUri(String additionalUri) {

@@ -1,5 +1,7 @@
 package com.redhat.rhte.demos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -9,17 +11,22 @@ import java.util.*;
 @Entity
 public class Game extends PanacheEntity {
 
+  @JsonProperty("name")
   String name;
 
+  @JsonProperty("status")
   @Enumerated
   GameStatus status;
 
+  @JsonProperty("activeRound")
   @Transient
   Round activeRound;
 
   @OneToMany
   @JoinColumn(name = "game_id")
   Set<Round> rounds;
+/*
+
 
   public Game() {
 
@@ -36,26 +43,27 @@ public class Game extends PanacheEntity {
     this.status = GameStatus.ENDED;
   }
 
-  public void startRound() {
+//  public void startRound() {
+//
+//    if (this.status != GameStatus.ACTIVE) {
+//      throw new RuntimeException("The Game is not started");
+//    }
+//
+//    if (rounds == null) {
+//      rounds = new HashSet<Round>();
+//    }
+//    Round round = new Round();
+//    round.start();
+//    this.activeRound = round;
+//    rounds.add(round);
+//  }
 
-    if (this.status != GameStatus.ACTIVE) {
-      throw new RuntimeException("The Game is not started");
-    }
+//  public void stopRound() {
+//
+//    this.activeRound.stop();
+//  }
 
-    if (rounds == null) {
-      rounds = new HashSet<Round>();
-    }
-    Round round = new Round();
-    round.start();
-    this.activeRound = round;
-    rounds.add(round);
-  }
-
-  public void stopRound() {
-
-    this.activeRound.stop();
-  }
-
+  @JsonIgnore
   public Quote nextQuote() {
 
     Quote nextQuote;
@@ -65,7 +73,7 @@ public class Game extends PanacheEntity {
       List<Quote> existingQuotes = new ArrayList<Quote>();
       existingQuotes.addAll(this.activeRound.quotes);
       nextQuote = Quote.randomNewQuote(existingQuotes);
-    }else {
+    } else {
 
       nextQuote = Quote.randomNewQuote();
     }
@@ -74,6 +82,7 @@ public class Game extends PanacheEntity {
     return nextQuote;
   }
 
+  @JsonIgnore
   private Quote randomQuote() {
 
     List<Quote> quotes = Quote.findAll().list();
@@ -98,6 +107,8 @@ public class Game extends PanacheEntity {
       throw new RuntimeException("Rounds must be active before adding guesses");
     }
   }
+
+*/
 
   public enum GameStatus {
 

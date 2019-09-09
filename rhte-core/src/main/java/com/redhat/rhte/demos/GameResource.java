@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Path("/games")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class GameResource {
 
   Logger LOGGER = LoggerFactory.getLogger(this.getClass().getName());
@@ -41,8 +43,6 @@ public class GameResource {
 
   @POST
   @Path("/")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
   @Transactional
   public Response createGame(Game game) {
 
@@ -50,6 +50,20 @@ public class GameResource {
     game.persist();
     LOGGER.debug("created new game: " + game.toString());
     return Response.status(Response.Status.CREATED).entity(game).build();
+  }
+
+  @GET
+  @Path("/{gameId}")
+  public Response getGame(@PathParam("gameId") long id) {
+
+    Game game = Game.findById(id);
+    if (game == null) {
+
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }else{
+
+      return Response.status(Response.Status.FOUND).entity(game).build();
+    }
   }
 
 }

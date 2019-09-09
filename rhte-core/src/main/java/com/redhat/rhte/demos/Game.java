@@ -41,25 +41,25 @@ public class Game extends PanacheEntity {
     this.status = GameStatus.ENDED;
   }
 
-//  public void startRound() {
-//
-//    if (this.status != GameStatus.ACTIVE) {
-//      throw new RuntimeException("The Game is not started");
-//    }
-//
-//    if (rounds == null) {
-//      rounds = new HashSet<Round>();
-//    }
-//    Round round = new Round();
-//    round.start();
-//    this.activeRound = round;
-//    rounds.add(round);
-//  }
+  public void startRound() {
 
-//  public void stopRound() {
-//
-//    this.activeRound.stop();
-//  }
+    if (this.status != GameStatus.ACTIVE) {
+      throw new RuntimeException("The Game is not started");
+    }
+
+    if (rounds == null) {
+      rounds = new HashSet<Round>();
+    }
+    Round round = new Round();
+    round.start();
+    this.activeRound = round;
+    rounds.add(round);
+  }
+
+  public void stopRound() {
+
+    this.activeRound.stop();
+  }
 
   @JsonIgnore
   public Quote nextQuote() {

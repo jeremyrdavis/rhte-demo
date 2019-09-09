@@ -26,29 +26,18 @@ public class GameResourceTest {
 
   static final String URI = "/games";
 
-  String buildUri() {
-
-    return URI;
-  }
-
-  private String buildUri(String additionalUri) {
-
-    return buildUri() + additionalUri;
-  }
-
-
   /**
    * GET
    * /games
    */
   @Test
-  public void testGetGames() {
+  public void testGetGame() {
     given()
-      .when().get(buildUri())
+      .when().get(URI + "/1")
       .then()
-      .statusCode(200)
+      .statusCode(302)
       .contentType(MediaType.APPLICATION_JSON)
-      .body("", hasSize(0));
+      .body("", hasSize(1));
   }
 
 
@@ -65,7 +54,7 @@ public class GameResourceTest {
 
     given()
       .pathParam("game", jsonObject.toString() )
-      .when().post(buildUri())
+      .when().post(URI)
       .then()
       .statusCode(Response.Status.CREATED.getStatusCode())
       .contentType(MediaType.APPLICATION_JSON)

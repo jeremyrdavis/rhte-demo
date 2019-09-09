@@ -25,8 +25,6 @@ public class Game extends PanacheEntity {
   @OneToMany
   @JoinColumn(name = "game_id")
   Set<Round> rounds;
-/*
-
 
   public Game() {
 
@@ -107,8 +105,6 @@ public class Game extends PanacheEntity {
       throw new RuntimeException("Rounds must be active before adding guesses");
     }
   }
-
-*/
 
   public enum GameStatus {
 

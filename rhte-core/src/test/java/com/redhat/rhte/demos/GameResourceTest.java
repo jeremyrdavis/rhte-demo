@@ -29,7 +29,7 @@ public class GameResourceTest {
 
   /**
    * PUT
-   * /games/start
+   * /games/start/{gameId}
    */
   @Test
   public void testStartingGame() {
@@ -53,6 +53,35 @@ public class GameResourceTest {
       .jsonPath()
       .get("status")
       .equals("active");
+  }
+
+
+  /**
+   * PUT
+   * /games/stop/{gameId}
+   */
+  @Test
+  public void testStoppingGame() {
+
+    JsonObject jsonObject = Json.createObjectBuilder()
+      .add("id", 1)
+      .add("name", "testGame")
+      .add("status", "ended")
+      .build();
+
+    given()
+      .contentType(MediaType.APPLICATION_JSON)
+      .when()
+//      .body(jsonObject.toString())
+      .put(URI + "/stop/1")
+      .then()
+      .statusCode(Response.Status.ACCEPTED.getStatusCode())
+      .contentType(MediaType.APPLICATION_JSON)
+      .extract()
+      .response()
+      .jsonPath()
+      .get("status")
+      .equals("ended");
   }
 
   /**

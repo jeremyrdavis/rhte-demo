@@ -60,4 +60,13 @@ public class GameResource {
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
+  @PUT
+  @Path("/stop/{gameId}")
+  public Response stopGame(@PathParam("gameId") long id) {
+
+    Game game = Game.findById(id);
+    game.status = Game.GameStatus.ENDED;
+    game.persist();
+    return Response.status(Response.Status.ACCEPTED).entity(game).build();
+  }
 }

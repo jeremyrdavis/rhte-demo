@@ -108,7 +108,7 @@ public class Game extends PanacheEntity {
 
   public enum GameStatus {
 
-    ACTIVE("active"), ENDED("ended");
+    ACTIVE("active"), CREATED("created"), ENDED("ended");
 
     @JsonValue
     String name;

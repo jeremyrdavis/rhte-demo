@@ -3,12 +3,10 @@ package com.redhat.rhte.demos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/games")
@@ -22,20 +20,6 @@ public class GameResource {
   @GET
   public Response getAllGames() {
 
-/*
-    Game game1 = new Game();
-    game1.name = "game1";
-    game1.status = Game.GameStatus.ENDED;
-
-    Game game2 = new Game();
-    game2.name = "game2";
-    game2.status = Game.GameStatus.ENDED;
-
-    List<Game> games = new ArrayList<>(2);
-    games.add(game1);
-    games.add(game2);
-
-*/
     List<Game> games = Game.listAll();
     LOGGER.debug("Retrieved " + games.size() + " records.");
     return Response.status(200).entity(games).build();
@@ -46,7 +30,7 @@ public class GameResource {
   @Transactional
   public Response createGame(Game game) {
 
-    game.status = Game.GameStatus.ACTIVE;
+    game.status = Game.GameStatus.CREATED;
     game.persist();
     LOGGER.debug("created new game: " + game.toString());
     return Response.status(Response.Status.CREATED).entity(game).build();
@@ -64,6 +48,16 @@ public class GameResource {
 
       return Response.status(Response.Status.FOUND).entity(game).build();
     }
+  }
+
+  @PUT
+  @Path("/start/{gameId}")
+  public Response startGame(@PathParam("gameId") long id) {
+
+    Game game = Game.findById(id);
+    game.status = Game.GameStatus.ACTIVE;
+    game.persist();
+    return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
 }

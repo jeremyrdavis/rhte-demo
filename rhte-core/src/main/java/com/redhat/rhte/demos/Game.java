@@ -1,5 +1,6 @@
 package com.redhat.rhte.demos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -27,6 +28,7 @@ public class Game extends PanacheEntity {
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
   @Cascade(CascadeType.ALL)
+  @JsonBackReference
   public Set<Round> rounds;
 
   public Game() {

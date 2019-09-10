@@ -1,6 +1,8 @@
 package com.redhat.rhte.demos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
@@ -10,14 +12,16 @@ import java.util.Set;
 @Entity
 public class Round extends PanacheEntity {
 
+  @JsonProperty("status")
   @Enumerated(EnumType.STRING)
   public RoundStatus status;
 
   @ManyToOne
   @JoinColumn(name = "game_id")
+  @JsonIgnore
   public Game game;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   public Set<Quote> quotes;
 
   @OneToMany

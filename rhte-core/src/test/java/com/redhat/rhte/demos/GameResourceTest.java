@@ -2,14 +2,17 @@ package com.redhat.rhte.demos;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import io.restassured.internal.http.Status;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 /**
@@ -46,8 +49,8 @@ public class GameResourceTest {
 //      .body(jsonObject.toString())
       .put(URI + "/start/1")
       .then()
-      .statusCode(Response.Status.ACCEPTED.getStatusCode())
-      .contentType(MediaType.APPLICATION_JSON)
+      .statusCode(HttpStatus.SC_ACCEPTED)
+      .contentType(ContentType.JSON)
       .extract()
       .response()
       .jsonPath()
@@ -73,9 +76,9 @@ public class GameResourceTest {
       .contentType(MediaType.APPLICATION_JSON)
       .when()
 //      .body(jsonObject.toString())
-      .put(URI + "/stop/1")
+      .put(URI + "/stop/3")
       .then()
-      .statusCode(Response.Status.ACCEPTED.getStatusCode())
+      .statusCode(HttpStatus.SC_ACCEPTED)
       .contentType(MediaType.APPLICATION_JSON)
       .extract()
       .response()
@@ -123,7 +126,7 @@ public class GameResourceTest {
       .when()
       .post(URI)
       .then()
-      .statusCode(Response.Status.CREATED.getStatusCode())
+      .statusCode(HttpStatus.SC_CREATED)
       .contentType(MediaType.APPLICATION_JSON)
       .extract()
       .response()
@@ -133,4 +136,21 @@ public class GameResourceTest {
   }
 
 
+  /**
+   * POST
+   * /games/rounds/start/{gameId}
+   */
+  @Test
+  public void testStartRound() {
+
+    given()
+      .contentType(MediaType.APPLICATION_JSON)
+      .when()
+//      .body(jsonObject.toString())
+      .post(URI + "/rounds/start/1")
+      .then()
+      .statusCode(HttpStatus.SC_ACCEPTED)
+      .contentType(MediaType.APPLICATION_JSON)
+      .body("status", equalTo("active"));
+  }
 }

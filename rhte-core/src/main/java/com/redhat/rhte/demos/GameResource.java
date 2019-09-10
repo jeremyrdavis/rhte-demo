@@ -44,7 +44,7 @@ public class GameResource {
     if (game == null) {
 
       return Response.status(Response.Status.NOT_FOUND).build();
-    }else{
+    } else {
 
       return Response.status(Response.Status.FOUND).entity(game).build();
     }
@@ -52,21 +52,35 @@ public class GameResource {
 
   @PUT
   @Path("/start/{gameId}")
+  @Transactional
   public Response startGame(@PathParam("gameId") long id) {
 
     Game game = Game.findById(id);
     game.status = Game.GameStatus.ACTIVE;
-    game.persist();
+    game.persistAndFlush();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
   @PUT
   @Path("/stop/{gameId}")
+  @Transactional
   public Response stopGame(@PathParam("gameId") long id) {
 
     Game game = Game.findById(id);
     game.status = Game.GameStatus.ENDED;
-    game.persist();
+    game.persistAndFlush();
+    return Response.status(Response.Status.ACCEPTED).entity(game).build();
+  }
+
+  @POST
+  @Path("/rounds/start/{gameId}")
+  @Transactional
+  public Response startRound(@PathParam("gameId") long id) {
+
+    Game game = Game.findById(id);
+
+    game.startRound();
+    game.persistAndFlush();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 }

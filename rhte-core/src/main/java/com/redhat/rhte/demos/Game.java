@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.*;
@@ -12,19 +14,20 @@ import java.util.*;
 public class Game extends PanacheEntity {
 
   @JsonProperty("name")
-  String name;
+  public String name;
 
   @JsonProperty("status")
-  @Enumerated
-  GameStatus status;
+  @Enumerated(EnumType.STRING)
+  public GameStatus status;
 
   @JsonProperty("activeRound")
   @Transient
-  Round activeRound;
+  public Round activeRound;
 
   @OneToMany
   @JoinColumn(name = "game_id")
-  Set<Round> rounds;
+  @Cascade(CascadeType.ALL)
+  public Set<Round> rounds;
 
   public Game() {
 
@@ -43,7 +46,7 @@ public class Game extends PanacheEntity {
 
   public void startRound() {
 
-    if (this.status != GameStatus.ACTIVE) {
+    if (!(this.status.equals(GameStatus.ACTIVE))) {
       throw new RuntimeException("The Game is not started");
     }
 
@@ -108,7 +111,7 @@ public class Game extends PanacheEntity {
 
   public enum GameStatus {
 
-    ACTIVE("active"), CREATED("created"), ENDED("ended");
+    CREATED("created"), ACTIVE("active"), ENDED("ended");
 
     @JsonValue
     String name;

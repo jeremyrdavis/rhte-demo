@@ -24,14 +24,23 @@ public class Game extends PanacheEntity {
   @Transient
   public Round activeRound;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
   @Cascade(CascadeType.ALL)
   public Set<Round> rounds;
 
   public Game() {
 
-    this.rounds = new HashSet<>();
+    if (this.rounds == null) {
+
+      this.rounds = new HashSet<>();
+    }else{
+      for (Round r : this.rounds) {
+        if (r.status.equals(Round.RoundStatus.ACTIVE)) {
+          this.activeRound = r;
+        }
+      }
+    }
   }
 
   public void start() {
@@ -61,6 +70,13 @@ public class Game extends PanacheEntity {
 
   public void stopRound() {
 
+    if (this.activeRound == null) {
+      for (Round r : this.rounds) {
+        if (r.status.equals(Round.RoundStatus.ACTIVE)) {
+          this.activeRound = r;
+        }
+      }
+    }
     this.activeRound.stop();
   }
 

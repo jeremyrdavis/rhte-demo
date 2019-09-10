@@ -153,4 +153,22 @@ public class GameResourceTest {
       .contentType(MediaType.APPLICATION_JSON)
       .body("status", equalTo("active"));
   }
+
+  /**
+   * PUT
+   * /games/rounds/stop/{gameId}
+   */
+  @Test
+  public void testStopRound() {
+
+    given()
+      .contentType(MediaType.APPLICATION_JSON)
+      .when()
+//      .body(jsonObject.toString())
+      .put(URI + "/rounds/stop/1")
+      .then()
+      .statusCode(HttpStatus.SC_ACCEPTED)
+      .contentType(MediaType.APPLICATION_JSON)
+      .body("status", equalTo("ended"));
+  }
 }

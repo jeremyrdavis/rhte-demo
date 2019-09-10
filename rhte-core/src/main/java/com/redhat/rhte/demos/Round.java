@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 public class Round extends PanacheEntity {
 
-  @Transient
+  @Enumerated(EnumType.STRING)
   public RoundStatus status;
 
   @ManyToOne

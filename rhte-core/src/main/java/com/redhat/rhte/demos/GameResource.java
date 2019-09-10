@@ -83,4 +83,15 @@ public class GameResource {
     game.persistAndFlush();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
+
+  @PUT
+  @Path("/rounds/stop/{gameId}/{roundId}")
+  @Transactional
+  public Response stopRound(@PathParam("gameId") long gameId, @PathParam("roundId") long roundId) {
+
+    Game game = Game.findById(gameId);
+    game.stopRound();
+    game.persist();
+    return Response.status(Response.Status.ACCEPTED).entity(game).build();
+  }
 }

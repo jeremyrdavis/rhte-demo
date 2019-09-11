@@ -1,6 +1,5 @@
 package com.redhat.rhte.demos;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -12,6 +11,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Game extends PanacheEntity {
 
   @JsonProperty("name")

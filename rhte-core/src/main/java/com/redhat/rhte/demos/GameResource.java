@@ -3,6 +3,7 @@ package com.redhat.rhte.demos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +32,14 @@ public class GameResource {
   public Response createGame(Game game) {
 
     game.status = Game.GameStatus.CREATED;
-    game.persist();
+    try {
+
+      game.persistAndFlush();
+    } catch (Exception e) {
+
+      WhoSaidItError error = new WhoSaidItError(e.getMessage());
+      return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+    }
     LOGGER.debug("created new game: " + game.toString());
     return Response.status(Response.Status.CREATED).entity(game).build();
   }

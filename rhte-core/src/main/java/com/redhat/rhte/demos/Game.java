@@ -118,10 +118,13 @@ public class Game extends PanacheEntity {
 
   private void verifyStatus() {
 
-    if (this.status != GameStatus.ACTIVE) {
+    Round.RoundStatus activeRoundStatus = this.activeRound.status;
+    Round.RoundStatus active = Round.RoundStatus.ACTIVE;
+
+    if (!(this.status.equals(GameStatus.ACTIVE))) {
 
       throw new RuntimeException("Game must be started before adding guesses");
-    } else if (this.activeRound.status != Round.RoundStatus.ACTIVE) {
+    } else if (!this.activeRound.status.equals(Round.RoundStatus.ACTIVE)) {
 
       throw new RuntimeException("Rounds must be active before adding guesses");
     }

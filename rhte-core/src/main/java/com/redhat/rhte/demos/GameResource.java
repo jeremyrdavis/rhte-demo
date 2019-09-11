@@ -91,7 +91,7 @@ public class GameResource {
 
     Game game = Game.findById(gameId);
     game.stopRound();
-    game.persist();
+    game.persistAndFlush();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 }

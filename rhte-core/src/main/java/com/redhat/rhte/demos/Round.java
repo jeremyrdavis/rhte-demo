@@ -3,6 +3,7 @@ package com.redhat.rhte.demos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
@@ -24,15 +25,22 @@ public class Round extends PanacheEntity {
   @ManyToMany(fetch = FetchType.EAGER)
   public Set<Quote> quotes;
 
+/*
   @OneToMany
   @JoinColumn(name = "round_id")
   @JsonManagedReference
   public Set<Guess> guesses;
+*/
 
   public Round() {
 
-    this.guesses = new HashSet<Guess>();
+//    this.guesses = new HashSet<Guess>();
     this.quotes = new HashSet<Quote>();
+  }
+
+  public RoundStatus getStatus() {
+
+    return this.status;
   }
 
   public void start() {
@@ -52,7 +60,7 @@ public class Round extends PanacheEntity {
 
   public void addGuess(Guess guess) {
 
-    this.guesses.add(guess);
+//    this.guesses.add(guess);
   }
 
   public Set<Quote> getQuotes() {
@@ -62,7 +70,14 @@ public class Round extends PanacheEntity {
 
   public enum RoundStatus {
 
-    ACTIVE, COMPLETED;
+    ACTIVE("active"), COMPLETED("completed");
+
+    @JsonValue
+    String name;
+
+    RoundStatus(String name) {
+      this.name = name;
+    }
   }
 
 }

@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test the following endpoints:
@@ -143,15 +144,18 @@ public class GameResourceTest {
   @Test
   public void testStartRound() {
 
-    given()
+    Response response = given()
       .contentType(MediaType.APPLICATION_JSON)
       .when()
-//      .body(jsonObject.toString())
-      .post(URI + "/rounds/start/1")
-      .then()
-      .statusCode(HttpStatus.SC_ACCEPTED)
-      .contentType(MediaType.APPLICATION_JSON)
-      .body("status", equalTo("active"));
+      .post(URI + "/rounds/start/1");
+
+    System.out.println(response.body().prettyPrint());
+
+    assertEquals(HttpStatus.SC_ACCEPTED, response.statusCode());
+    assertEquals(MediaType.APPLICATION_JSON, response.contentType());
+    assertEquals(Round.RoundStatus.ACTIVE.name, response.body().jsonPath().get("activeRound.status"));
+
+
   }
 
   /**
@@ -161,14 +165,23 @@ public class GameResourceTest {
   @Test
   public void testStopRound() {
 
-    given()
+    Response response = given()
       .contentType(MediaType.APPLICATION_JSON)
       .when()
 //      .body(jsonObject.toString())
-      .put(URI + "/rounds/stop/1")
+      .put(URI + "/rounds/stop/3/11");
+
+    System.out.println(response.body().prettyPrint());
+
+    assertEquals(HttpStatus.SC_ACCEPTED, response.statusCode());
+    assertEquals(MediaType.APPLICATION_JSON, response.contentType());
+    assertEquals(Round.RoundStatus.COMPLETED.name, response.body().jsonPath().get("activeRound.status"));
+
+/*
       .then()
       .statusCode(HttpStatus.SC_ACCEPTED)
       .contentType(MediaType.APPLICATION_JSON)
       .body("status", equalTo("ended"));
+*/
   }
 }

@@ -15,6 +15,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Test the following endpoints:
@@ -175,7 +176,7 @@ public class GameResourceTest {
 
     assertEquals(HttpStatus.SC_ACCEPTED, response.statusCode());
     assertEquals(MediaType.APPLICATION_JSON, response.contentType());
-    assertEquals(Round.RoundStatus.COMPLETED.name, response.body().jsonPath().get("activeRound.status"));
+    assertNull(response.body().jsonPath().get("activeRound"));
 
 /*
       .then()

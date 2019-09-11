@@ -28,7 +28,6 @@ public class Game extends PanacheEntity {
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
   @Cascade(CascadeType.ALL)
-  @JsonBackReference
   public Set<Round> rounds;
 
   public Game() {
@@ -80,6 +79,7 @@ public class Game extends PanacheEntity {
       }
     }
     this.activeRound.stop();
+    this.activeRound = null;
   }
 
   @JsonIgnore

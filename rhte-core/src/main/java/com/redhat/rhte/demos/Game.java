@@ -44,6 +44,18 @@ public class Game extends PanacheEntity {
     }
   }
 
+  public static Game create(Game game) {
+
+    if (nameIsAvailable(game.name)) {
+
+      game.persistAndFlush();
+    }else{
+
+      throw new RuntimeException("A game with name \'" + game.name + "\' already exists");
+    }
+    return game;
+  }
+
   public void start() {
 
     this.status = GameStatus.ACTIVE;
@@ -128,6 +140,14 @@ public class Game extends PanacheEntity {
 
       throw new RuntimeException("Rounds must be active before adding guesses");
     }
+  }
+
+  public static boolean nameIsAvailable(String name) {
+
+    if (Game.count("name", name) >= 1) {
+      return false;
+    }
+    return true;
   }
 
   public enum GameStatus {

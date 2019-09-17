@@ -31,15 +31,14 @@ public class GameResource {
   @Transactional
   public Response createGame(Game game) {
 
-    game.status = Game.GameStatus.CREATED;
     try {
 
-      game.persistAndFlush();
+      Game.create(game);
     } catch (Exception e) {
 
-      WhoSaidItError error = new WhoSaidItError(e.getMessage());
-      return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+      return Response.status(Response.Status.BAD_REQUEST).entity(new WhoSaidItError(e.getMessage())).build();
     }
+
     LOGGER.debug("created new game: " + game.toString());
     return Response.status(Response.Status.CREATED).entity(game).build();
   }

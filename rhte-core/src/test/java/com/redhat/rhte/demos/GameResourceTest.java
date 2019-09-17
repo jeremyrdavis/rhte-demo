@@ -141,14 +141,20 @@ public class GameResourceTest {
   public void testCreatingGameWithDuplicateNameThrowsError() {
 
     JsonObject jsonObject = Json.createObjectBuilder()
-      .add("name", "Game#1")
+      .add("name", "Game #1")
       .build();
 
-    given()
+    Response response = given()
       .contentType(ContentType.JSON)
       .body(jsonObject.toString())
       .when()
-      .post(URI)
+      .post(URI);
+
+    assertEquals(HttpStatus.SC_BAD_REQUEST, response.statusCode());
+    assertEquals(MediaType.APPLICATION_JSON, response.contentType());
+    assertEquals("A game with name \'Game #1\' already exists", response.getBody().jsonPath().get("message"));
+
+/*
       .then()
       .statusCode(HttpStatus.SC_BAD_REQUEST)
       .contentType(MediaType.APPLICATION_JSON)
@@ -157,6 +163,7 @@ public class GameResourceTest {
       .jsonPath()
       .get("message")
       .equals("A game with name \'Game#1\' already exists");
+*/
   }
 
 

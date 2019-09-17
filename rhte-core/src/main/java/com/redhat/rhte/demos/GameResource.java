@@ -1,9 +1,9 @@
 package com.redhat.rhte.demos;
 
+import com.redhat.rhte.demos.domain.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -63,8 +63,7 @@ public class GameResource {
   public Response startGame(@PathParam("gameId") long id) {
 
     Game game = Game.findById(id);
-    game.status = Game.GameStatus.ACTIVE;
-    game.persistAndFlush();
+    game.start();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
@@ -74,8 +73,7 @@ public class GameResource {
   public Response stopGame(@PathParam("gameId") long id) {
 
     Game game = Game.findById(id);
-    game.status = Game.GameStatus.ENDED;
-    game.persistAndFlush();
+    game.end();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
@@ -87,7 +85,6 @@ public class GameResource {
     Game game = Game.findById(id);
 
     game.startRound();
-    game.persistAndFlush();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
@@ -98,7 +95,6 @@ public class GameResource {
 
     Game game = Game.findById(gameId);
     game.stopRound();
-    game.persistAndFlush();
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 }

@@ -1,5 +1,6 @@
 package com.redhat.rhte.demos;
 
+import com.redhat.rhte.demos.domain.Game;
 import io.quarkus.test.junit.QuarkusTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class GameTests {
 
     Game game = new Game();
     game.start();
-    assertEquals(Game.GameStatus.ACTIVE, game.status);
+    assertEquals(Game.GameStatus.ACTIVE, game.getStatus());
   }
 
   @Test
@@ -27,9 +28,9 @@ public class GameTests {
 
     Game game = new Game();
     game.start();
-    assertEquals(Game.GameStatus.ACTIVE, game.status);
+    assertEquals(Game.GameStatus.ACTIVE, game.getStatus());
     game.end();
-    assertEquals(Game.GameStatus.ENDED, game.status);
+    assertEquals(Game.GameStatus.ENDED, game.getStatus());
   }
 
   @Test
@@ -38,7 +39,7 @@ public class GameTests {
     Game game = new Game();
     game.start();
     game.startRound();
-    assertEquals(1, game.rounds.size());
+    assertEquals(1, game.getRounds().size());
   }
 
   @Test
@@ -47,13 +48,13 @@ public class GameTests {
     Game game = new Game();
     game.start();
     game.startRound();
-    assertEquals(1, game.rounds.size());
-    game.rounds.forEach(round -> {
+    assertEquals(1, game.getRounds().size());
+    game.getRounds().forEach(round -> {
       assertEquals(Round.RoundStatus.ACTIVE, round.status);
     });
     game.stopRound();
-    assertEquals(1, game.rounds.size());
-    game.rounds.forEach(round -> {
+    assertEquals(1, game.getRounds().size());
+    game.getRounds().forEach(round -> {
       assertEquals(Round.RoundStatus.COMPLETED, round.status);
     });
   }

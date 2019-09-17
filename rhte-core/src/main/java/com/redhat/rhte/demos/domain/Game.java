@@ -1,8 +1,11 @@
-package com.redhat.rhte.demos;
+package com.redhat.rhte.demos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.redhat.rhte.demos.Guess;
+import com.redhat.rhte.demos.Quote;
+import com.redhat.rhte.demos.Round;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -15,20 +18,20 @@ import java.util.*;
 public class Game extends PanacheEntity {
 
   @JsonProperty("name")
-  public String name;
+  String name;
 
   @JsonProperty("status")
   @Enumerated(EnumType.STRING)
-  public GameStatus status;
+  GameStatus status;
 
   @JsonProperty("activeRound")
   @Transient
-  public Round activeRound;
+  Round activeRound;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
   @Cascade(CascadeType.ALL)
-  public Set<Round> rounds;
+  Set<Round> rounds;
 
   public Game() {
 
@@ -81,6 +84,7 @@ public class Game extends PanacheEntity {
     rounds.add(round);
   }
 
+  @JsonIgnore
   public void stopRound() {
 
     if (this.activeRound == null) {
@@ -162,4 +166,35 @@ public class Game extends PanacheEntity {
     }
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public GameStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(GameStatus status) {
+    this.status = status;
+  }
+
+  public Round getActiveRound() {
+    return activeRound;
+  }
+
+  public void setActiveRound(Round activeRound) {
+    this.activeRound = activeRound;
+  }
+
+  public Set<Round> getRounds() {
+    return rounds;
+  }
+
+  public void setRounds(Set<Round> rounds) {
+    this.rounds = rounds;
+  }
 }

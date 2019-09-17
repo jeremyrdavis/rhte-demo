@@ -1,5 +1,7 @@
 package com.redhat.rhte.demos;
 
+import com.redhat.rhte.demos.domain.Guess;
+
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

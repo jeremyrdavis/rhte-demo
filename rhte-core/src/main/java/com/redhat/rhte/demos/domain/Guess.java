@@ -1,4 +1,4 @@
-package com.redhat.rhte.demos;
+package com.redhat.rhte.demos.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

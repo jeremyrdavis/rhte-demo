@@ -1,6 +1,9 @@
 package com.redhat.rhte.demos;
 
 import com.redhat.rhte.demos.domain.Game;
+import com.redhat.rhte.demos.domain.Quote;
+import com.redhat.rhte.demos.domain.Round;
+import com.redhat.rhte.demos.domain.RoundStatus;
 import io.quarkus.test.junit.QuarkusTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Test;
@@ -50,12 +53,12 @@ public class GameTests {
     game.startRound();
     assertEquals(1, game.getRounds().size());
     game.getRounds().forEach(round -> {
-      assertEquals(Round.RoundStatus.ACTIVE, round.status);
+      assertEquals(RoundStatus.ACTIVE, round.status);
     });
     game.stopRound();
     assertEquals(1, game.getRounds().size());
     game.getRounds().forEach(round -> {
-      assertEquals(Round.RoundStatus.COMPLETED, round.status);
+      assertEquals(RoundStatus.COMPLETED, round.status);
     });
   }
 

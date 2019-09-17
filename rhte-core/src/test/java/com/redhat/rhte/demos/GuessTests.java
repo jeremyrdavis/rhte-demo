@@ -1,5 +1,7 @@
 package com.redhat.rhte.demos;
 
+import com.redhat.rhte.demos.domain.Guess;
+import com.redhat.rhte.demos.domain.Quote;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

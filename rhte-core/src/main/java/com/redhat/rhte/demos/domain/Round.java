@@ -1,9 +1,11 @@
-package com.redhat.rhte.demos;
+package com.redhat.rhte.demos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.redhat.rhte.demos.domain.Game;
+import com.redhat.rhte.demos.domain.Guess;
+import com.redhat.rhte.demos.domain.Quote;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
@@ -66,18 +68,6 @@ public class Round extends PanacheEntity {
   public Set<Quote> getQuotes() {
 
     return this.quotes;
-  }
-
-  public enum RoundStatus {
-
-    ACTIVE("active"), COMPLETED("completed");
-
-    @JsonValue
-    String name;
-
-    RoundStatus(String name) {
-      this.name = name;
-    }
   }
 
 }

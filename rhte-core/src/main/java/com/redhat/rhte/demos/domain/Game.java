@@ -3,9 +3,6 @@ package com.redhat.rhte.demos.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.redhat.rhte.demos.Guess;
-import com.redhat.rhte.demos.Quote;
-import com.redhat.rhte.demos.Round;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -40,7 +37,7 @@ public class Game extends PanacheEntity {
       this.rounds = new HashSet<>();
     }else{
       for (Round r : this.rounds) {
-        if (r.status.equals(Round.RoundStatus.ACTIVE)) {
+        if (r.status.equals(RoundStatus.ACTIVE)) {
           this.activeRound = r;
         }
       }
@@ -89,7 +86,7 @@ public class Game extends PanacheEntity {
 
     if (this.activeRound == null) {
       for (Round r : this.rounds) {
-        if (r.status.equals(Round.RoundStatus.ACTIVE)) {
+        if (r.status.equals(RoundStatus.ACTIVE)) {
           this.activeRound = r;
         }
       }
@@ -134,13 +131,13 @@ public class Game extends PanacheEntity {
 
   private void verifyStatus() {
 
-    Round.RoundStatus activeRoundStatus = this.activeRound.status;
-    Round.RoundStatus active = Round.RoundStatus.ACTIVE;
+    RoundStatus activeRoundStatus = this.activeRound.status;
+    RoundStatus active = RoundStatus.ACTIVE;
 
     if (!(this.status.equals(GameStatus.ACTIVE))) {
 
       throw new RuntimeException("Game must be started before adding guesses");
-    } else if (!this.activeRound.status.equals(Round.RoundStatus.ACTIVE)) {
+    } else if (!this.activeRound.status.equals(RoundStatus.ACTIVE)) {
 
       throw new RuntimeException("Rounds must be active before adding guesses");
     }

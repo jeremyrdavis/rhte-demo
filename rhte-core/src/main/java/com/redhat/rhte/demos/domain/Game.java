@@ -37,7 +37,9 @@ public class Game extends PanacheEntity {
       this.rounds = new HashSet<>();
     }else{
       for (Round r : this.rounds) {
+
         if (r.status.equals(RoundStatus.ACTIVE)) {
+
           this.activeRound = r;
         }
       }

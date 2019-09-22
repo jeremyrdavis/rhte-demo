@@ -1,9 +1,12 @@
 package com.redhat.rhte.demos;
 
 import com.redhat.rhte.demos.domain.Game;
+import com.redhat.rhte.demos.domain.GameNotFoundException;
+import com.redhat.rhte.demos.domain.Referee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,6 +19,9 @@ import java.util.List;
 public class GameResource {
 
   Logger LOGGER = LoggerFactory.getLogger(this.getClass().getName());
+
+  @Inject
+  Referee referee;
 
   @Path("/")
   @GET
@@ -47,7 +53,8 @@ public class GameResource {
   @Path("/{gameId}")
   public Response getGame(@PathParam("gameId") long id) {
 
-    Game game = Game.findById(id);
+    Game game = referee.findById(id);
+
     if (game == null) {
 
       return Response.status(Response.Status.NOT_FOUND).build();
@@ -62,8 +69,13 @@ public class GameResource {
   @Transactional
   public Response startGame(@PathParam("gameId") long id) {
 
-    Game game = Game.findById(id);
-    game.start();
+    Game game = null;
+    try {
+      game = referee.startGame(id);
+    } catch (GameNotFoundException e) {
+      e.printStackTrace();
+      return Response.status(Response.Status.NOT_FOUND).entity(e).build();
+    }
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 

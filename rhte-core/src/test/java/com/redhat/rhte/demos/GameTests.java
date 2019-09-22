@@ -1,9 +1,6 @@
 package com.redhat.rhte.demos;
 
-import com.redhat.rhte.demos.domain.Game;
-import com.redhat.rhte.demos.domain.Quote;
-import com.redhat.rhte.demos.domain.Round;
-import com.redhat.rhte.demos.domain.RoundStatus;
+import com.redhat.rhte.demos.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Test;
@@ -18,11 +15,13 @@ public class GameTests {
   @Inject
   Flyway flyway;
 
+  @Inject
+  Referee gamer;
+
   @Test
   public void testStartGame() {
 
-    Game game = new Game();
-    game.start();
+    Game game = gamer.startNewGame();
     assertEquals(Game.GameStatus.ACTIVE, game.getStatus());
   }
 

@@ -53,14 +53,13 @@ public class GameResource {
   @Path("/{gameId}")
   public Response getGame(@PathParam("gameId") long id) {
 
-    Game game = referee.findById(id);
+    try {
 
-    if (game == null) {
-
-      return Response.status(Response.Status.NOT_FOUND).build();
-    } else {
-
+      Game game = referee.findById(id);
       return Response.status(Response.Status.FOUND).entity(game).build();
+    } catch (GameNotFoundException e) {
+      e.printStackTrace();
+      return Response.status(Response.Status.NOT_FOUND).build();
     }
   }
 
@@ -71,9 +70,11 @@ public class GameResource {
 
     Game game = null;
     try {
+
       game = referee.startGame(id);
+      LOGGER.info("Game #" + id + " started");
     } catch (GameNotFoundException e) {
-      e.printStackTrace();
+      LOGGER.error(e.getMessage());
       return Response.status(Response.Status.NOT_FOUND).entity(e).build();
     }
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
@@ -84,8 +85,16 @@ public class GameResource {
   @Transactional
   public Response stopGame(@PathParam("gameId") long id) {
 
-    Game game = Game.findById(id);
-    game.end();
+    Game game = null;
+    try {
+
+      game = referee.endGame(id);
+      LOGGER.info("Game #" + id + " ended");
+    } catch (GameNotFoundException e) {
+
+      LOGGER.error(e.getMessage());
+      return Response.status(Response.Status.NOT_FOUND).entity(e).build();
+    }
     return Response.status(Response.Status.ACCEPTED).entity(game).build();
   }
 
@@ -94,10 +103,16 @@ public class GameResource {
   @Transactional
   public Response startRound(@PathParam("gameId") long id) {
 
-    Game game = Game.findById(id);
+    try {
 
-    game.startRound();
-    return Response.status(Response.Status.ACCEPTED).entity(game).build();
+      Game game = referee.startRound(id);
+      LOGGER.info("Round started for Game #" + id);
+      return Response.status(Response.Status.ACCEPTED).entity(game).build();
+    } catch (GameNotFoundException e) {
+
+      LOGGER.error(e.getMessage());
+      return Response.status(Response.Status.NOT_FOUND).entity(e).build();
+    }
   }
 
   @PUT

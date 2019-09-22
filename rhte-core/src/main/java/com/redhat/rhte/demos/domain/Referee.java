@@ -9,15 +9,34 @@ public class Referee {
   private Game currentGame;
 
   @Transactional
-  public Game findById(long id) {
+  public Game startRound(long id) throws GameNotFoundException {
+
+    Game game = findGame(id);
+    game.startRound();
+    game.persist();
+    return game;
+  }
+
+  private Game findGame(long id) throws GameNotFoundException {
 
     if (this.currentGame.id.equals(id)) {
 
       return this.currentGame;
-    }else{
+    } else {
 
-      return Game.findById(id);
     }
+    Game game = Game.findById(id);
+    if (game == null) {
+
+      throw new GameNotFoundException();
+    }
+    return game;
+  }
+
+  @Transactional
+  public Game findById(long id) throws GameNotFoundException {
+
+    return findGame(id);
   }
 
   @Transactional
@@ -33,20 +52,15 @@ public class Referee {
   @Transactional
   public Game startGame(long id) throws GameNotFoundException {
 
-    if (this.currentGame.id.equals(id)) {
+    Game game = findGame(id);
+    game.start();
+    return game;
+  }
 
-      this.currentGame.start();
-      this.currentGame.persist();
-      return this.currentGame;
-    }else{
+  public Game endGame(long id) throws GameNotFoundException {
 
-      Game game = Game.findById(id);
-      if (game == null) {
-
-        throw new GameNotFoundException();
-      }
-      game.start();
-      return game;
-    }
+    Game game = findGame(id);
+    game.end();
+    return game;
   }
 }

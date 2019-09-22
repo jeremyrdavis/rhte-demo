@@ -6,7 +6,6 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.core.Response.Status;
 import javax.json.Json;
 import javax.json.JsonObject;
 import java.util.Calendar;
@@ -26,6 +25,7 @@ public class TwitterResourceTest {
 
     JsonObject jsonObject = Json.createObjectBuilder()
       .add("status", "Demo Status Update " + UUID.randomUUID().toString())
+      .add("newRound", true)
       .build();
 
     System.out.println(jsonObject.toString());

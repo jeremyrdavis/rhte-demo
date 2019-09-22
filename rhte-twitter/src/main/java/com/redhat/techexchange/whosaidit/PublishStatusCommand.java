@@ -7,7 +7,11 @@ public class PublishStatusCommand {
   @JsonProperty("status")
   String status;
 
+  @JsonProperty("newRound")
+  boolean newRound;
+
   public PublishStatusCommand() {
+
   }
 
   public String getStatus() {
@@ -17,5 +21,14 @@ public class PublishStatusCommand {
   public void setStatus(String status) {
     this.status = status;
   }
+
+  public boolean isNewRound() {
+    return newRound;
+  }
+
+  public void setNewRound(boolean newRound) {
+    this.newRound = newRound;
+  }
+
 
 }

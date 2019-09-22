@@ -5,10 +5,9 @@ import org.junit.jupiter.api.Test;
 import twitter4j.Status;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class TwitterServiceTest {
@@ -27,8 +26,9 @@ public class TwitterServiceTest {
   @Test
   public void testGetReplies() {
 
-    List<Status> results = this.twitterService.getReplies();
+    List<Status> results = this.twitterService.getReplies(1139628612087418880L);
     assertNotNull(results);
+    assertEquals(1, results.size());
   }
 
 

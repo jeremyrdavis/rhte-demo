@@ -4,12 +4,10 @@ import twitter4j.Status;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @ApplicationScoped
 @Path("/")
@@ -28,4 +26,11 @@ public class TwitterResource {
     return Response.status(Response.Status.CREATED).build();
   }
 
+  @GET
+  @Path("/replies/{since}")
+  public Response getReplies(@PathParam("since") long sinceId) {
+
+    List<Status> replies = twitterService.getReplies(sinceId);
+    return Response.status(Response.Status.OK).entity(replies).build();
+  }
 }

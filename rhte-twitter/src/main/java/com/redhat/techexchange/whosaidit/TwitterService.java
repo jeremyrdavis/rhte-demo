@@ -37,10 +37,14 @@ public class TwitterService {
     return null;
   }
 
-  public List<Status> getReplies() {
+  public List<Status> getReplies(long sinceId) {
 
     try {
-      ResponseList<Status> results = twitter.getMentionsTimeline();
+
+      Paging paging = new Paging();
+      paging.setSinceId(sinceId);
+
+      ResponseList<Status> results = twitter.getMentionsTimeline(paging);
       for(Status status : results){
 
         System.out.println(status.toString());

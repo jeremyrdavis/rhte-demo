@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import javax.ws.rs.core.Response.Status;
 import javax.json.Json;
 import javax.json.JsonObject;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -34,5 +37,29 @@ public class TwitterResourceTest {
       .post("/status");
 
     assertEquals(HttpStatus.SC_CREATED, response.statusCode());
+  }
+
+  @Test
+  public void testGetRepliesEndpoint() {
+
+    Calendar calendar = new GregorianCalendar();
+      calendar.set(Calendar.YEAR, 2019);
+      calendar.set(Calendar.MONTH, 9);
+      calendar.set(Calendar.DAY_OF_MONTH, 19);
+
+    Date since = calendar.getTime();
+
+    System.out.println(since.getTime());
+
+    given()
+      .when().get("/replies/" + since.getTime())
+      .then()
+      .statusCode(HttpStatus.SC_OK)
+      .contentType(ContentType.JSON)
+      .extract()
+      .response()
+      .jsonPath()
+      .get("replies")
+      .equals("Game #1");
   }
 }

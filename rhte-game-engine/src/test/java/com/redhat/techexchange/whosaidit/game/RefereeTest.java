@@ -5,15 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class RefereeTest {
 
   @Inject
   Referee referee;
-
 
   @Test
   public void testCreateGame() {
@@ -22,7 +20,33 @@ public class RefereeTest {
     assertNotNull(game);
     assertNotNull(game.id);
     assertNotNull(game.rounds);
+    assertEquals(0, game.rounds.size());
+  }
+
+  @Test
+  public void testStartRound() {
+
+    Game game = referee.createGame();
+    game = referee.startRound();
     assertEquals(1, game.rounds.size());
+  }
+
+  @Test
+  public void testQuestionGeneration() {
+
+    Game game = referee.createGame();
+    game = referee.startRound();
+    try {
+      Round currentRound = game.getCurrentRound();
+      assertEquals(1, game.rounds.size());
+      Quote quote = game.nextQuote();
+      assertNotNull(quote);
+      Quote quote2 = game.nextQuote();
+      assertNotNull(quote2);
+      assertNotEquals(quote, quote2);
+    } catch (NoActiveRoundException e) {
+      assertNull(e);
+    }
   }
 
 }

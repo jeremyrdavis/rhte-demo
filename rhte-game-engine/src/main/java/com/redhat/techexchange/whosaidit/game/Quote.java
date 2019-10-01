@@ -3,6 +3,8 @@ package com.redhat.techexchange.whosaidit.game;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -13,13 +15,14 @@ public class Quote extends PanacheEntity {
 
   public String text;
 
+  @Enumerated(EnumType.STRING)
   Author author;
 
   public static Quote randomQuote(Set<Quote> existingQuotes) {
 
     List<Quote> quotes = listAll();
 
-    if (!existingQuotes.isEmpty()) {
+    if (existingQuotes.isEmpty()) {
       Collections.shuffle(quotes);
       return quotes.get(0);
     }else{

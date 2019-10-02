@@ -8,6 +8,8 @@ public class Referee {
 
   Long currentGameId;
 
+  QuestionTimer timer;
+
   @Transactional
   public Game createGame() {
 
@@ -23,8 +25,16 @@ public class Referee {
     Game game = Game.findById(currentGameId);
     game.startRound();
     game.persist();
+    timer = new QuestionTimer();
+    for (int i = 0; i < 4; i++) {
+      System.out.println(game.nextQuote());
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
     return game;
   }
-
 
 }

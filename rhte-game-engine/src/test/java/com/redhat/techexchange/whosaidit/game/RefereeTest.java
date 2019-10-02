@@ -1,6 +1,8 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import io.quarkus.test.junit.QuarkusTest;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
@@ -14,6 +16,15 @@ public class RefereeTest {
 
   @Inject
   Referee referee;
+
+  @Inject
+  Flyway flyway;
+
+  @BeforeEach
+  public void setUp() {
+    flyway.clean();
+    flyway.migrate();
+  }
 
   @Test
   public void testCreateGame() {
@@ -31,6 +42,7 @@ public class RefereeTest {
     Game game = referee.createGame();
     game = referee.startRound();
     assertEquals(1, game.rounds.size());
+    assertEquals(4, game.rounds.get(1).quotes.size());
   }
 
   @Test

@@ -8,10 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Game extends PanacheEntity {
@@ -25,6 +22,14 @@ public class Game extends PanacheEntity {
 
     Round round = new Round();
     round.status = RoundStatus.ACTIVE;
+
+    List<Quote> allAquotes = Quote.listAll();
+    Collections.shuffle(allAquotes);
+
+    for(int i = 0; i < 4; i++){
+      round.addQuote(allAquotes.get(i));
+    }
+
     this.rounds.put(this.rounds.size() + 1, round);
   }
 
@@ -48,7 +53,7 @@ public class Game extends PanacheEntity {
     Set<Quote> existingQuotes =new HashSet<>();
     for(Round r : this.rounds.values()) {
 
-      for(Quote q : r.quotes)
+      for(Quote q : r.quotes.values())
       existingQuotes.add(q);
     }
     return existingQuotes;

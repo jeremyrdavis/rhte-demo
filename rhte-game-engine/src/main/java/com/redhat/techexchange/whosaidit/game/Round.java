@@ -8,6 +8,7 @@ import java.util.Map;
 
 @Entity
 public class Round extends PanacheEntity {
+
   @ManyToOne
   @JoinColumn(name = "game_id")
   public Game game;

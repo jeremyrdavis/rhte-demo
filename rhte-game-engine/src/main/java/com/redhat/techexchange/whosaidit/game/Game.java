@@ -13,39 +13,31 @@ import java.util.*;
 @Entity
 public class Game extends PanacheEntity {
 
+
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
   @Cascade(CascadeType.ALL)
   Map<Integer, Round> rounds = new HashMap<>();
 
-  public void startRound() {
 
-    Round round = new Round();
-    round.status = RoundStatus.ACTIVE;
-
-    List<Quote> allAquotes = Quote.listAll();
-    Collections.shuffle(allAquotes);
-
-    for(int i = 0; i < 4; i++){
-      round.addQuote(allAquotes.get(i));
-    }
-
-    this.rounds.put(this.rounds.size() + 1, round);
+  public void startRound(Integer currentRound) {
+    this.rounds.get(currentRound).status = RoundStatus.ACTIVE;
   }
 
-  public Round getCurrentRound() throws NoActiveRoundException {
+  public Round getCurrentRound() {
 
     for (Round r : this.rounds.values()) {
       if (r.status == RoundStatus.ACTIVE) {
         return r;
       }
     }
-    throw new NoActiveRoundException();
+    this.rounds.get(1).status = RoundStatus.ACTIVE;
+    return this.rounds.get(1);
   }
 
-  public Quote nextQuote() {
+  public Quote nextQuote(int i) {
 
-    return Quote.randomQuote(existingQuotes());
+    return getCurrentRound().quotes.get(i);
   }
 
   private Set<Quote> existingQuotes() {
@@ -57,5 +49,9 @@ public class Game extends PanacheEntity {
       existingQuotes.add(q);
     }
     return existingQuotes;
+  }
+
+  public void addRound(Round round) {
+    this.rounds.put(this.rounds.size() + 1, round);
   }
 }

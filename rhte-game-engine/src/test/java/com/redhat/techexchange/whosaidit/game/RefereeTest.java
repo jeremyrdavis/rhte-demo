@@ -31,16 +31,19 @@ public class RefereeTest {
     assertNotNull(game);
     assertNotNull(game.id);
     assertNotNull(game.rounds);
-    assertEquals(0, game.rounds.size());
+    assertEquals(4, game.rounds.size());
+    for (Round round : game.rounds.values()) {
+      assertEquals(4, round.quotes.size());
+      System.out.println(round);
+    }
   }
 
   @Test
-  public void testStartRound() {
+  public void testStartRound() throws InterruptedException {
 
     Game game = referee.createGame();
     game = referee.startRound();
-    assertEquals(1, game.rounds.size());
-    assertEquals(4, game.rounds.get(1).quotes.size());
+    Thread.sleep(30000);
   }
 
   @Test
@@ -48,24 +51,8 @@ public class RefereeTest {
 
     Game game = referee.createGame();
     game = referee.startRound();
-    try {
-      Round currentRound = game.getCurrentRound();
-      assertEquals(1, game.rounds.size());
-      Quote quote = game.nextQuote();
-      assertNotNull(quote);
-      Quote quote2 = game.nextQuote();
-      assertNotNull(quote2);
-      assertNotEquals(quote, quote2);
-    } catch (NoActiveRoundException e) {
-      assertNull(e);
-    }
+    assertEquals(4, game.rounds.size());
+    assertEquals(1, referee.currentRound);
   }
 
-  @Test
-  public void testAutomaticQuestionGeneration() throws InterruptedException {
-
-    Game game = referee.createGame();
-    game = referee.startRound();
-    Thread.sleep(30000);
-  }
 }

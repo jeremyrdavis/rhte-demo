@@ -28,6 +28,7 @@ public class QuestionTimer {
       System.out.println(quotes.get(COUNTER.incrementAndGet()));
       if (COUNTER.get() == 4) {
         COUNTER.set(1);
+        active = false;
       }
     }
   }

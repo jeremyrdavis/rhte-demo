@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 @ApplicationScoped
@@ -8,6 +9,7 @@ public class Referee {
 
   Long currentGameId;
 
+  @Inject
   QuestionTimer timer;
 
   @Transactional
@@ -19,13 +21,16 @@ public class Referee {
     return game;
   }
 
-  @Transactional
   public Game startRound() {
 
-    Game game = Game.findById(currentGameId);
-    game.startRound();
-    game.persist();
-    timer = new QuestionTimer();
+    Game game = initializeRound();
+    try {
+      timer.setQuotes(game.getCurrentRound().quotes);
+      timer.activate();
+    } catch (NoActiveRoundException e) {
+      e.printStackTrace();
+    }
+/*
     for (int i = 0; i < 4; i++) {
       System.out.println(game.nextQuote());
       try {
@@ -34,6 +39,15 @@ public class Referee {
         e.printStackTrace();
       }
     }
+*/
+    return game;
+  }
+
+  @Transactional
+  private Game initializeRound(){
+    Game game = Game.findById(currentGameId);
+    game.startRound();
+    game.persist();
     return game;
   }
 

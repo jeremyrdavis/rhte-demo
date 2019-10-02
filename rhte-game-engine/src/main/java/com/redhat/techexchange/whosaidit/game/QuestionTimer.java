@@ -2,16 +2,47 @@ package com.redhat.techexchange.whosaidit.game;
 
 import io.quarkus.scheduler.Scheduled;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionTimer {
 
-  private AtomicLong COUNTER = new AtomicLong();
+  boolean active = false;
+
+  private AtomicInteger COUNTER = new AtomicInteger();
+
+  Map<Integer, Quote> quotes = new HashMap<>();
+
+  public QuestionTimer() {
+  }
+
+  public QuestionTimer(Map<Integer, Quote> quotes) {
+    this.quotes = quotes;
+  }
 
   @Scheduled(every="5s")
   public void increase() {
-    System.out.println("+"+COUNTER.incrementAndGet() + " " + LocalDateTime.now());
+
+    if (active) {
+      System.out.println(quotes.get(COUNTER.incrementAndGet()));
+      if (COUNTER.get() == 4) {
+        COUNTER.set(1);
+      }
+    }
   }
 
+
+  public void activate() {
+    active = true;
+  }
+
+  public void deactivate() {
+    active = false;
+  }
+
+  public void setQuotes(Map<Integer, Quote> quotes) {
+
+    this.quotes.putAll(quotes);
+  }
 }

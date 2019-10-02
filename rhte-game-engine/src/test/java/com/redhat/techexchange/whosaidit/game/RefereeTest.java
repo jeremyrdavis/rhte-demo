@@ -66,6 +66,6 @@ public class RefereeTest {
 
     Game game = referee.createGame();
     game = referee.startRound();
-    Thread.sleep(10000);
+    Thread.sleep(30000);
   }
 }

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
@@ -49,4 +51,12 @@ public class RefereeTest {
     }
   }
 
+  @Test
+  public void testAutomaticQuestionGeneration() {
+
+    Game game = referee.createGame();
+    game = referee.startRound();
+
+    await().atLeast(35, SECONDS);
+  }
 }

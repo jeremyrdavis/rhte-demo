@@ -18,6 +18,13 @@ public class RefereeResource {
   Referee referee;
 
   @POST
+  public Response createGame() {
+
+    Game game = referee.createGame();
+    return Response.ok(game).status(Response.Status.CREATED).build();
+  }
+
+  @POST
   @Path("/start")
   @Transactional
   public Response startGame() {

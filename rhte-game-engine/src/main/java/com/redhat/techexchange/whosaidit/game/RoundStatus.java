@@ -2,7 +2,7 @@ package com.redhat.techexchange.whosaidit.game;
 
 public enum RoundStatus {
 
-  ACTIVE("active"), COMPLETED("completed");
+  CREATED("created"), ACTIVE("active"), COMPLETED("completed");
 
   public final String name;
 

@@ -22,6 +22,7 @@ public class Referee {
 
     for (int i = 0; i < 4; i++) {
       Round r = new Round();
+      r.status = RoundStatus.CREATED;
       for (int j = 0; j < 4; j++) {
         Quote quote = allQuotes.remove(j);
         r.addQuote(quote);

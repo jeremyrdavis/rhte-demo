@@ -25,4 +25,8 @@ public class Round extends PanacheEntity {
     this.quotes.put(this.quotes.size() + 1, quote);
   }
 
+  public Map<Integer, Quote> getQuotes() {
+    return this.quotes;
+  }
+
 }

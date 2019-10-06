@@ -24,6 +24,10 @@ public class Game extends PanacheEntity {
     this.rounds.get(currentRound).status = RoundStatus.ACTIVE;
   }
 
+  public Map<Integer, Round> getRounds() {
+    return this.rounds;
+  }
+
   public Round getCurrentRound() {
 
     for (Round r : this.rounds.values()) {

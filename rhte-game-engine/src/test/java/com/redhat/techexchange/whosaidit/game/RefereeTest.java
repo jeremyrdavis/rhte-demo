@@ -44,15 +44,7 @@ public class RefereeTest {
     Game game = referee.createGame();
     game = referee.startRound();
     Thread.sleep(30000);
-  }
 
-  @Test
-  public void testQuestionGeneration() {
-
-    Game game = referee.createGame();
-    game = referee.startRound();
-    assertEquals(4, game.rounds.size());
-    assertEquals(1, referee.currentRound);
   }
 
 }

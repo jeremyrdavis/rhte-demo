@@ -36,20 +36,38 @@ public class Referee {
     return game;
   }
 
+  @Transactional
   public Game startRound() {
 
+    if (currentGameId == null) {
+      createGame();
+    }
+
     Game game = Game.findById(currentGameId);
-    game.startRound(currentRound);
-    currentRound++;
+    Round round = game.rounds.get(currentRound);
+
     for (int i = 0; i < 4; i++) {
-      System.out.println(game.nextQuote(i));
+      Quote q = round.quotes.get(i + 1);
+      System.out.println(q.text);
+      onNextQuote(q);
       try {
         Thread.sleep(5000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
+      round.status = RoundStatus.COMPLETED;
     }
+
+    game.completeRound(currentRound);
+    currentRound++;
+    game.persist();
     return game;
+  }
+
+  private void onNextQuote(Quote quote) {
+    System.out.println("Next quote: " + quote);
+    System.out.println("Calling Twiiter");
+    System.out.println("Calling ApiGateway");
   }
 
   @Transactional

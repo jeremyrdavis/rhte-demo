@@ -40,18 +40,11 @@ public class Game extends PanacheEntity {
     return getCurrentRound().quotes.get(i);
   }
 
-  private Set<Quote> existingQuotes() {
-
-    Set<Quote> existingQuotes =new HashSet<>();
-    for(Round r : this.rounds.values()) {
-
-      for(Quote q : r.quotes.values())
-      existingQuotes.add(q);
-    }
-    return existingQuotes;
-  }
-
   public void addRound(Round round) {
     this.rounds.put(this.rounds.size() + 1, round);
+  }
+
+  public void completeRound(Integer currentRound) {
+    this.rounds.get(currentRound).status = RoundStatus.COMPLETED;
   }
 }

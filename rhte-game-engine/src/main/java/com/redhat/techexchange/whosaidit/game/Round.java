@@ -15,7 +15,7 @@ public class Round extends PanacheEntity {
 
   public RoundStatus status;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
   @JoinTable(name = "round_quotes",
     joinColumns = {@JoinColumn(name = "fk_round")},
     inverseJoinColumns = {@JoinColumn(name = "fk_quote")})

@@ -1,12 +1,23 @@
 package com.redhat.techexchange.whosaidit.game;
 
+import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
+import com.redhat.techexchange.whosaidit.game.infrastructure.TwitterService;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
 public class Referee {
+
+  @Inject
+  @RestClient
+  TwitterService twitterService;
+
 
   Long currentGameId;
 
@@ -67,12 +78,13 @@ public class Referee {
 
   void onNextQuote(Quote quote) {
     System.out.println("Next quote: " + quote);
-    System.out.println("Calling Twiiter");
+    Response response = twitterService.sendStatusUpdate(new StatusUpdate("Test Status"));
+    if(response.getStatus() != 200) throw new RuntimeException(String.valueOf(response.getStatus()));
     System.out.println("Calling ApiGateway");
   }
 
   @Transactional
-  private Game initializeRound(){
+  private Game initializeRound() {
     Game game = Game.findById(currentGameId);
     game.startRound(currentRound);
     game.persist();

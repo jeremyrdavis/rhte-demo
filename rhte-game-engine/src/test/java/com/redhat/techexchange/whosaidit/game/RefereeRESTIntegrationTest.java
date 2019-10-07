@@ -40,7 +40,7 @@ public class RefereeRESTIntegrationTest {
     referee.onNextQuote(new Quote("test", Author.Hamilton));
 
     verify(postRequestedFor(urlMatching("/status"))
-      .withRequestBody(equalToJson("{\"status\":\"Test Quote #1\"}"))
+      .withRequestBody(equalToJson("{\"status\":\"Test Status\"}"))
       .withHeader("Content-Type", matching("application/json")));
   }
 

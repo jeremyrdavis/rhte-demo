@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,6 +19,14 @@ public class Quote extends PanacheEntity {
   @Enumerated(EnumType.STRING)
   Author author;
 
+  public Quote() {
+  }
+
+  public Quote(String text, Author author) {
+    this.text = text;
+    this.author = author;
+  }
+
   public static Quote randomQuote(Set<Quote> existingQuotes) {
 
     List<Quote> quotes = listAll();
@@ -33,5 +42,13 @@ public class Quote extends PanacheEntity {
       Collections.shuffle(newQuotes);
       return newQuotes.get(0);
     }
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+      .append("id", id)
+      .append("text", text)
+      .append("author", author.name()).toString();
   }
 }

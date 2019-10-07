@@ -65,7 +65,7 @@ public class Referee {
     return game;
   }
 
-  private void onNextQuote(Quote quote) {
+  void onNextQuote(Quote quote) {
     System.out.println("Next quote: " + quote);
     System.out.println("Calling Twiiter");
     System.out.println("Calling ApiGateway");

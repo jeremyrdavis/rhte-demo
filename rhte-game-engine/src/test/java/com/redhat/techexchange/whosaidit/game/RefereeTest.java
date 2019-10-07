@@ -44,7 +44,6 @@ public class RefereeTest {
     Game game = referee.createGame();
     game = referee.startRound();
     Thread.sleep(30000);
-
   }
 
 }

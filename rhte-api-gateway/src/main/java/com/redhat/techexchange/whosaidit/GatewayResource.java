@@ -2,12 +2,9 @@ package com.redhat.techexchange.whosaidit;
 
 import com.redhat.techexchange.whosaidit.domain.*;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +14,7 @@ import java.util.stream.Collectors;
 @Consumes(MediaType.APPLICATION_JSON)
 public class GatewayResource {
 
-  private LinkedHashSet<Event> events;
+  private LinkedHashSet<BaseEvent> events;
 
   @GET
   @Path("/events")
@@ -25,11 +22,10 @@ public class GatewayResource {
     this.events = new LinkedHashSet<>();
     this.events.add(new GameStartedEvent());
     this.events.add(new RoundStartedEvent());
-    this.events.add(new NewQuoteEvent());
+    this.events.add(new NewQuoteEvent(new Quote("Quote #1", Quote.Author.Hamilton)));
     this.events.add(new GuessReceivedEvent());
-    this.events.add(new NewQuoteEvent());
-    this.events.add(new NewQuoteEvent());
-    this.events.add(new NewQuoteEvent());
+    this.events.add(new NewQuoteEvent(new Quote("Quote #2", Quote.Author.Swarzeneggar)));
+    this.events.add(new NewQuoteEvent(new Quote("Quote #3", Quote.Author.Shakespeare)));
     this.events.add(new RoundEndedEvent());
     this.events.add(new GameEndedEvent());
     return events.stream().collect(Collectors.toList());
@@ -37,9 +33,16 @@ public class GatewayResource {
 
   @POST
   @Path("/event")
-  public Response addEvent(Event event) {
+  public Response addEvent(BaseEvent event) {
     this.events.add(event);
     return Response.status(Response.Status.OK).build();
+  }
+
+  @GET
+  @Path("/events/latest")
+  public Response getLatestEvent() {
+    Event event = new NewQuoteEvent(new Quote("Quote #1", Quote.Author.Hamilton));
+    return Response.ok(event).build();
   }
 
 }

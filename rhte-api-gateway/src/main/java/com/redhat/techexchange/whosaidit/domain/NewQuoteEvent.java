@@ -1,9 +1,20 @@
 package com.redhat.techexchange.whosaidit.domain;
 
-public class NewQuoteEvent extends Event {
+import javax.json.bind.annotation.JsonbProperty;
 
-  public NewQuoteEvent() {
+public class NewQuoteEvent extends BaseEvent{
+
+  Quote quote;
+
+  public NewQuoteEvent(Quote quote) {
+
     super(EventType.NEW_QUOTE);
+    this.quote = quote;
   }
+
+  public Quote getQuote() {
+    return this.quote;
+  }
+
 }
 

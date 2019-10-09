@@ -1,17 +1,7 @@
 package com.redhat.techexchange.whosaidit.domain;
 
-public class Event {
+public interface Event {
 
-  EventType eventType;
-
-  public Event(EventType eventType) {
-    this.eventType = eventType;
-  }
-
-  public String getEventType() {
-    return this.eventType.title;
-  }
-
-
+  public String getEventType();
 
 }

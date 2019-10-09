@@ -10,6 +10,8 @@ public class Round {
 
   Quote fourthQuote;
 
+  String winner;
+
   public Quote getFirstQuote() {
     return firstQuote;
   }
@@ -40,5 +42,13 @@ public class Round {
 
   public void setFourthQuote(Quote fourthQuote) {
     this.fourthQuote = fourthQuote;
+  }
+
+  public String getWinner() {
+    return winner;
+  }
+
+  public void setWinner(String winner) {
+    this.winner = winner;
   }
 }

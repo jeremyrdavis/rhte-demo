@@ -38,6 +38,7 @@ public class GameTracker {
     round1.setSecondQuote(new Quote("Quote #2", Quote.Author.Shakespeare));
     round1.setThirdQuote(new Quote("Quote #3", Quote.Author.Swarzeneggar));
     round1.setFourthQuote(new Quote("Quote #4", Quote.Author.Shakespeare));
+    round1.setWinner("@winningplayer");
 
     this.game = new Game();
     this.game.setStatus(GameStatus.STARTED);

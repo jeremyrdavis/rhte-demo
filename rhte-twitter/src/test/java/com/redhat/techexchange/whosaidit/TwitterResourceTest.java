@@ -25,7 +25,6 @@ public class TwitterResourceTest {
 
     JsonObject jsonObject = Json.createObjectBuilder()
       .add("status", "Demo Status Update " + UUID.randomUUID().toString())
-      .add("newRound", true)
       .build();
 
     System.out.println(jsonObject.toString());

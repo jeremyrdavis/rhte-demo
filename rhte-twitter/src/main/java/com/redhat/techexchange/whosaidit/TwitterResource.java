@@ -20,7 +20,7 @@ public class TwitterResource {
   @Path("/status")
   public Response publishStatus(PublishStatusCommand publishStatusCommand) {
 
-    Status status = twitterService.updateStatus(publishStatusCommand.status, publishStatusCommand.newRound);
+    Status status = twitterService.updateStatus(publishStatusCommand.status);
     return Response.status(Response.Status.CREATED).build();
   }
 

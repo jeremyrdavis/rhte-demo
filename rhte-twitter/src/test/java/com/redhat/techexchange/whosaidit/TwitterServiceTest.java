@@ -22,7 +22,7 @@ public class TwitterServiceTest {
   @Order(1)
   public void updateStatusTestNewRound() {
 
-    Status result = this.twitterService.updateStatus("Test status update " + UUID.randomUUID().toString(), true);
+    Status result = this.twitterService.updateStatus("Test status update " + UUID.randomUUID().toString());
     System.out.println(result);
     assertNotNull(result);
   }
@@ -31,7 +31,7 @@ public class TwitterServiceTest {
   @Order(2)
   public void updateStatusTest() {
 
-    Status result = this.twitterService.updateStatus("Test status update " + UUID.randomUUID().toString(), false);
+    Status result = this.twitterService.updateStatus("Test status update " + UUID.randomUUID().toString());
     System.out.println(result);
     assertNotNull(result);
   }
@@ -42,7 +42,7 @@ public class TwitterServiceTest {
 
     List<Status> results = this.twitterService.getReplies(initialRoundStatusId);
     assertNotNull(results);
-    assertEquals(0, results.size());
+    assertEquals(1, results.size());
   }
 
 

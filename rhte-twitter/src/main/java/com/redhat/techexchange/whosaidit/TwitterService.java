@@ -1,6 +1,5 @@
 package com.redhat.techexchange.whosaidit;
 
-import io.quarkus.scheduler.Scheduled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.*;
@@ -19,23 +18,16 @@ public class TwitterService {
   // Twitter4j
   Twitter twitter;
 
-  // id of the most recently retrieved mention
-  long sinceId;
-
   public TwitterService() {
 
     twitter = TwitterFactory.getSingleton();
   }
 
-  public Status updateStatus(String statusUpdate, boolean newRound) {
+  public Status updateStatus(String statusUpdate) {
 
     try {
 
       Status result = twitter.updateStatus(statusUpdate);
-      if (newRound) {
-
-        this.sinceId = result.getId();
-      }
       LOGGER.info("Status updated at " + Date.from(Instant.now()) + " " + statusUpdate);
       return result;
 
@@ -89,8 +81,6 @@ public class TwitterService {
 
       // update our sinceId
       Status lastStatus = results.get(results.size() - 1);
-      this.sinceId = lastStatus.getId();
-      LOGGER.debug("initialPull setting sinceId to " + sinceId);
     } catch (Exception e) {
 
       System.out.println(e.getMessage());
@@ -103,7 +93,7 @@ public class TwitterService {
     try {
 
       Paging paging = new Paging();
-      paging.setSinceId(this.sinceId);
+      paging.setSinceId(sinceId);
 
       ResponseList<Status> results = twitter.getMentionsTimeline(paging);
       for(Status status : results){
@@ -119,11 +109,4 @@ public class TwitterService {
     return new ArrayList<Status>(0);
   }
 
-  public long getSinceId() {
-    return sinceId;
-  }
-
-  public void setSinceId(long sinceId) {
-    this.sinceId = sinceId;
-  }
 }

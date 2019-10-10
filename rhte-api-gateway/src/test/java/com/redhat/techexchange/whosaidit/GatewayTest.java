@@ -13,7 +13,7 @@ public class GatewayTest {
   @Test
   public void testEventsEndpoint() {
     given()
-      .when().get("/events")
+      .when().get("/api/events")
       .then()
       .statusCode(200);
   }

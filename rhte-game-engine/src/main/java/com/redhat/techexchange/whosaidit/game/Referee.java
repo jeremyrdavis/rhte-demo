@@ -46,9 +46,8 @@ public class Referee {
     }
 
     game.persist();
-
+    onGameStart(game);
     currentGameId = game.id;
-
     return game;
   }
 

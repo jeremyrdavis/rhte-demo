@@ -4,8 +4,8 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import io.quarkus.test.junit.QuarkusTest;
 import org.flywaydb.core.Flyway;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.*;
 
 import javax.inject.Inject;
 
@@ -26,11 +26,13 @@ public class RefereeTest {
     flyway.clean();
     flyway.migrate();
   }
-  WireMockServer twitterWireMockServer;
-  WireMockServer apiGatewayWireMockServer;
 
-  @BeforeEach
-  public void setUpWiremock() {
+  static WireMockServer twitterWireMockServer;
+  static WireMockServer apiGatewayWireMockServer;
+
+  @BeforeAll
+  public static void setUpWiremock() {
+
     twitterWireMockServer = new WireMockServer(8090);
     twitterWireMockServer.start();
     WireMock.configureFor("localhost", twitterWireMockServer.port());
@@ -41,10 +43,6 @@ public class RefereeTest {
     WireMock.configureFor("localhost", apiGatewayWireMockServer.port());
     System.out.println("ApiGateway WireMock configured");
 
-    setupStubs();
-  }
-
-  private void setupStubs() {
     twitterWireMockServer
       .stubFor(post(urlEqualTo("/status"))
         .willReturn(aResponse().withHeader("Content-Type", "application/json")
@@ -56,6 +54,11 @@ public class RefereeTest {
           .withStatus(200)));
   }
 
+  @AfterAll
+  public static void cleanUpWiremock() {
+    twitterWireMockServer.stop();
+    apiGatewayWireMockServer.stop();
+  }
 
   @Test
   public void testCreateGame() {

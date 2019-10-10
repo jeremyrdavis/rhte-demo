@@ -50,14 +50,14 @@ public class GatewayResource {
     return Response.ok(gameTracker.getRounds()).build();
   }
 
-
-
   @POST
   @Path("/event")
   public Response addEvent(BaseEvent event) {
     gameTracker.addEvent(event);
     return Response.status(Response.Status.OK).build();
   }
+
+
 
 
 

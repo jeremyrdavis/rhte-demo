@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
+import com.redhat.techexchange.whosaidit.game.infrastructure.ApiGatewayService;
 import com.redhat.techexchange.whosaidit.game.infrastructure.TwitterService;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -18,6 +19,9 @@ public class Referee {
   @RestClient
   TwitterService twitterService;
 
+  @Inject
+  @RestClient
+  ApiGatewayService apiGatewayService;
 
   Long currentGameId;
 
@@ -76,19 +80,27 @@ public class Referee {
     return game;
   }
 
-  void onNextQuote(Quote quote) {
-    System.out.println("Next quote: " + quote);
-    Response response = twitterService.sendStatusUpdate(new StatusUpdate("Test Status"));
-    if(response.getStatus() != 200) throw new RuntimeException(String.valueOf(response.getStatus()));
-    System.out.println("Calling ApiGateway");
-  }
-
   @Transactional
   private Game initializeRound() {
     Game game = Game.findById(currentGameId);
     game.startRound(currentRound);
     game.persist();
     return game;
+  }
+
+  void onNextQuote(Quote quote) {
+    System.out.println("Next quote: " + quote);
+    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("Test Status"));
+    Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
+    System.out.println("Calling ApiGateway");
+    if(twitterServiceResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
+    if(apiGatewayResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
+  }
+
+  void onGameStart(Game game) {
+
+    Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
+    if(apiGatewayResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
   }
 
 }

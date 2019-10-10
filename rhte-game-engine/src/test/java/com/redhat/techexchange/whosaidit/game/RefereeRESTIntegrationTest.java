@@ -16,19 +16,26 @@ public class RefereeRESTIntegrationTest {
   @Inject
   Referee referee;
 
-  WireMockServer wireMockServer;
+  WireMockServer twitterWireMockServer;
+  WireMockServer apiGatewayWireMockServer;
 
   @BeforeEach
   public void setUp() {
-    wireMockServer = new WireMockServer(8090);
-    wireMockServer.start();
+    twitterWireMockServer = new WireMockServer(8090);
+    twitterWireMockServer.start();
     setupStub();
-    System.out.println("WireMock configured");
-    WireMock.configureFor("localhost", wireMockServer.port());
+    WireMock.configureFor("localhost", twitterWireMockServer.port());
+    System.out.println("Twitter WireMock configured");
+
+    apiGatewayWireMockServer = new WireMockServer(8098);
+    apiGatewayWireMockServer.start();
+    setupStub();
+    WireMock.configureFor("localhost", apiGatewayWireMockServer.port());
+    System.out.println("ApiGateway WireMock configured");
   }
 
   private void setupStub() {
-    wireMockServer
+    twitterWireMockServer
       .stubFor(post(urlEqualTo("/status"))
       .willReturn(aResponse().withHeader("Content-Type", "application/json")
         .withStatus(200)));

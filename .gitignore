@@ -3,3 +3,4 @@
 db/
 postgresql/
 spikes/
+rhte-kafka

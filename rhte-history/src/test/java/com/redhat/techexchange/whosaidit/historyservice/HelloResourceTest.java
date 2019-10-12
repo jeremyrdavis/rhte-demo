@@ -18,15 +18,6 @@ import static org.hamcrest.CoreMatchers.is;
 public class HelloResourceTest {
 
   @Test
-  public void testHelloEndpoint() {
-    given()
-      .when().get("/api")
-      .then()
-      .statusCode(200)
-      .body(is("hello"));
-  }
-
-  @Test
   public void testGameCreatedEventEndpoint() {
 
     GameStartedEvent gameStartedEvent = new GameStartedEvent(Date.from(Instant.now()));

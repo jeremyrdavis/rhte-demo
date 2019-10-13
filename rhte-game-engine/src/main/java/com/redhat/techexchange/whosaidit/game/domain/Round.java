@@ -14,6 +14,7 @@ public class Round extends PanacheEntity {
   @JoinColumn(name = "game_id")
   public Game game;
 
+  @Enumerated(EnumType.STRING)
   public RoundStatus status;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

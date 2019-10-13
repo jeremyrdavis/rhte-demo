@@ -56,18 +56,21 @@ public class RefereeResource {
   public Response getCurrentRound(@PathParam("roundId") long id){
 
     Round round = Round.findById(id);
-    JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-    jsonObjectBuilder
-      .add("id", round.id)
-      .add("game_id", round.game.id);
 
-    JsonObjectBuilder quotesObjectBuilder = Json.createObjectBuilder();
+    // Get the quotes
+    JsonObjectBuilder quotesBuilder = Json.createObjectBuilder();
     for(Map.Entry<Integer, Quote> quote : round.quotes.entrySet()){
-      quotesObjectBuilder.add(quote.getKey().toString(), quote.getValue().text);
+      quotesBuilder.add(quote.getKey().toString(), quote.getValue().text);
     }
 
-    jsonObjectBuilder.add("quotes", quotesObjectBuilder.build());
-    return Response.ok(jsonObjectBuilder.build()).build();
+    JsonObjectBuilder roundBuilder = Json.createObjectBuilder();
+    roundBuilder
+      .add("id", round.id)
+      .add("game_id", round.game.id)
+      .add("round_status", round.status.name)
+      .add("quotes", quotesBuilder.build());
+
+    return Response.ok(roundBuilder.build()).build();
   }
 
 }

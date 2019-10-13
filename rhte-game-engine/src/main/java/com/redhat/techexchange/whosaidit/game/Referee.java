@@ -1,6 +1,6 @@
 package com.redhat.techexchange.whosaidit.game;
 
-import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
+import com.redhat.techexchange.whosaidit.game.domain.*;
 import com.redhat.techexchange.whosaidit.game.infrastructure.ApiGatewayService;
 import com.redhat.techexchange.whosaidit.game.infrastructure.TwitterService;
 import org.eclipse.microprofile.rest.client.inject.RestClient;

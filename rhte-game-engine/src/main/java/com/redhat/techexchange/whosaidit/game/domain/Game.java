@@ -1,4 +1,4 @@
-package com.redhat.techexchange.whosaidit.game;
+package com.redhat.techexchange.whosaidit.game.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.hibernate.annotations.Cascade;
@@ -17,7 +17,7 @@ public class Game extends PanacheEntity {
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
   @Cascade(CascadeType.ALL)
-  Map<Integer, Round> rounds = new HashMap<>();
+  public Map<Integer, Round> rounds = new HashMap<>();
 
   public void startRound(Integer currentRound) {
     this.rounds.get(currentRound).status = RoundStatus.ACTIVE;

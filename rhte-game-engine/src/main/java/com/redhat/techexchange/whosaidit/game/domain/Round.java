@@ -1,4 +1,4 @@
-package com.redhat.techexchange.whosaidit.game;
+package com.redhat.techexchange.whosaidit.game.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -19,7 +19,7 @@ public class Round extends PanacheEntity {
   @JoinTable(name = "round_quotes",
     joinColumns = {@JoinColumn(name = "fk_round")},
     inverseJoinColumns = {@JoinColumn(name = "fk_quote")})
-  Map<Integer, Quote> quotes = new HashMap<>();
+  public Map<Integer, Quote> quotes = new HashMap<>();
 
   public void addQuote(Quote quote) {
     this.quotes.put(this.quotes.size() + 1, quote);

@@ -2,6 +2,8 @@ package com.redhat.techexchange.whosaidit.game;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.redhat.techexchange.whosaidit.game.domain.Author;
+import com.redhat.techexchange.whosaidit.game.domain.Quote;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;

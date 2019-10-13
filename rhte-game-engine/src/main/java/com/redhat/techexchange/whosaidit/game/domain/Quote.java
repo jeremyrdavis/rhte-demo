@@ -1,4 +1,4 @@
-package com.redhat.techexchange.whosaidit.game;
+package com.redhat.techexchange.whosaidit.game.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;

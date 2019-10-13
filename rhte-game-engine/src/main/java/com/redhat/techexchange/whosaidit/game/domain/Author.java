@@ -1,4 +1,4 @@
-package com.redhat.techexchange.whosaidit.game;
+package com.redhat.techexchange.whosaidit.game.domain;
 
 public enum Author {
 

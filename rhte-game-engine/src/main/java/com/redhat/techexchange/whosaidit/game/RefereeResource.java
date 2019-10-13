@@ -1,5 +1,8 @@
 package com.redhat.techexchange.whosaidit.game;
 
+import com.redhat.techexchange.whosaidit.game.domain.Game;
+import com.redhat.techexchange.whosaidit.game.domain.Round;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;

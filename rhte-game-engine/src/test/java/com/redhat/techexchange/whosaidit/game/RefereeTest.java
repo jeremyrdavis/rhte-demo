@@ -2,9 +2,10 @@ package com.redhat.techexchange.whosaidit.game;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.redhat.techexchange.whosaidit.game.domain.Game;
+import com.redhat.techexchange.whosaidit.game.domain.Round;
 import io.quarkus.test.junit.QuarkusTest;
 import org.flywaydb.core.Flyway;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.*;
 
 import javax.inject.Inject;

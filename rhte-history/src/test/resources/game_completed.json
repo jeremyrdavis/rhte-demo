@@ -20,7 +20,7 @@
         "text": "Test Quote #12"
       }
     },
-    "status": "ACTIVE"
+    "status": "COMPLETED"
   },
   "rounds": {
     "1": {
@@ -43,7 +43,7 @@
           "text": "Test Quote #12"
         }
       },
-      "status": "ACTIVE"
+      "status": "COMPLETED"
     },
     "2": {
       "id": 52,
@@ -65,7 +65,7 @@
           "text": "Test Quote #13"
         }
       },
-      "status": "CREATED"
+      "status": "COMPLETED"
     },
     "3": {
       "id": 53,
@@ -87,7 +87,7 @@
           "text": "Hasta la vista, baby"
         }
       },
-      "status": "CREATED"
+      "status": "COMPLETED"
     },
     "4": {
       "id": 54,
@@ -109,7 +109,7 @@
           "text": "Test Quote #11"
         }
       },
-      "status": "CREATED"
+      "status": "COMPLETED"
     }
   }
 }

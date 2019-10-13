@@ -1,0 +1,28 @@
+{
+  "eventType":"Round Started Event",
+  "timestamp":"2019-10-12T17:52:11.394Z[UTC]",
+  "round":
+  {
+      "id": 51,
+      "game_id" : 50,
+      "quotes": {
+        "1": {
+          "id": 4,
+          "text": "Test Quote #1"
+        },
+        "2": {
+          "id": 6,
+          "text": "Test Quote #3"
+        },
+        "3": {
+          "id": 9,
+          "text": "Test Quote #6"
+        },
+        "4": {
+          "id": 15,
+          "text": "Test Quote #12"
+        }
+      },
+      "status": "ACTIVE"
+    }
+}

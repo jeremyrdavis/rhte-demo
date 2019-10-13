@@ -19,7 +19,6 @@ public class Game extends PanacheEntity {
   @Cascade(CascadeType.ALL)
   Map<Integer, Round> rounds = new HashMap<>();
 
-
   public void startRound(Integer currentRound) {
     this.rounds.get(currentRound).status = RoundStatus.ACTIVE;
   }

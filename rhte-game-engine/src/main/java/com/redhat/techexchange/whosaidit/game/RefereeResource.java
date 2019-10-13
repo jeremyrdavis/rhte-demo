@@ -32,4 +32,10 @@ public class RefereeResource {
     return game;
   }
 
+  @GET
+  @Path("/{roundId}")
+  public Round getCurrentRound(@PathParam("roundId") long id){
+    return referee.getCurrentRound();
+  }
+
 }

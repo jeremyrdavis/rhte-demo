@@ -1,22 +1,33 @@
 package com.redhat.techexchange.whosaidit.historyservice.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Game extends PanacheEntity {
+public class Game {
 
-    HashMap<Integer, Round> rounds = new HashMap<>();
+  @Id
+  public String id;
 
-    public void startRound(Integer currentRound) {
-      this.rounds.get(currentRound).status = RoundStatus.ACTIVE;
-    }
+  @OneToMany(fetch = FetchType.EAGER)
+  @JoinColumn(name = "game_id")
+  @Cascade(CascadeType.ALL)
+  Map<Integer, Round> rounds = new HashMap<>();
 
-    public Map<Integer, Round> getRounds() {
-      return this.rounds;
-    }
+  public Map<Integer, Round> getRounds() {
+    return this.rounds;
+  }
 
+  public void addRound(Round round) {
+    this.rounds.put(this.rounds.size() + 1, round);
+  }
+
+  public void completeRound(Integer currentRound) {
+    this.rounds.get(currentRound).status = RoundStatus.COMPLETED;
+  }
 }

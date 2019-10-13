@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit.historyservice.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,25 +10,23 @@ import java.util.Date;
 public class Event extends PanacheEntity {
 
   @Enumerated(EnumType.STRING)
-  EventType eventType;
+  public EventType eventType;
 
-  Date timestamp;
+  public Date timestamp;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "game_id")
-  Game game;
-
-  public Event(Date timestamp) {
-    this.timestamp = timestamp;
-  }
+  public Game game;
 
   public Event() {
   }
 
+  @JsonbProperty("event_type")
   public EventType getEventType() {
     return eventType;
   }
 
+  @JsonbProperty("timestamp")
   public Date getTimestamp() {
     return timestamp;
   }

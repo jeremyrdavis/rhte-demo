@@ -79,6 +79,11 @@ public class Referee {
     return game;
   }
 
+  public Round getCurrentRound() {
+    Game game = Game.findById(currentGameId);
+    return game.getCurrentRound();
+  }
+
   @Transactional
   private Game initializeRound() {
     Game game = Game.findById(currentGameId);

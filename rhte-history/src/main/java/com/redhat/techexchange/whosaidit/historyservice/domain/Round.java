@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Round extends PanacheEntity {
+public class Round {
+
+  @Id
+  public String id;
 
   @ManyToOne
   @JoinColumn(name = "game_id")
@@ -21,8 +24,11 @@ public class Round extends PanacheEntity {
     inverseJoinColumns = {@JoinColumn(name = "fk_quote")})
   Map<Integer, Quote> quotes = new HashMap<>();
 
+  public void addQuote(Quote quote) {
+    this.quotes.put(this.quotes.size() + 1, quote);
+  }
+
   public Map<Integer, Quote> getQuotes() {
     return this.quotes;
   }
-
 }

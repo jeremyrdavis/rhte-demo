@@ -1,0 +1,120 @@
+{
+  "eventType":"Game Started Event",
+  "timestamp":"2019-10-12T17:51:13.394Z[UTC]",
+  "game":
+  {
+    "id": 50,
+    "currentRound": {
+      "id": 51,
+      "quotes": {
+        "1": {
+          "id": 4,
+          "text": "Test Quote #1"
+        },
+        "2": {
+          "id": 6,
+          "text": "Test Quote #3"
+        },
+        "3": {
+          "id": 9,
+          "text": "Test Quote #6"
+        },
+        "4": {
+          "id": 15,
+          "text": "Test Quote #12"
+        }
+      },
+      "status": "ACTIVE"
+    },
+    "rounds": {
+      "1": {
+        "id": 51,
+        "quotes": {
+          "1": {
+            "id": 4,
+            "text": "Test Quote #1"
+          },
+          "2": {
+            "id": 6,
+            "text": "Test Quote #3"
+          },
+          "3": {
+            "id": 9,
+            "text": "Test Quote #6"
+          },
+          "4": {
+            "id": 15,
+            "text": "Test Quote #12"
+          }
+        },
+        "status": "ACTIVE"
+      },
+      "2": {
+        "id": 52,
+        "quotes": {
+          "1": {
+            "id": 8,
+            "text": "Test Quote #5"
+          },
+          "2": {
+            "id": 18,
+            "text": "Test Quote #15"
+          },
+          "3": {
+            "id": 5,
+            "text": "Test Quote #2"
+          },
+          "4": {
+            "id": 16,
+            "text": "Test Quote #13"
+          }
+        },
+        "status": "CREATED"
+      },
+      "3": {
+        "id": 53,
+        "quotes": {
+          "1": {
+            "id": 10,
+            "text": "Test Quote #7"
+          },
+          "2": {
+            "id": 11,
+            "text": "Test Quote #8"
+          },
+          "3": {
+            "id": 13,
+            "text": "Test Quote #10"
+          },
+          "4": {
+            "id": 1,
+            "text": "Hasta la vista, baby"
+          }
+        },
+        "status": "CREATED"
+      },
+      "4": {
+        "id": 54,
+        "quotes": {
+          "1": {
+            "id": 12,
+            "text": "Test Quote #9"
+          },
+          "2": {
+            "id": 3,
+            "text": "All the worlds a stage, and all the men and women only players"
+          },
+          "3": {
+            "id": 7,
+            "text": "Test Quote #4"
+          },
+          "4": {
+            "id": 14,
+            "text": "Test Quote #11"
+          }
+        },
+        "status": "CREATED"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package com.redhat.techexchange.whosaidit.historyservice;
 
+import com.redhat.techexchange.whosaidit.historyservice.domain.Event;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
@@ -8,16 +9,19 @@ import javax.json.bind.JsonbBuilder;
 import java.time.Instant;
 import java.util.Date;
 
+import static com.redhat.techexchange.whosaidit.historyservice.domain.EventType.GameStartedEvent;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-public class HelloResourceTest {
+public class HistoryResourceTest {
 
   @Test
   public void testGameCreatedEventEndpoint() {
 
-    GameStartedEvent gameStartedEvent = new GameStartedEvent(Date.from(Instant.now()));
+    Event gameStartedEvent = new Event();
+    gameStartedEvent.timestamp = Date.from(Instant.now());
+
     Jsonb jsonb = JsonbBuilder.create();
     System.out.println(jsonb.toJson(gameStartedEvent));
 
@@ -28,12 +32,6 @@ public class HelloResourceTest {
       .post("/api/events")
       .then()
       .statusCode(200);
-  }
-
-  @Test
-  public void testRoundStartedEventEndpoint() {
-
-    RoundStartedEvent roundStartedEvent = new RoundStartedEvent(Date.from(Instant.now()));
   }
 
 }

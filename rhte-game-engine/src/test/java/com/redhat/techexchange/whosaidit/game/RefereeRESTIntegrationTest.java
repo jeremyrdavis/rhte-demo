@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.redhat.techexchange.whosaidit.game.domain.Author;
 import com.redhat.techexchange.whosaidit.game.domain.Quote;
+import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -37,18 +38,24 @@ public class RefereeRESTIntegrationTest {
 
   static WireMockServer twitterWireMockServer;
   static WireMockServer apiGatewayWireMockServer;
+  static WireMockServer historyServiceWireMockServer;
 
   @BeforeAll
   public static void setUpWireMock() {
-    twitterWireMockServer = new WireMockServer(8090);
-    twitterWireMockServer.start();
-    WireMock.configureFor("localhost", twitterWireMockServer.port());
-    System.out.println("Twitter WireMock configured");
-
-    apiGatewayWireMockServer = new WireMockServer(8098);
+    apiGatewayWireMockServer = new WireMockServer(8091);
     apiGatewayWireMockServer.start();
     WireMock.configureFor("localhost", apiGatewayWireMockServer.port());
     System.out.println("ApiGateway WireMock configured");
+
+    historyServiceWireMockServer = new WireMockServer(8092);
+    historyServiceWireMockServer.start();
+    WireMock.configureFor("localhost", historyServiceWireMockServer.port());
+    System.out.println("HistoryService WireMock configured");
+
+    twitterWireMockServer = new WireMockServer(8093);
+    twitterWireMockServer.start();
+    WireMock.configureFor("localhost", twitterWireMockServer.port());
+    System.out.println("Twitter WireMock configured");
 
     twitterWireMockServer
       .stubFor(post(urlEqualTo("/status"))
@@ -59,24 +66,30 @@ public class RefereeRESTIntegrationTest {
       .stubFor(post(urlEqualTo("/events"))
         .willReturn(aResponse().withHeader("Content-Type", "application/json")
           .withStatus(200)));
+
+    historyServiceWireMockServer
+      .stubFor(post(urlEqualTo("/api/events"))
+        .willReturn(aResponse().withHeader("Content-Type", "application/json")
+          .withStatus(200)));
   }
 
   @AfterAll
   public static void cleanUpWiremock() {
     twitterWireMockServer.stop();
     apiGatewayWireMockServer.stop();
+    historyServiceWireMockServer.stop();
   }
-
-
 
   @Test
   public void testOnNextQuote() {
 
+/*
     referee.onNextQuote(new Quote("test", Author.Hamilton));
 
     verify(postRequestedFor(urlMatching("/events"))
       .withRequestBody(equalToJson("{\"status\":\"Test Status\"}"))
       .withHeader("Content-Type", matching("application/json")));
+*/
   }
 
   @Test

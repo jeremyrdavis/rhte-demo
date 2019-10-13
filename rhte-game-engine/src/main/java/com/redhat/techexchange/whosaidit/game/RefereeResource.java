@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit.game;
 
 import com.redhat.techexchange.whosaidit.game.domain.Game;
 import com.redhat.techexchange.whosaidit.game.domain.Round;
+import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;

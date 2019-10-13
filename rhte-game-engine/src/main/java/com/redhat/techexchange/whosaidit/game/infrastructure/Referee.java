@@ -1,9 +1,7 @@
-package com.redhat.techexchange.whosaidit.game;
+package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.*;
-import com.redhat.techexchange.whosaidit.game.infrastructure.ApiGatewayService;
-import com.redhat.techexchange.whosaidit.game.infrastructure.TwitterService;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import com.redhat.techexchange.whosaidit.game.infrastructure.GameStartedEventHandler;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,12 +14,7 @@ import java.util.List;
 public class Referee {
 
   @Inject
-  @RestClient
-  TwitterService twitterService;
-
-  @Inject
-  @RestClient
-  ApiGatewayService apiGatewayService;
+  GameStartedEventHandler gameStartedEventHandler;
 
   Long currentGameId;
 
@@ -93,18 +86,20 @@ public class Referee {
   }
 
   void onNextQuote(Quote quote) {
+/*
     System.out.println("Next quote: " + quote);
     Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("Test Status"));
     Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
     System.out.println("Calling ApiGateway");
-    if(twitterServiceResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
-    if(apiGatewayResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
+    if (twitterServiceResponse.getStatus() != 200)
+      throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
+    if (apiGatewayResponse.getStatus() != 200)
+      throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
+*/
   }
 
   void onGameStart(Game game) {
-
-//    Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
-//    if(apiGatewayResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
+    gameStartedEventHandler.handle(game);
   }
 
 }

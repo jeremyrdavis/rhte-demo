@@ -1,13 +1,10 @@
 package com.redhat.techexchange.whosaidit.historyservice;
 
-import com.redhat.techexchange.whosaidit.historyservice.domain.GameStartedEvent;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import javax.ws.rs.core.Response;
 import java.time.Instant;
 import java.util.Date;
 
@@ -31,6 +28,12 @@ public class HelloResourceTest {
       .post("/api/events")
       .then()
       .statusCode(200);
+  }
+
+  @Test
+  public void testRoundStartedEventEndpoint() {
+
+    RoundStartedEvent roundStartedEvent = new RoundStartedEvent(Date.from(Instant.now()));
   }
 
 }

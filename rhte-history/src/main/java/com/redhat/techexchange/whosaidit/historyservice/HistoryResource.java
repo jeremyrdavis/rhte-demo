@@ -1,6 +1,6 @@
 package com.redhat.techexchange.whosaidit.historyservice;
 
-import com.redhat.techexchange.whosaidit.historyservice.domain.GameStartedEvent;
+import com.redhat.techexchange.whosaidit.historyservice.domain.Event;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -20,7 +20,7 @@ public class HistoryResource {
   @POST
   @Path("/events")
   @Transactional
-  public Response addEvent(GameStartedEvent event) {
+  public Response addEvent(Event event) {
 
     event.persist();
     return Response.ok().build();

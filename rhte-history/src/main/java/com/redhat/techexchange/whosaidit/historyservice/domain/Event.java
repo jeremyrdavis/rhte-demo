@@ -2,21 +2,26 @@ package com.redhat.techexchange.whosaidit.historyservice.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class GameStartedEvent extends PanacheEntity {
+public class Event extends PanacheEntity {
 
-  static final EventType eventType = EventType.GameStartedEvent;
+  @Enumerated(EnumType.STRING)
+  EventType eventType;
 
   Date timestamp;
 
-  public GameStartedEvent(Date timestamp) {
+  @ManyToOne
+  @JoinColumn(name = "game_id")
+  Game game;
+
+  public Event(Date timestamp) {
     this.timestamp = timestamp;
   }
 
-  public GameStartedEvent() {
+  public Event() {
   }
 
   public EventType getEventType() {
@@ -25,5 +30,9 @@ public class GameStartedEvent extends PanacheEntity {
 
   public Date getTimestamp() {
     return timestamp;
+  }
+
+  public Game getGame() {
+    return game;
   }
 }

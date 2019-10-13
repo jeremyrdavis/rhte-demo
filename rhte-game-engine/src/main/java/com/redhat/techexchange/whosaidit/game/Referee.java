@@ -98,8 +98,8 @@ public class Referee {
 
   void onGameStart(Game game) {
 
-    Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
-    if(apiGatewayResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
+//    Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
+//    if(apiGatewayResponse.getStatus() != 200) throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
   }
 
 }

@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit.game.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 @Entity
 public class Round extends PanacheEntity {
 
+  @JsonbTransient
   @ManyToOne
   @JoinColumn(name = "game_id")
   public Game game;

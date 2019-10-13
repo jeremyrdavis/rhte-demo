@@ -27,19 +27,29 @@ public class RefereeResource {
     return Response.ok(game).status(Response.Status.CREATED).build();
   }
 
+  @POST
+  @Path("/rounds/start")
+  @Transactional
+  public Response startRound() {
+
+    referee.startRound();
+    return Response.ok().build();
+  }
+
+
   @GET
   @Path("/{gameId}")
   public Game getGame(@PathParam("gameId") long id) {
     Game game = Game.findById(id);
     System.out.println(game);
-//    return Response.ok(game).status(Response.Status.FOUND).build();
     return game;
   }
 
   @GET
-  @Path("/{roundId}")
+  @Path("/rounds/{roundId}")
   public Round getCurrentRound(@PathParam("roundId") long id){
-    return referee.getCurrentRound();
+
+    return Round.findById(id);
   }
 
 }

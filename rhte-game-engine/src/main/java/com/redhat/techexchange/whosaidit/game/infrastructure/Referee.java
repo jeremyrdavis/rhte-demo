@@ -1,12 +1,13 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.*;
-import com.redhat.techexchange.whosaidit.game.infrastructure.GameStartedEventHandler;
+import com.redhat.techexchange.whosaidit.game.domain.Game;
+import com.redhat.techexchange.whosaidit.game.domain.Quote;
+import com.redhat.techexchange.whosaidit.game.domain.Round;
+import com.redhat.techexchange.whosaidit.game.domain.RoundStatus;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class Referee {
 
   @Inject
   GameStartedEventHandler gameStartedEventHandler;
+
+  @Inject
+  RoundStartedEventHandler roundStartedEventHandler;
 
   Long currentGameId;
 
@@ -53,6 +57,8 @@ public class Referee {
 
     Game game = Game.findById(currentGameId);
     Round round = game.rounds.get(currentRound);
+
+    onRoundStart(round);
 
     for (int i = 0; i < 4; i++) {
       Quote q = round.quotes.get(i + 1);
@@ -99,7 +105,15 @@ public class Referee {
   }
 
   void onGameStart(Game game) {
-    gameStartedEventHandler.handle(game);
+//    gameStartedEventHandler.handle(game);
+    System.out.println("onGameStart");
   }
+
+  private void onRoundStart(Round round) {
+
+    System.out.println("onRoundStart");
+    //roundStartedEventHandler.handle(round);
+  }
+
 
 }

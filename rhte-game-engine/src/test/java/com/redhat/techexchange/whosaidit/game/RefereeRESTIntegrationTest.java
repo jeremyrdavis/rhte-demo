@@ -102,6 +102,10 @@ public class RefereeRESTIntegrationTest {
 
     assertEquals(HttpStatus.SC_CREATED, response.statusCode());
     assertEquals(4, response.jsonPath().getMap("rounds").values().size());
+  }
+
+  @Test
+  public void testRoundStart() {
 
   }
 

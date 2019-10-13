@@ -6,6 +6,7 @@ import com.redhat.techexchange.whosaidit.game.domain.Game;
 import com.redhat.techexchange.whosaidit.game.domain.Round;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.*;
 
@@ -94,6 +95,9 @@ public class RefereeTest {
     Game game = referee.createGame();
     game = referee.startRound();
     Thread.sleep(30000);
+    verify(postRequestedFor(urlEqualTo("/api/events"))
+      .withHeader("Content-Type", equalTo("application/json"))
+    );
   }
 
 }

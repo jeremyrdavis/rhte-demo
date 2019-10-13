@@ -12,7 +12,7 @@ public class Round {
   @Id
   public String id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "game_id")
   public Game game;
 

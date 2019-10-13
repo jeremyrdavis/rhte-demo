@@ -1,8 +1,6 @@
 package com.redhat.techexchange.whosaidit.historyservice.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -14,9 +12,8 @@ public class Game {
   @Id
   public String id;
 
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "game_id")
-  @Cascade(CascadeType.ALL)
   Map<Integer, Round> rounds = new HashMap<>();
 
   public Map<Integer, Round> getRounds() {

@@ -105,14 +105,14 @@ public class Referee {
   }
 
   void onGameStart(Game game) {
-//    gameStartedEventHandler.handle(game);
+    gameStartedEventHandler.handle(game);
     System.out.println("onGameStart");
   }
 
   private void onRoundStart(Round round) {
 
     System.out.println("onRoundStart");
-    //roundStartedEventHandler.handle(round);
+    roundStartedEventHandler.handle(round);
   }
 
 

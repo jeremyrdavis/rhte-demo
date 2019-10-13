@@ -1,14 +1,20 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import com.redhat.techexchange.whosaidit.game.domain.Game;
+import com.redhat.techexchange.whosaidit.game.domain.Quote;
 import com.redhat.techexchange.whosaidit.game.domain.Round;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 
 @Path("/game")
 @Produces(MediaType.APPLICATION_JSON)
@@ -47,9 +53,21 @@ public class RefereeResource {
 
   @GET
   @Path("/rounds/{roundId}")
-  public Round getCurrentRound(@PathParam("roundId") long id){
+  public Response getCurrentRound(@PathParam("roundId") long id){
 
-    return Round.findById(id);
+    Round round = Round.findById(id);
+    JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+    jsonObjectBuilder
+      .add("id", round.id)
+      .add("game_id", round.game.id);
+
+    JsonObjectBuilder quotesObjectBuilder = Json.createObjectBuilder();
+    for(Map.Entry<Integer, Quote> quote : round.quotes.entrySet()){
+      quotesObjectBuilder.add(quote.getKey().toString(), quote.getValue().text);
+    }
+
+    jsonObjectBuilder.add("quotes", quotesObjectBuilder.build());
+    return Response.ok(jsonObjectBuilder.build()).build();
   }
 
 }

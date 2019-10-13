@@ -10,8 +10,7 @@ import java.util.Map;
 @Entity
 public class Round extends PanacheEntity {
 
-  @JsonbTransient
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "game_id")
   public Game game;
 

@@ -57,7 +57,12 @@ public class GatewayResource {
     return Response.status(Response.Status.OK).build();
   }
 
-
+  @POST
+  @Path("/start")
+  public Response startGame() {
+    gameTracker.start();
+    return Response.status(Response.Status.OK).build();
+  }
 
 
 

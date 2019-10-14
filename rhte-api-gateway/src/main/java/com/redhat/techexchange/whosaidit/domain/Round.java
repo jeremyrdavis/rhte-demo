@@ -1,6 +1,11 @@
 package com.redhat.techexchange.whosaidit.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Round {
+
+  public Map<Integer, Quote> quotes = new HashMap<>();
 
   Quote firstQuote;
 

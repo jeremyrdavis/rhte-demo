@@ -1,16 +1,19 @@
 package com.redhat.techexchange.whosaidit;
 
 import com.redhat.techexchange.whosaidit.domain.*;
+import com.redhat.techexchange.whosaidit.infrastructure.EventsSocket;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import javax.inject.Inject;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class GameTracker {
+
+  @Inject
+  EventsSocket eventsSocket;
 
   Game game;
 
@@ -34,11 +37,20 @@ public class GameTracker {
   void setUp() {
 
     Round round1 = new Round();
+    round1.quotes = new HashMap<Integer, Quote>();
+    for(int i=1;i<4;i++){
+      if(i % 2 == 0){
+        round1.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Hamilton));
+      }else{
+        round1.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Shakespeare));
+      }
+    }
     round1.setFirstQuote(new Quote("Quote #1", Quote.Author.Hamilton));
     round1.setSecondQuote(new Quote("Quote #2", Quote.Author.Shakespeare));
     round1.setThirdQuote(new Quote("Quote #3", Quote.Author.Swarzeneggar));
     round1.setFourthQuote(new Quote("Quote #4", Quote.Author.Shakespeare));
     round1.setWinner("@winningplayer");
+
 
     this.game = new Game();
     this.game.setStatus(GameStatus.STARTED);
@@ -59,7 +71,6 @@ public class GameTracker {
 
   }
 
-
   public Event getLatestEvent() {
     return (Event) this.events.toArray()[this.events.size() - 1];
   }
@@ -72,5 +83,22 @@ public class GameTracker {
   public void addEvent(BaseEvent event) {
 
     this.events.add(event);
+  }
+
+  public void start() {
+
+    List<Round> rounds = getRounds();
+    for (int i = 0; i < 4; i++) {
+      Round round = rounds.get(i);
+      Quote q = round.quotes.get(i + 1);
+      System.out.println(q.text);
+      eventsSocket.broadcast(new NewQuoteEvent(q));
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+
   }
 }

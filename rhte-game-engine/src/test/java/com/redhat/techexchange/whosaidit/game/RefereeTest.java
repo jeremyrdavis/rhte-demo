@@ -30,51 +30,6 @@ public class RefereeTest {
     flyway.migrate();
   }
 
-  static WireMockServer twitterWireMockServer;
-  static WireMockServer apiGatewayWireMockServer;
-  static WireMockServer historyServiceWireMockServer;
-
-  @BeforeAll
-  public static void setUpWiremock() {
-
-    twitterWireMockServer = new WireMockServer(8093);
-    twitterWireMockServer.start();
-    WireMock.configureFor("localhost", twitterWireMockServer.port());
-    System.out.println("Twitter WireMock configured");
-
-    apiGatewayWireMockServer = new WireMockServer(8091);
-    apiGatewayWireMockServer.start();
-    WireMock.configureFor("localhost", apiGatewayWireMockServer.port());
-    System.out.println("ApiGateway WireMock configured");
-
-    historyServiceWireMockServer = new WireMockServer(8092);
-    historyServiceWireMockServer.start();
-    WireMock.configureFor("localhost", historyServiceWireMockServer.port());
-    System.out.println("HistoryService WireMock configured");
-
-    twitterWireMockServer
-      .stubFor(post(urlEqualTo("/status"))
-        .willReturn(aResponse().withHeader("Content-Type", "application/json")
-          .withStatus(200)));
-
-    apiGatewayWireMockServer
-      .stubFor(post(urlEqualTo("/events"))
-        .willReturn(aResponse().withHeader("Content-Type", "application/json")
-          .withStatus(200)));
-
-    historyServiceWireMockServer
-      .stubFor(post(urlEqualTo("/api/events"))
-        .willReturn(aResponse().withHeader("Content-Type", "application/json")
-          .withStatus(200)));
-  }
-
-  @AfterAll
-  public static void cleanUpWiremock() {
-    twitterWireMockServer.stop();
-    apiGatewayWireMockServer.stop();
-    historyServiceWireMockServer.stop();
-  }
-
   @Test
   public void testCreateGame() {
 
@@ -95,9 +50,6 @@ public class RefereeTest {
     Game game = referee.createGame();
     game = referee.startRound();
     Thread.sleep(30000);
-    verify(postRequestedFor(urlEqualTo("/api/events"))
-      .withHeader("Content-Type", equalTo("application/json"))
-    );
   }
 
   @Test

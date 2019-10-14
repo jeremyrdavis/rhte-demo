@@ -102,6 +102,7 @@ public class Referee {
     if (apiGatewayResponse.getStatus() != 200)
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 */
+
   }
 
   void onGameStart(Game game) {

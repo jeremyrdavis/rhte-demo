@@ -20,6 +20,9 @@ public class Referee {
   @Inject
   RoundStartedEventHandler roundStartedEventHandler;
 
+  @Inject
+  NextQuoteEventHandler nextQuoteEventHandler;
+
   Long currentGameId;
 
   Integer currentRound = 1;
@@ -92,17 +95,8 @@ public class Referee {
   }
 
   void onNextQuote(Quote quote) {
-/*
-    System.out.println("Next quote: " + quote);
-    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("Test Status"));
-    Response apiGatewayResponse = apiGatewayService.sendStatusUpdate(new StatusUpdate("Test Status"));
-    System.out.println("Calling ApiGateway");
-    if (twitterServiceResponse.getStatus() != 200)
-      throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
-    if (apiGatewayResponse.getStatus() != 200)
-      throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
-*/
-
+    nextQuoteEventHandler.handle(quote);
+    System.out.println("onNextQuote");
   }
 
   void onGameStart(Game game) {
@@ -111,7 +105,6 @@ public class Referee {
   }
 
   private void onRoundStart(Round round) {
-
     System.out.println("onRoundStart");
     roundStartedEventHandler.handle(round);
   }

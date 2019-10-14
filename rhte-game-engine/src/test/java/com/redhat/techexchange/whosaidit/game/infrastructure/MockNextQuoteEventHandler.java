@@ -11,10 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ApplicationScoped
 public class MockNextQuoteEventHandler extends NextQuoteEventHandler{
 
-
   @Override
   public void handle(Quote quote) {
-
     assertNotNull(quote);
   }
 }

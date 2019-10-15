@@ -1,9 +1,7 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.Event;
-import com.redhat.techexchange.whosaidit.game.domain.NextQuoteEvent;
-import com.redhat.techexchange.whosaidit.game.domain.Quote;
-import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
+import com.redhat.techexchange.whosaidit.game.domain.*;
+import io.reactivex.Observable;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -27,10 +25,15 @@ public class NextQuoteEventHandler {
   @RestClient
   HistoryService historyService;
 
+  public void reactiveHandle(Quote quote) {
+  }
+
   public void handle(Quote quote) {
 
     // Update ApiGateway
     NextQuoteEvent nextQuoteEvent = new NextQuoteEvent();
+    nextQuoteEvent.setQuote(quote);
+    nextQuoteEvent.setEventType(EventType.NextQuoteEvent);
 //    nextQuoteEvent.timestamp = Date.from(Instant.now());
     Response apiGatewayResponse = apiGatewayService.sendEvent(nextQuoteEvent);
     if (apiGatewayResponse.getStatus() != 200)
@@ -38,7 +41,7 @@ public class NextQuoteEventHandler {
 
     // Update TwitterService
     Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate(quote.toString()));
-    if (twitterServiceResponse.getStatus() != 200)
+    if (twitterServiceResponse.getStatus() != 201)
       throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
 
     // Log to HistoryService

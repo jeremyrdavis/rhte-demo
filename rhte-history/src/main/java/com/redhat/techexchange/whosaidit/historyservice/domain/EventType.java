@@ -5,7 +5,7 @@ public enum EventType {
   GameStartedEvent("gameStartedEvent"),
   RoundStartedEvent("roundStartedEvent"),
   RoundEndedEvent("roundEndedEvent"),
-  NextQuoteEvent("nextQuoteEvent");
+  NextQuoteEvent("NextQuoteEvent");
 
   public String title;
 

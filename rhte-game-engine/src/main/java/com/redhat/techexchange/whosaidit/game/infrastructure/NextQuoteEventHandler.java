@@ -37,7 +37,7 @@ public class NextQuoteEventHandler {
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 
     // Update TwitterService
-    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("Game Started!"));
+    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate(quote.toString()));
     if (twitterServiceResponse.getStatus() != 200)
       throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
 

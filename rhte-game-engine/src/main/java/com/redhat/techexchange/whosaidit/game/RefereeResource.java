@@ -73,4 +73,11 @@ public class RefereeResource {
     return Response.ok(roundBuilder.build()).build();
   }
 
+  @POST
+  @Path("/test/quote")
+  public Response sendTestQuote() {
+    referee.testQuote();
+    return Response.ok().build();
+  }
+
 }

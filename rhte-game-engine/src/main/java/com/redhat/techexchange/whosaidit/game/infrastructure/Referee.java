@@ -1,15 +1,13 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.Game;
-import com.redhat.techexchange.whosaidit.game.domain.Quote;
-import com.redhat.techexchange.whosaidit.game.domain.Round;
-import com.redhat.techexchange.whosaidit.game.domain.RoundStatus;
+import com.redhat.techexchange.whosaidit.game.domain.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class Referee {
@@ -107,6 +105,10 @@ public class Referee {
   private void onRoundStart(Round round) {
     System.out.println("onRoundStart");
     roundStartedEventHandler.handle(round);
+  }
+
+  public void testQuote() {
+    onNextQuote(new Quote("Test " + UUID.randomUUID().toString(), Author.Shakespeare));
   }
 
 

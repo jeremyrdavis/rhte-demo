@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 public interface ApiGatewayService{
 
   @POST
-  @Path("/events")
+  @Path("/api/event")
   @Produces(MediaType.APPLICATION_JSON)
   public Response sendEvent(Event event);
 

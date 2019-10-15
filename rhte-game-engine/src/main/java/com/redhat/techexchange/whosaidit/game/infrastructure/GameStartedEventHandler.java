@@ -38,8 +38,8 @@ public class GameStartedEventHandler {
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 
     // Update TwitterService
-    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("Game Started!"));
-    if (twitterServiceResponse.getStatus() != 200)
+    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("WhoSaidIt Game Started!"));
+    if (twitterServiceResponse.getStatus() != 201)
       throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
 
     // Log to HistoryService

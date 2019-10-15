@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import com.redhat.techexchange.whosaidit.game.domain.*;
+import com.redhat.techexchange.whosaidit.game.infrastructure.GameStartedEventHandler;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 
 import javax.inject.Inject;
@@ -12,6 +13,8 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 @Path("/game")
@@ -85,9 +88,33 @@ public class RefereeResource {
     switch (eventType) {
       case "NextQuoteEvent" :
         return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Author.Shakespeare))).build();
+      case "GameStartedEvent" :
+        return Response.ok(new GameStartedEvent(EventType.GameStartedEvent, mockGame())).build();
       default:
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
+  }
+
+  private Game mockGame() {
+
+    Game retVal = new Game();
+    HashMap<Integer, Round> rounds = new HashMap<>(4);
+
+    for (int i = 1; i < 4; i++) {
+      Round round = new Round();
+      round.quotes = new HashMap<Integer, Quote>();
+      for(int j = 0; j < 4; j++){
+        if (j % 2 == 0) {
+          round.quotes.put(j, new Quote("Quote #" + j, Author.Hamilton));
+        } else {
+          round.quotes.put(j, new Quote("Quote #" + j, Author.Shakespeare));
+        }
+      }
+//      round.setWinner("@winningplayer#" + i);
+//      rounds.put(i, round);
+      retVal.addRound(round);
+    }
+    return retVal;
   }
 
 }

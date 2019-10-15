@@ -109,12 +109,15 @@ public class GatewayResource {
   public Response getEventType(@PathParam("eventType") String eventType) {
 
     switch (eventType) {
+      case "GameEndedEvent" :
+        return Response.ok(new GameEndedEvent(EventType.GameEndedEvent, mockGame())).build();
       case "RoundEndedEvent":
         Round round = mockGame().getRounds().get(1);
         round.setWinner("@winner");
+        return Response.ok(new RoundEndedEvent(EventType.RoundEndedEvent, round)).build();
       case "RoundStartedEvent":
         round = mockGame().getRounds().get(1);
-        return Response.ok(new RoundEndedEvent(EventType.RoundEndedEvent, round)).build();
+        return Response.ok(new RoundEndedEvent(EventType.RoundStartedEvent, round)).build();
       case "NextQuoteEvent" :
         return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Quote.Author.Shakespeare))).build();
       case "GameStartedEvent" :

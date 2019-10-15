@@ -1,6 +1,6 @@
 package com.redhat.techexchange.whosaidit.domain;
 
-public class GameStartedEvent extends BaseEvent {
+public class GameStartedEvent extends BaseEvent implements Event{
 
   Game game;
 
@@ -10,6 +10,14 @@ public class GameStartedEvent extends BaseEvent {
 
   public GameStartedEvent(EventType eventType, Game game) {
     super(EventType.GameStartedEvent);
+    this.game = game;
+  }
+
+  public Game getGame() {
+    return game;
+  }
+
+  public void setGame(Game game) {
     this.game = game;
   }
 }

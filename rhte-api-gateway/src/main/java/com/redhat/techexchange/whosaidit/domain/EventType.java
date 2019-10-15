@@ -3,7 +3,7 @@ package com.redhat.techexchange.whosaidit.domain;
 public enum EventType {
 
   GameStartedEvent("GameStartedEvent"),
-  GAME_ENDED("GameEndedEvent"),
+  GameEndedEvent("GameEndedEvent"),
   ROUND_STARTED("RoundStarted"),
   RoundEndedEvent("RoundEndedEvent"),
   NextQuoteEvent("NextQuoteEvent"),

@@ -1,21 +1,16 @@
 package com.redhat.techexchange.whosaidit.game;
 
 import com.redhat.techexchange.whosaidit.game.domain.*;
-import com.redhat.techexchange.whosaidit.game.infrastructure.GameStartedEventHandler;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
-import com.redhat.techexchange.whosaidit.game.infrastructure.RoundStartedEventHandler;
 
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 @Path("/game")

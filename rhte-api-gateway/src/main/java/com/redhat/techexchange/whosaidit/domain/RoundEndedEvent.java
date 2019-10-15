@@ -8,6 +8,8 @@ public class RoundEndedEvent extends BaseEvent {
     super(EventType.RoundEndedEvent);
   }
 
+  String winner;
+
   public RoundEndedEvent(EventType eventType, Round round) {
     super(eventType);
     this.round = round;
@@ -19,6 +21,14 @@ public class RoundEndedEvent extends BaseEvent {
 
   public void setRound(Round round) {
     this.round = round;
+  }
+
+  public String getWinner() {
+    return winner;
+  }
+
+  public void setWinner(String winner) {
+    this.winner = winner;
   }
 }
 

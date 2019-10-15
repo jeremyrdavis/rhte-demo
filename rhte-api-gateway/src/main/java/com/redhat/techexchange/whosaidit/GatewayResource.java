@@ -4,6 +4,7 @@ import com.redhat.techexchange.whosaidit.domain.BaseEvent;
 import com.redhat.techexchange.whosaidit.domain.Event;
 import com.redhat.techexchange.whosaidit.domain.NewQuoteEvent;
 import com.redhat.techexchange.whosaidit.domain.Quote;
+import io.vertx.axle.core.eventbus.EventBus;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -19,6 +22,9 @@ public class GatewayResource {
 
   @Inject
   GameTracker gameTracker;
+
+  @Inject
+  EventBus eventBus;
 
   @PostConstruct
   void setUp() {
@@ -40,18 +46,18 @@ public class GatewayResource {
 
   @GET
   @Path("/game")
-  public Response getGame() {
-
+  public Response startGame() {
+    System.out.println("GatewayResource.startGame");
     gameTracker.startGame();
     return Response.ok().build();
   }
 
   @GET
   @Path("/rounds/")
-  public Response getAllRounds() {
-
-    gameTracker.startRound();
-    return Response.ok().build();
+  public CompletionStage<String> startRounds() {
+    CompletableFuture<String> future = new CompletableFuture<>();
+    eventBus.publish("roundStart", null);
+    return future;
   }
 
   @POST
@@ -60,15 +66,5 @@ public class GatewayResource {
     gameTracker.addEvent(event);
     return Response.status(Response.Status.OK).build();
   }
-
-  @GET
-  @Path("/game/start")
-  public Response startGame() {
-    System.out.println("Game starting");
-    gameTracker.startGame();
-    return Response.status(Response.Status.OK).build();
-  }
-
-
 
 }

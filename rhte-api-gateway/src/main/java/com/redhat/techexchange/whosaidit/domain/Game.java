@@ -2,57 +2,28 @@ package com.redhat.techexchange.whosaidit.domain;
 
 import javax.json.bind.annotation.JsonbPropertyOrder;
 import javax.json.bind.config.PropertyOrderStrategy;
+import java.util.HashMap;
 
 @JsonbPropertyOrder(PropertyOrderStrategy.ANY)
 public class Game {
 
   GameStatus status;
 
-  Round firstRound;
-
-  Round secondRound;
-
-  Round thirdRound;
-
-  Round fourthRound;
+  HashMap<Integer, Round> rounds;
 
   public GameStatus getStatus() {
     return status;
-  }
-
-  public Round getFirstRound() {
-    return firstRound;
-  }
-
-  public Round getSecondRound() {
-    return secondRound;
-  }
-
-  public Round getThirdRound() {
-    return thirdRound;
-  }
-
-  public Round getFourthRound() {
-    return fourthRound;
   }
 
   public void setStatus(GameStatus status) {
     this.status = status;
   }
 
-  public void setFirstRound(Round firstRound) {
-    this.firstRound = firstRound;
+  public HashMap<Integer, Round> getRounds() {
+    return rounds;
   }
 
-  public void setSecondRound(Round secondRound) {
-    this.secondRound = secondRound;
-  }
-
-  public void setThirdRound(Round thirdRound) {
-    this.thirdRound = thirdRound;
-  }
-
-  public void setFourthRound(Round fourthRound) {
-    this.fourthRound = fourthRound;
+  public void setRounds(HashMap<Integer, Round> rounds) {
+    this.rounds = rounds;
   }
 }

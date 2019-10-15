@@ -2,34 +2,34 @@ package com.redhat.techexchange.whosaidit;
 
 import com.redhat.techexchange.whosaidit.domain.*;
 import com.redhat.techexchange.whosaidit.infrastructure.EventsSocket;
+import io.quarkus.vertx.ConsumeEvent;
+import io.vertx.axle.core.Vertx;
+import io.vertx.axle.core.eventbus.EventBus;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
+import javax.ws.rs.Consumes;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class GameTracker {
 
+  int currentRound = 1;
+
   @Inject
   EventsSocket eventsSocket;
+
+  @Inject
+  EventBus eventBus;
+
+  @Inject
+  Vertx vertx;
 
   Game game;
 
   private LinkedHashSet<BaseEvent> events;
-
-  public List<Round> getRounds() {
-
-    return Arrays.asList(
-      game.getFirstRound(),
-      game.getSecondRound(),
-      game.getThirdRound(),
-      game.getFourthRound());
-  }
 
   public Game getGame() {
 
@@ -39,28 +39,24 @@ public class GameTracker {
   @PostConstruct
   void setUp() {
 
-    Round round1 = new Round();
-    round1.quotes = new HashMap<Integer, Quote>();
+    HashMap<Integer, Round> rounds = new HashMap<>(4);
+
     for (int i = 1; i < 4; i++) {
+      Round round = new Round();
+      round.quotes = new HashMap<Integer, Quote>();
       if (i % 2 == 0) {
-        round1.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Hamilton));
+        round.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Hamilton));
       } else {
-        round1.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Shakespeare));
+        round.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Shakespeare));
       }
+      round.setWinner("@winningplayer#" + i);
+      rounds.put(i, round);
     }
-    round1.setFirstQuote(new Quote("Quote #1", Quote.Author.Hamilton));
-    round1.setSecondQuote(new Quote("Quote #2", Quote.Author.Shakespeare));
-    round1.setThirdQuote(new Quote("Quote #3", Quote.Author.Swarzeneggar));
-    round1.setFourthQuote(new Quote("Quote #4", Quote.Author.Shakespeare));
-    round1.setWinner("@winningplayer");
 
 
     this.game = new Game();
     this.game.setStatus(GameStatus.STARTED);
-    this.game.setFirstRound(round1);
-    this.game.setSecondRound(new Round());
-    this.game.setThirdRound(new Round());
-    this.game.setFourthRound(new Round());
+    this.game.setRounds(rounds);
 
     this.events = new LinkedHashSet<>();
     this.events.add(new GameStartedEvent());
@@ -89,24 +85,22 @@ public class GameTracker {
   }
 
   public void startGame() {
-
-    System.out.println("startGame");
+    System.out.println("GameTracker.startGame");
   }
 
-  public void startRound() {
+  @ConsumeEvent("roundStart")
+  public void startRound(Game game) {
 
-    List<Round> rounds = getRounds();
+    Round round = this.game.getRounds().get(currentRound);
+
     for (int i = 0; i < 4; i++) {
-      Round round = rounds.get(i);
-      Quote q = round.quotes.get(i + 1);
-      System.out.println(q.text);
-      eventsSocket.broadcast(new NewQuoteEvent(q));
-      try {
-        Thread.sleep(5000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
 
-  }
+        Quote q = round.quotes.get(i + 1);
+        System.out.println(q.text);
+        vertx.setTimer(5, l -> {
+          eventsSocket.broadcast(new NewQuoteEvent(q));
+        });
+      }
+      currentRound++;
+    }
 }

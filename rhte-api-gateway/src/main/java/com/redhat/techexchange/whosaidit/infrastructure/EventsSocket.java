@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.infrastructure;
 
 import com.redhat.techexchange.whosaidit.domain.Event;
+import io.quarkus.vertx.ConsumeEvent;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.OnClose;
@@ -30,6 +31,7 @@ public class EventsSocket {
     sessions.remove("client");
   }
 
+  @ConsumeEvent("events")
   public void broadcast(Event event) {
       sessions.values().forEach(s -> {
       s.getAsyncRemote().sendObject(event.toString(), result ->  {

@@ -23,6 +23,8 @@ public class Round extends PanacheEntity {
     inverseJoinColumns = {@JoinColumn(name = "fk_quote")})
   public Map<Integer, Quote> quotes = new HashMap<>();
 
+  public String winner;
+
   public void addQuote(Quote quote) {
     this.quotes.put(this.quotes.size() + 1, quote);
   }

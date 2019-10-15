@@ -4,7 +4,8 @@ public enum EventType {
 
   NextQuoteEvent("NextQuoteEvent"),
   GameStartedEvent("GameStartedEvent"),
-  RoundStartedEvent("RoundStartedEvent");
+  RoundStartedEvent("RoundStartedEvent"),
+  RoundEndedEvent("RoundEndedEvent");
 
   public String title;
 
@@ -12,4 +13,5 @@ public enum EventType {
     this.title = titleToSet;
   }
 
+  public enum RoundEndedEvent {}
 }

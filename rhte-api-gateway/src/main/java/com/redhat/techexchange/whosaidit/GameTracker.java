@@ -9,8 +9,9 @@ import io.vertx.axle.core.eventbus.EventBus;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -44,7 +45,7 @@ public class GameTracker {
     for (int i = 1; i < 4; i++) {
       Round round = new Round();
       round.quotes = new HashMap<Integer, Quote>();
-      for(int j = 0; j < 4; j++){
+      for (int j = 0; j < 4; j++) {
         if (j % 2 == 0) {
           round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Hamilton));
         } else {
@@ -63,10 +64,10 @@ public class GameTracker {
     this.events = new LinkedHashSet<>();
     this.events.add(new GameStartedEvent());
     this.events.add(new RoundStartedEvent());
-    this.events.add(new NewQuoteEvent(new Quote("Quote #1", Quote.Author.Hamilton)));
+    this.events.add(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("Quote #1", Quote.Author.Hamilton)));
     this.events.add(new GuessReceivedEvent());
-    this.events.add(new NewQuoteEvent(new Quote("Quote #2", Quote.Author.Swarzeneggar)));
-    this.events.add(new NewQuoteEvent(new Quote("Quote #3", Quote.Author.Shakespeare)));
+    this.events.add(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("Quote #2", Quote.Author.Swarzeneggar)));
+    this.events.add(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("Quote #3", Quote.Author.Shakespeare)));
     this.events.add(new RoundEndedEvent());
     this.events.add(new GameEndedEvent());
 
@@ -95,14 +96,16 @@ public class GameTracker {
 
     System.out.println("startRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
-
+    eventsSocket.broadcast(new RoundStartedEvent());
     for (int i = 0; i < 4; i++) {
-        Quote q = round.quotes.get(i + 1);
-        System.out.println("next quote: " + q.text);
-        vertx.setTimer(5000, l -> {
-          eventsSocket.broadcast(new NewQuoteEvent(q));
-        });
-      }
-      currentRound++;
+      Quote q = round.quotes.get(i);
+      System.out.println("next quote: " + q.text + " " + q.getAuthor().name());
+      vertx.setTimer(5000, l -> {
+        eventsSocket.broadcast(new NextQuoteEvent(EventType.NextQuoteEvent, q));
+      });
     }
+    round.setWinner("@winner");
+    eventsSocket.broadcast(new RoundEndedEvent());
+    currentRound++;
+  }
 }

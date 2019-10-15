@@ -2,12 +2,13 @@ package com.redhat.techexchange.whosaidit.domain;
 
 public enum EventType {
 
-  GAME_STARTED("GameStartedEvent"),
+  GameStartedEvent("GameStartedEvent"),
   GAME_ENDED("GameEndedEvent"),
   ROUND_STARTED("RoundStarted"),
-  ROUND_ENDED("RoundEnded"),
-  NEW_QUOTE("NextQuoteEvent"),
-  NEW_GUESS("GuessReceivedEvent");
+  RoundEndedEvent("RoundEndedEvent"),
+  NextQuoteEvent("NextQuoteEvent"),
+  NEW_GUESS("GuessReceivedEvent"),
+  RoundStartedEvent("RoundStartedEvent");
 
   public String title;
 

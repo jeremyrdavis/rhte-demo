@@ -4,15 +4,11 @@ import com.redhat.techexchange.whosaidit.domain.*;
 import io.vertx.axle.core.eventbus.EventBus;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.New;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -42,7 +38,7 @@ public class GatewayResource {
   @GET
   @Path("/events/latest")
   public Response getLatestEvent() {
-    Event event = new NewQuoteEvent(new Quote("Quote #1", Quote.Author.Hamilton));
+    Event event = new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("Quote #1", Quote.Author.Hamilton));
     return Response.ok(gameTracker.getLatestEvent()).build();
   }
 
@@ -86,7 +82,7 @@ public class GatewayResource {
 
   @POST
   @Path("/event")
-  public Response addEvent(NewQuoteEvent event) {
+  public Response addEvent(NextQuoteEvent event) {
 //    gameTracker.addEvent(event);
     System.out.println(event.toString());
     return Response.status(Response.Status.OK).build();
@@ -108,5 +104,72 @@ public class GatewayResource {
     return Response.ok(new GameStartedEvent()).build();
   }
 
+  @GET
+  @Path("/test/{eventType}")
+  public Response getEventType(@PathParam("eventType") String eventType) {
+
+    switch (eventType) {
+      case "RoundEndedEvent":
+        Round round = mockGame().getRounds().get(1);
+        round.setWinner("@winner");
+      case "RoundStartedEvent":
+        round = mockGame().getRounds().get(1);
+        return Response.ok(new RoundEndedEvent(EventType.RoundEndedEvent, round)).build();
+      case "NextQuoteEvent" :
+        return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Quote.Author.Shakespeare))).build();
+      case "GameStartedEvent" :
+        return Response.ok(new GameStartedEvent(EventType.GameStartedEvent, mockGame())).build();
+/*
+        Round round = this.mockGame().getCurrentRound();
+*/
+      default:
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /*
+    private Game mockGame{
+
+      Game retVal = new Game();
+      HashMap<Integer, Round> rounds = new HashMap<>(4);
+
+/*
+      for (int i = 1; i < 4; i++) {
+        Round round = new Round();
+        round.quotes = new HashMap<Integer, Quote>();
+        for(int j = 0; j < 4; j++){
+          if (j % 2 == 0) {
+            round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Hamilton));
+          } else {
+            round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Shakespeare));
+          }
+        }
+//      round.setWinner("@winningplayer#" + i);
+//      rounds.put(i, round);
+        retVal.addRound(round);
+      }
+      return retVal;
+    }
+*/
+  }
+
+  private Game mockGame() {
+
+    Game game = new Game();
+    HashMap<Integer, Round> rounds = new HashMap<>(4);
+    for (int i = 1; i <=4; i++) {
+      Round round = new Round();
+      round.quotes = new HashMap<Integer, Quote>();
+      for (int j = 0; j < 4; j++) {
+        if (j % 2 == 0) {
+          round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Hamilton));
+        } else {
+          round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Shakespeare));
+        }
+
+      }
+      game.getRounds().put(i, round);
+    }
+    return game;
+  }
 
 }

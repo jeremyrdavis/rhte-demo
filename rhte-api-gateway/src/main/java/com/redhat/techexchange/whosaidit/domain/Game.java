@@ -9,7 +9,7 @@ public class Game {
 
   GameStatus status;
 
-  HashMap<Integer, Round> rounds;
+  HashMap<Integer, Round> rounds = new HashMap<>();
 
   public GameStatus getStatus() {
     return status;
@@ -25,5 +25,11 @@ public class Game {
 
   public void setRounds(HashMap<Integer, Round> rounds) {
     this.rounds = rounds;
+  }
+
+
+  public void addRound(Round round) {
+
+    this.rounds.put(this.rounds.size() + 1, round);
   }
 }

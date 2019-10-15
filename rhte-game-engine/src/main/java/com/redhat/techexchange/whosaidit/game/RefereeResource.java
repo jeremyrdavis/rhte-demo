@@ -87,6 +87,11 @@ public class RefereeResource {
   public Response getEventType(@PathParam("eventType") String eventType) {
 
     switch (eventType) {
+      case "RoundEndedEvent":
+        Round round = mockGame().getCurrentRound();
+        round.status = RoundStatus.COMPLETED;
+        round.winner = "@winner";
+        return Response.ok(new RoundEndedEvent(EventType.RoundStartedEvent, round)).build();
       case "RoundStartedEvent":
         return Response.ok(new RoundStartedEvent(EventType.RoundStartedEvent, mockGame().getCurrentRound())).build();
       case "NextQuoteEvent" :

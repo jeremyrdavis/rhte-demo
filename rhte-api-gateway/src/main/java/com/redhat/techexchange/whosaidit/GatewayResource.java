@@ -51,6 +51,13 @@ public class GatewayResource {
   }
 
   @POST
+  @Path("/event/quote")
+  public Response nextQuote() {
+    eventBus.publish("nextQuote", null);
+    return Response.ok().build();
+  }
+
+  @POST
   @Path("/round/start")
   public Response startRound() {
     eventBus.publish("roundStart", null);

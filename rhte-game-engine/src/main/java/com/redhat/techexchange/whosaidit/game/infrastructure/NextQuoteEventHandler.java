@@ -38,9 +38,13 @@ public class NextQuoteEventHandler {
     nextQuoteEvent.setQuote(quote);
     nextQuoteEvent.setEventType(EventType.NextQuoteEvent);
 //    nextQuoteEvent.timestamp = Date.from(Instant.now());
-    Response apiGatewayResponse = apiGatewayService.sendEvent(nextQuoteEvent);
-    if (apiGatewayResponse.getStatus() != 200)
-      throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
+    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendNextQuoteEvent(nextQuoteEvent)
+      .thenApply(r -> {
+        if (r.getStatus() != 200) {
+          throw new RuntimeException(String.valueOf(r.getStatus()));
+        }
+        return r;
+      });
 
     // Update TwitterService
     StringBuilder builder = new StringBuilder()

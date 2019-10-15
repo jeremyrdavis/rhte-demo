@@ -9,7 +9,9 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import java.time.Instant;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 
 @ApplicationScoped
@@ -38,7 +40,13 @@ public class GameStartedEventHandler {
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 
     // Update TwitterService
-    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate("WhoSaidIt Game Started!"));
+    StringBuilder builder = new StringBuilder()
+      .append("WhoSaidIt? Game Started!")
+      .append("\n")
+      .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("EST - -05:00"))));
+
+    StatusUpdate statusUpdate = new StatusUpdate(builder.toString());
+    Response twitterServiceResponse = twitterService.sendStatusUpdate(statusUpdate);
     if (twitterServiceResponse.getStatus() != 201)
       throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
 

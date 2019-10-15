@@ -39,6 +39,10 @@ public class HistoryResource {
       gameEvent.eventType = EventType.NextQuoteEvent;
       gameEvent.entityType = EntityType.Quote;
       gameEvent.data = jsonPayload.getJsonObject("quote").toString();
+    } else if (eventType.equals(EventType.GameStartedEvent.title)) {
+      gameEvent.eventType = EventType.GameStartedEvent;
+      gameEvent.entityType = EntityType.Game;
+      gameEvent.data = jsonPayload.getJsonObject("game").toString();
     }
     gameEvent.persist();
     return Response.ok().build();

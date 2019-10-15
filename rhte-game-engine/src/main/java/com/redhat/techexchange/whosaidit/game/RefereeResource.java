@@ -3,6 +3,7 @@ package com.redhat.techexchange.whosaidit.game;
 import com.redhat.techexchange.whosaidit.game.domain.*;
 import com.redhat.techexchange.whosaidit.game.infrastructure.GameStartedEventHandler;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
+import com.redhat.techexchange.whosaidit.game.infrastructure.RoundStartedEventHandler;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -86,6 +87,8 @@ public class RefereeResource {
   public Response getEventType(@PathParam("eventType") String eventType) {
 
     switch (eventType) {
+      case "RoundStartedEvent":
+        return Response.ok(new RoundStartedEvent(EventType.RoundStartedEvent, mockGame().getCurrentRound())).build();
       case "NextQuoteEvent" :
         return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Author.Shakespeare))).build();
       case "GameStartedEvent" :

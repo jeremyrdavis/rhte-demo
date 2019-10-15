@@ -54,9 +54,16 @@ public class GatewayResource {
     return Response.ok().build();
   }
 
+  @POST
+  @Path("/round/start")
+  public Response startRound() {
+    eventBus.publish("roundStart", null);
+    return Response.ok().build();
+  }
+
   @GET
   @Path("/rounds/")
-  public CompletionStage<String> startRounds() {
+  public CompletionStage<String> startMockGame() {
     CompletableFuture<String> future = new CompletableFuture<>();
     eventBus.publish("roundStart", null);
     return future;

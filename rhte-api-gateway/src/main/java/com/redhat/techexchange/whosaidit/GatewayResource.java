@@ -7,17 +7,22 @@ import com.redhat.techexchange.whosaidit.domain.Quote;
 import io.vertx.axle.core.eventbus.EventBus;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.New;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.StringReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @Path("/api")
-@Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class GatewayResource {
 
   @Inject
@@ -60,11 +65,35 @@ public class GatewayResource {
     return future;
   }
 
+/*
   @POST
   @Path("/event")
-  public Response addEvent(BaseEvent event) {
-    gameTracker.addEvent(event);
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response addEvent(String event) {
+//    gameTracker.addEvent(event);
+    JsonReader jsonReader = Json.createReader(new StringReader(event));
+    JsonObject jobj = jsonReader.readObject();
+    System.out.println(jobj);
+
     return Response.status(Response.Status.OK).build();
   }
+*/
+
+  @POST
+  @Path("/event")
+  public Response addEvent(NewQuoteEvent event) {
+//    gameTracker.addEvent(event);
+    System.out.println(event.toString());
+    return Response.status(Response.Status.OK).build();
+  }
+
+  @GET
+  @Path("/event")
+  public Response getEvent() {
+
+    return Response.ok(new NewQuoteEvent(new Quote("Test Quote", Quote.Author.Shakespeare))).build();
+  }
+
 
 }

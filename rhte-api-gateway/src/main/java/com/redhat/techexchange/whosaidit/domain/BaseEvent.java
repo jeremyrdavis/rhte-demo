@@ -4,6 +4,9 @@ public abstract class BaseEvent implements Event{
 
   EventType eventType;
 
+  public BaseEvent() {
+  }
+
   public BaseEvent(EventType eventType) {
     this.eventType = eventType;
   }

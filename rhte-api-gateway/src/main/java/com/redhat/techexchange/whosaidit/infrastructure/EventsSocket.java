@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ServerEndpoint("/api/events")
+@ServerEndpoint("/stream")
 @ApplicationScoped
 public class EventsSocket {
 
@@ -33,6 +33,7 @@ public class EventsSocket {
 
   @ConsumeEvent("events")
   public void broadcast(Event event) {
+    System.out.println("Sessions: " + sessions.size());
       sessions.values().forEach(s -> {
       s.getAsyncRemote().sendObject(event.toString(), result ->  {
         if (result.getException() != null) {

@@ -44,10 +44,12 @@ public class GameTracker {
     for (int i = 1; i < 4; i++) {
       Round round = new Round();
       round.quotes = new HashMap<Integer, Quote>();
-      if (i % 2 == 0) {
-        round.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Hamilton));
-      } else {
-        round.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Shakespeare));
+      for(int j = 0; j < 4; j++){
+        if (j % 2 == 0) {
+          round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Hamilton));
+        } else {
+          round.quotes.put(j, new Quote("Quote #" + j, Quote.Author.Shakespeare));
+        }
       }
       round.setWinner("@winningplayer#" + i);
       rounds.put(i, round);
@@ -91,13 +93,13 @@ public class GameTracker {
   @ConsumeEvent("roundStart")
   public void startRound(Game game) {
 
+    System.out.println("startRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
 
     for (int i = 0; i < 4; i++) {
-
         Quote q = round.quotes.get(i + 1);
-        System.out.println(q.text);
-        vertx.setTimer(5, l -> {
+        System.out.println("next quote: " + q.text);
+        vertx.setTimer(5000, l -> {
           eventsSocket.broadcast(new NewQuoteEvent(q));
         });
       }

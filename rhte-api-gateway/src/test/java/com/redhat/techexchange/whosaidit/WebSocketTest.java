@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @QuarkusTest
 public class WebSocketTest {
 
-  @TestHTTPResource("/events")
+  @TestHTTPResource("/api/stream")
   URI uri;
 
   private static final LinkedBlockingDeque<String> MESSAGES = new LinkedBlockingDeque<>();

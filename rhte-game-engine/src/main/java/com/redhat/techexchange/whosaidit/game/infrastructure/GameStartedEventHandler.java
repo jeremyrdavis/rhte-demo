@@ -1,15 +1,20 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.*;
+import com.redhat.techexchange.whosaidit.game.domain.EventType;
+import com.redhat.techexchange.whosaidit.game.domain.Game;
+import com.redhat.techexchange.whosaidit.game.domain.GameStartedEvent;
+import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Date;
 import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
@@ -41,6 +46,14 @@ public class GameStartedEventHandler {
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 */
 
+    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendGameStartedEvent(gameStartedEvent)
+      .thenApply(r -> {
+        if (r.getStatus() != 200) {
+          throw new RuntimeException(String.valueOf(r.getStatus()));
+        }
+        return r;
+      });
+
 
     // Update TwitterService
     StringBuilder builder = new StringBuilder()
@@ -51,7 +64,7 @@ public class GameStartedEventHandler {
     StatusUpdate statusUpdate = new StatusUpdate(builder.toString());
     CompletionStage<Response> twitterServiceResponse = twitterService.sendStatusUpdate(statusUpdate)
       .thenApply(r -> {
-        if(r.getStatus() != 201){
+        if (r.getStatus() != 201) {
           throw new RuntimeException(String.valueOf(r.getStatus()));
         }
         return r;
@@ -60,7 +73,7 @@ public class GameStartedEventHandler {
     // Log to HistoryService
     CompletionStage<Response> historyServiceResponse = historyService.sendEvent(gameStartedEvent)
       .thenApply(r -> {
-        if(r.getStatus() != 201){
+        if (r.getStatus() != 200) {
           throw new RuntimeException(String.valueOf(r.getStatus()));
         }
         return r;

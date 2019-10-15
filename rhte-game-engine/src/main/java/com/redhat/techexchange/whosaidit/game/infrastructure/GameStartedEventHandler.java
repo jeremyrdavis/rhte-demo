@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.Event;
 import com.redhat.techexchange.whosaidit.game.domain.Game;
+import com.redhat.techexchange.whosaidit.game.domain.GameStartedEvent;
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -28,8 +29,8 @@ public class GameStartedEventHandler {
 
   void handle(Game game) {
 
-    Event gameStartedEvent = new Event();
-    gameStartedEvent.timestamp = Date.from(Instant.now());
+    GameStartedEvent gameStartedEvent = new GameStartedEvent();
+//    gameStartedEvent.timestamp = Date.from(Instant.now());
 
     // Update ApiGateway
     Response apiGatewayResponse = apiGatewayService.sendEvent(gameStartedEvent);

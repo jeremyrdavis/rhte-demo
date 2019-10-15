@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.Event;
+import com.redhat.techexchange.whosaidit.game.domain.NextQuoteEvent;
 import com.redhat.techexchange.whosaidit.game.domain.Quote;
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -28,10 +29,9 @@ public class NextQuoteEventHandler {
 
   public void handle(Quote quote) {
 
-    Event nextQuoteEvent = new Event();
-    nextQuoteEvent.timestamp = Date.from(Instant.now());
-
     // Update ApiGateway
+    NextQuoteEvent nextQuoteEvent = new NextQuoteEvent();
+//    nextQuoteEvent.timestamp = Date.from(Instant.now());
     Response apiGatewayResponse = apiGatewayService.sendEvent(nextQuoteEvent);
     if (apiGatewayResponse.getStatus() != 200)
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));

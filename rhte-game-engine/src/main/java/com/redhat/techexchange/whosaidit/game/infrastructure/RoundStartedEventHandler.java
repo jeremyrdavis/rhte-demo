@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.Event;
 import com.redhat.techexchange.whosaidit.game.domain.Round;
+import com.redhat.techexchange.whosaidit.game.domain.RoundStartedEvent;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +21,7 @@ public class RoundStartedEventHandler {
 
   public void handle(Round round) {
 
-    Event roundStartedEvent = new Event();
+    RoundStartedEvent roundStartedEvent = new RoundStartedEvent();
     apiGatewayService.sendEvent(roundStartedEvent);
     historyService.sendEvent(roundStartedEvent);
   }

@@ -3,6 +3,7 @@ package com.redhat.techexchange.whosaidit.game.domain;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -50,5 +51,21 @@ public class Quote extends PanacheEntity {
       .append("id", id)
       .append("text", text)
       .append("author", author.name()).toString();
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public Author getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(Author author) {
+    this.author = author;
   }
 }

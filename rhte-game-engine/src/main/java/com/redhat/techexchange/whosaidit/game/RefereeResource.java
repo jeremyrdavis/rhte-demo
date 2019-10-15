@@ -1,8 +1,6 @@
 package com.redhat.techexchange.whosaidit.game;
 
-import com.redhat.techexchange.whosaidit.game.domain.Game;
-import com.redhat.techexchange.whosaidit.game.domain.Quote;
-import com.redhat.techexchange.whosaidit.game.domain.Round;
+import com.redhat.techexchange.whosaidit.game.domain.*;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 
 import javax.inject.Inject;
@@ -78,6 +76,18 @@ public class RefereeResource {
   public Response sendTestQuote() {
     referee.testQuote();
     return Response.ok().build();
+  }
+
+  @GET
+  @Path("/test/{eventType}")
+  public Response getEventType(@PathParam("eventType") String eventType) {
+
+    switch (eventType) {
+      case "NextQuoteEvent" :
+        return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Author.Shakespeare))).build();
+      default:
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
   }
 
 }

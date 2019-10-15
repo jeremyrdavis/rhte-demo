@@ -2,9 +2,10 @@ package com.redhat.techexchange.whosaidit.historyservice.domain;
 
 public enum EventType {
 
-  GameStartedEvent("GameStartedEvent"),
-  RoundStartedEvent("RoundStartedEvent"),
-  RoundEndedEvent("RoundEndedEvent");
+  GameStartedEvent("gameStartedEvent"),
+  RoundStartedEvent("roundStartedEvent"),
+  RoundEndedEvent("roundEndedEvent"),
+  NextQuoteEvent("nextQuoteEvent");
 
   public String title;
 

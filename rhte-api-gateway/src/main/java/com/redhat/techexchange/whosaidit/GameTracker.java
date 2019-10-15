@@ -6,7 +6,10 @@ import com.redhat.techexchange.whosaidit.infrastructure.EventsSocket;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -38,10 +41,10 @@ public class GameTracker {
 
     Round round1 = new Round();
     round1.quotes = new HashMap<Integer, Quote>();
-    for(int i=1;i<4;i++){
-      if(i % 2 == 0){
+    for (int i = 1; i < 4; i++) {
+      if (i % 2 == 0) {
         round1.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Hamilton));
-      }else{
+      } else {
         round1.quotes.put(i, new Quote("Quote #" + i, Quote.Author.Shakespeare));
       }
     }
@@ -85,7 +88,12 @@ public class GameTracker {
     this.events.add(event);
   }
 
-  public void start() {
+  public void startGame() {
+
+    System.out.println("startGame");
+  }
+
+  public void startRound() {
 
     List<Round> rounds = getRounds();
     for (int i = 0; i < 4; i++) {

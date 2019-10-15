@@ -41,13 +41,17 @@ public class GatewayResource {
   @GET
   @Path("/game")
   public Response getGame() {
-    return Response.ok(gameTracker.getGame()).build();
+
+    gameTracker.startGame();
+    return Response.ok().build();
   }
 
   @GET
-  @Path("/rounds")
+  @Path("/rounds/")
   public Response getAllRounds() {
-    return Response.ok(gameTracker.getRounds()).build();
+
+    gameTracker.startRound();
+    return Response.ok().build();
   }
 
   @POST
@@ -57,10 +61,11 @@ public class GatewayResource {
     return Response.status(Response.Status.OK).build();
   }
 
-  @POST
-  @Path("/start")
+  @GET
+  @Path("/game/start")
   public Response startGame() {
-    gameTracker.start();
+    System.out.println("Game starting");
+    gameTracker.startGame();
     return Response.status(Response.Status.OK).build();
   }
 

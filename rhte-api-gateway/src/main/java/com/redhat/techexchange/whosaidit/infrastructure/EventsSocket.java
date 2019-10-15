@@ -7,10 +7,11 @@ import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ServerEndpoint("/events")
+@ServerEndpoint("/api/events")
 @ApplicationScoped
 public class EventsSocket {
 
@@ -18,6 +19,9 @@ public class EventsSocket {
 
   @OnOpen
   public void onOpen(Session session) {
+    if (sessions == null) {
+      sessions = new HashMap<>();
+    }
     sessions.put("client", session);
   }
 
@@ -27,7 +31,7 @@ public class EventsSocket {
   }
 
   public void broadcast(Event event) {
-    sessions.values().forEach(s -> {
+      sessions.values().forEach(s -> {
       s.getAsyncRemote().sendObject(event.toString(), result ->  {
         if (result.getException() != null) {
           System.out.println("Unable to send message: " + result.getException());

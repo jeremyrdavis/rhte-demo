@@ -7,7 +7,7 @@ public enum EventType {
   ROUND_STARTED("RoundStarted"),
   RoundEndedEvent("RoundEndedEvent"),
   NextQuoteEvent("NextQuoteEvent"),
-  NEW_GUESS("GuessReceivedEvent"),
+  GuessReceivedEvent("GuessReceivedEvent"),
   RoundStartedEvent("RoundStartedEvent");
 
   public String title;

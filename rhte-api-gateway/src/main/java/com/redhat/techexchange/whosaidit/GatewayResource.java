@@ -125,6 +125,8 @@ public class GatewayResource {
       case "RoundStartedEvent":
         round = mockGame().getRounds().get(1);
         return Response.ok(new RoundEndedEvent(EventType.RoundStartedEvent, round)).build();
+      case "GuessReceivedEvent" :
+        return Response.ok(new GuessReceivedEvent(EventType.GuessReceivedEvent, "@player1")).build();
       case "NextQuoteEvent" :
         return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Quote.Author.Shakespeare))).build();
       case "GameStartedEvent" :

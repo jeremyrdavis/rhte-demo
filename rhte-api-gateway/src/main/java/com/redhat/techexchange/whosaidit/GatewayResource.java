@@ -1,9 +1,6 @@
 package com.redhat.techexchange.whosaidit;
 
-import com.redhat.techexchange.whosaidit.domain.BaseEvent;
-import com.redhat.techexchange.whosaidit.domain.Event;
-import com.redhat.techexchange.whosaidit.domain.NewQuoteEvent;
-import com.redhat.techexchange.whosaidit.domain.Quote;
+import com.redhat.techexchange.whosaidit.domain.*;
 import io.vertx.axle.core.eventbus.EventBus;
 
 import javax.annotation.PostConstruct;
@@ -88,11 +85,20 @@ public class GatewayResource {
     return Response.status(Response.Status.OK).build();
   }
 
+  @POST
+  @Path("/event")
+  public Response addEvent(GameStartedEvent event) {
+//    gameTracker.addEvent(event);
+    System.out.println(event.toString());
+    return Response.status(Response.Status.OK).build();
+  }
+
   @GET
   @Path("/event")
   public Response getEvent() {
 
-    return Response.ok(new NewQuoteEvent(new Quote("Test Quote", Quote.Author.Shakespeare))).build();
+//    return Response.ok(new NewQuoteEvent(new Quote("Test Quote", Quote.Author.Shakespeare))).build();
+    return Response.ok(new GameStartedEvent()).build();
   }
 
 

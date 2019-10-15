@@ -88,7 +88,7 @@ public class GatewayResource {
   @POST
   @Path("/event")
   public Response addEvent(GameStartedEvent event) {
-//    gameTracker.addEvent(event);
+    gameTracker.addEvent(event);
     System.out.println(event.toString());
     return Response.status(Response.Status.OK).build();
   }

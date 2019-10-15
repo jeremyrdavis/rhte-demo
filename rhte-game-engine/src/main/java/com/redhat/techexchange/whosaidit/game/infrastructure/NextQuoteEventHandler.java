@@ -7,8 +7,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import java.time.Instant;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
 public class NextQuoteEventHandler {
@@ -40,14 +43,29 @@ public class NextQuoteEventHandler {
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 
     // Update TwitterService
-    Response twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate(quote.toString()));
-    if (twitterServiceResponse.getStatus() != 201)
-      throw new RuntimeException(String.valueOf(twitterServiceResponse.getStatus()));
+    StringBuilder builder = new StringBuilder()
+      .append(quote.text)
+      .append("\n")
+      .append("A. Shakespeare\n")
+      .append("B. Swarzeneggar\n")
+      .append("C. Hamilton\n");
+
+    CompletionStage<Response> twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate(builder.toString()))
+      .thenApply(r -> {
+        if(r.getStatus() != 201){
+          throw new RuntimeException(String.valueOf(r.getStatus()));
+        }
+        return r;
+      });
 
     // Log to HistoryService
-    Response historyServiceResponse = historyService.sendEvent(nextQuoteEvent);
-    if (historyServiceResponse.getStatus() != 200)
-      throw new RuntimeException(String.valueOf(historyServiceResponse.getStatus()));
+    CompletionStage<Response> historyServiceResponse = historyService.sendEvent(nextQuoteEvent)
+      .thenApply(r -> {
+        if(r.getStatus() != 201){
+          throw new RuntimeException(String.valueOf(r.getStatus()));
+        }
+        return r;
+      });
   }
 
 }

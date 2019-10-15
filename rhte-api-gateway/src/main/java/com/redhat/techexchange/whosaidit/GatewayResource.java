@@ -89,7 +89,7 @@ public class GatewayResource {
   @Path("/event/game/started")
   public Response addEvent(GameStartedEvent event) {
     gameTracker.addEvent(event);
-    System.out.println(event.toString());
+    System.out.println(event.getEventType());
     return Response.status(Response.Status.OK).build();
   }
 

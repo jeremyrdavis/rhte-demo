@@ -33,6 +33,8 @@ public class RoundStartedEventHandler {
 
     RoundStartedEvent roundStartedEvent = new RoundStartedEvent(EventType.RoundStartedEvent, round);
 
+    System.out.println(roundStartedEvent.getEventType().title);
+
     //call Api Gateway
     CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendRoundStartedEvent(roundStartedEvent)
       .thenApply(r -> {
@@ -54,7 +56,7 @@ public class RoundStartedEventHandler {
     //send update to Twitter
     // Update TwitterService
     StringBuilder builder = new StringBuilder()
-      .append("WhoSaidIt? Next Round!")
+      .append("WhoSaidIt? New Round!")
       .append("\n")
       .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("America/New_York"))));
 

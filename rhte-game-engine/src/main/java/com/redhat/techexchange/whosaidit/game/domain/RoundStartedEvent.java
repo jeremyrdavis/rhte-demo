@@ -7,6 +7,7 @@ public class RoundStartedEvent implements Event{
   Round round;
 
   public RoundStartedEvent() {
+    this.eventType = EventType.RoundStartedEvent;
   }
 
   public RoundStartedEvent(EventType eventType, Round round) {

@@ -1,11 +1,13 @@
 package com.redhat.techexchange.whosaidit.domain;
 
-public class NextQuoteEvent extends BaseEvent implements Event{
+public class NextQuoteEvent implements Event{
+
+  EventType eventType;
 
   Quote quote;
 
   public NextQuoteEvent() {
-    super();
+    this.eventType = EventType.NextQuoteEvent;
   }
 
   public NextQuoteEvent(EventType eventType, Quote quote) {
@@ -13,11 +15,18 @@ public class NextQuoteEvent extends BaseEvent implements Event{
     this.quote = (Quote) quote;
   }
 
-  public Quote getQuote() {
-    return this.quote;
+  public void setEventType(EventType eventType) {
+    this.eventType = eventType;
   }
 
-  @Override
+  public Quote getQuote() {
+    return quote;
+  }
+
+  public void setQuote(Quote quote) {
+    this.quote = quote;
+  }
+
   public String getEventType() {
     return this.eventType.title;
   }

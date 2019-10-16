@@ -31,11 +31,11 @@ public class EventsSocket {
     sessions.remove("client");
   }
 
-  @ConsumeEvent("events")
-  public void broadcast(Event event) {
-    System.out.println("Broadcasting: " + event.getEventType() + " to " + sessions.size() + " sessions");
+  public void broadcast(String event) {
+//    System.out.println("Broadcasting: " + event.getEventType() + " to " + sessions.size() + " sessions");
+    System.out.println("Broadcasting: " + event + " to " + sessions.size() + " sessions");
       sessions.values().forEach(s -> {
-      s.getAsyncRemote().sendObject(event.toString(), result ->  {
+      s.getAsyncRemote().sendObject(event, result ->  {
         if (result.getException() != null) {
           System.out.println("Unable to send message: " + result.getException());
         }

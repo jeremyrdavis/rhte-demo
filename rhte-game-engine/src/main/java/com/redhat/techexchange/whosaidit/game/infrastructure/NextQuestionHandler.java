@@ -50,6 +50,8 @@ public class NextQuestionHandler {
       latch.countDown();
     };
 
+    System.out.println("NextQuestionHandler sending\n" + event.toString());
+
     API_GATEWAY_CLIENT.sendNextQuoteEvent(event).whenCompleteAsync(consumer);
     HISTORY_SERVICE_CLIENT.sendEvent(event).whenCompleteAsync(consumer);
     TWITTER_SERVICE_CLIENT.sendStatusUpdate(new StatusUpdate(builder.toString())).whenCompleteAsync(consumer);

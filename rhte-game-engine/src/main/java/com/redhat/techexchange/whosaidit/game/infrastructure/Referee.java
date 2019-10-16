@@ -20,7 +20,7 @@ public class Referee {
   RoundEndedEventHandler roundEndedEventHandler;
 
   @Inject
-  NextQuestionHandler nextQuoteEventHandler;
+  NextQuoteEventHandler nextQuoteEventHandler;
 
   Long currentGameId;
 
@@ -106,7 +106,7 @@ public class Referee {
 
   void onNextQuote(Quote quote) {
     NextQuoteEvent event = new NextQuoteEvent(EventType.NextQuoteEvent, quote);
-    nextQuoteEventHandler.handle(event);
+    nextQuoteEventHandler.handle(quote);
     System.out.println("onNextQuote");
   }
 

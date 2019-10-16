@@ -61,6 +61,7 @@ public class GameTracker {
     }
 
 
+/*
     this.game = new Game();
     this.game.setStatus(GameStatus.STARTED);
     this.game.setRounds(rounds);
@@ -74,6 +75,7 @@ public class GameTracker {
     this.events.add(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("Quote #3", Quote.Author.Shakespeare)));
     this.events.add(new RoundEndedEvent());
     this.events.add(new GameEndedEvent());
+*/
 
   }
 
@@ -100,7 +102,7 @@ public class GameTracker {
 
     logger.debug("startRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
-    eventsSocket.broadcast(new RoundStartedEvent());
+//    eventsSocket.broadcast(new RoundStartedEvent());
 /*
     for (int i = 0; i < 4; i++) {
       Quote q = round.quotes.get(i);
@@ -121,7 +123,7 @@ public class GameTracker {
     logger.debug("endRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
 //    round.setWinner("@winner");
-    eventsSocket.broadcast(new RoundEndedEvent(EventType.RoundEndedEvent, round));
+//    eventsSocket.broadcast(new RoundEndedEvent(EventType.RoundEndedEvent, round));
     currentRound++;
   }
 }

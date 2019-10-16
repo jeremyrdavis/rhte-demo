@@ -29,4 +29,15 @@ public class NextQuoteEvent implements Event{
   public void setQuote(Quote quote) {
     this.quote = quote;
   }
+
+  @Override
+  public String toString() {
+    return new StringBuilder()
+      .append("NextQuoteEvent[eventType=")
+      .append(eventType.title)
+      .append(",quote=[")
+      .append(quote.text)
+      .append(",author=")
+      .append(quote.author.name()).toString();
+  }
 }

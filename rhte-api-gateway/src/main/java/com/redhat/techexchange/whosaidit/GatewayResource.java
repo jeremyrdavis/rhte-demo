@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit;
 
 import com.redhat.techexchange.whosaidit.domain.*;
+import com.redhat.techexchange.whosaidit.infrastructure.EventsSocket;
 import io.vertx.axle.core.eventbus.EventBus;
 import io.vertx.axle.core.eventbus.Message;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class GatewayResource {
   GameTracker gameTracker;
 
   @Inject
-  EventBus eventBus;
+  EventsSocket eventsSocket;
 
   @PostConstruct
   void setUp() {
@@ -51,16 +52,17 @@ public class GatewayResource {
   @Path("/event/game/start")
   public Response startGame() {
     logger.debug("GatewayResource.startGame");
-    eventBus.publish("events", null);
+    eventsSocket.broadcast("Game started!");
     gameTracker.startGame();
     return Response.ok().build();
   }
 
   @POST
   @Path("/event/quote")
-  public Response nextQuote() {
+  public Response nextQuote(String event) {
     logger.debug("GatewayResource.nextQuote");
-    eventBus.publish("nextQuote", null);
+    eventsSocket.broadcast(event);
+//    eventBus.publish("nextQuote", event);
     return Response.ok().build();
   }
 
@@ -68,15 +70,17 @@ public class GatewayResource {
   @Path("/event/round/start")
   public Response startRound(RoundStartedEvent event) {
     logger.debug("GatewayResource.startRound");
-    eventBus.publish("events", null);
+    eventsSocket.broadcast("Round Started!");
+//    eventBus.publish("events", null);
     return Response.ok().build();
   }
 
   @POST
   @Path("/event/round/end")
-  public Response endRound() {
+  public Response endRound(String event) {
     logger.debug("GatewayResource.endRound");
-    eventBus.publish("roundEnd", null);
+    eventsSocket.broadcast(event);
+//    eventBus.publish("roundEnd", null);
     return Response.ok().build();
   }
 
@@ -84,7 +88,7 @@ public class GatewayResource {
   @Path("/rounds/")
   public CompletionStage<String> startMockGame() {
     CompletableFuture<String> future = new CompletableFuture<>();
-    eventBus.publish("roundStart", null);
+//    eventBus.publish("roundStart", null);
     return future;
   }
 

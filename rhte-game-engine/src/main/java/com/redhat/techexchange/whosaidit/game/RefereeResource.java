@@ -5,6 +5,7 @@ import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -68,6 +69,14 @@ public class RefereeResource {
       .add("quotes", quotesBuilder.build());
 
     return Response.ok(roundBuilder.build()).build();
+  }
+
+  @POST
+  @Path("/mentions")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public Response addMention(String player) {
+    referee.addPlayer(player);
+    return Response.ok().build();
   }
 
   @POST

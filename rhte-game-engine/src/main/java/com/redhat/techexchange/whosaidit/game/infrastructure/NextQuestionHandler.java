@@ -1,6 +1,7 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.NextQuoteEvent;
+import com.redhat.techexchange.whosaidit.game.domain.Quote;
 import com.redhat.techexchange.whosaidit.game.domain.RoundStartedEvent;
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -9,6 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
@@ -38,7 +40,8 @@ public class NextQuestionHandler {
       .append("\n")
       .append("A. Shakespeare\n")
       .append("B. Swarzeneggar\n")
-      .append("C. Hamilton\n");
+      .append("C. Hamilton\n")
+      .append(UUID.randomUUID());
 
     final CountDownLatch latch = new CountDownLatch(3);
     final AtomicReference<Throwable> throwable = new AtomicReference<>();
@@ -50,7 +53,7 @@ public class NextQuestionHandler {
       latch.countDown();
     };
 
-    System.out.println("NextQuestionHandler sending\n" + event.toString());
+    System.out.println("NextQuestionHandler sending\n" + event.getQuote().text);
 
     API_GATEWAY_CLIENT.sendNextQuoteEvent(event.toString()).whenCompleteAsync(consumer);
     HISTORY_SERVICE_CLIENT.sendEvent(event).whenCompleteAsync(consumer);
@@ -64,8 +67,11 @@ public class NextQuestionHandler {
 
     Throwable t = throwable.get();
     if (t != null) {
+      System.out.println(t);
+/*
       throw new WebApplicationException("Failure in downstream service",
         t, 500);
+*/
     }
   }
 }

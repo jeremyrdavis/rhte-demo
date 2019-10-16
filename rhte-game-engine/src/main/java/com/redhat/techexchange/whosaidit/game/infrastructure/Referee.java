@@ -20,16 +20,15 @@ public class Referee {
   RoundEndedEventHandler roundEndedEventHandler;
 
   @Inject
-  NextQuoteEventHandler nextQuoteEventHandler;
+  NextQuestionHandler nextQuoteEventHandler;
 
   Long currentGameId;
 
   Integer currentRound = 1;
 
-  Set<Player> players = new HashSet<>();
+  Set<String> players = new HashSet<>();
 
   @Transactional
-
   public Game createGame() {
 
     List<Quote> allQuotes = Quote.listAll();
@@ -53,8 +52,7 @@ public class Referee {
     return game;
   }
 
-  @Transactional
-  public Game startRound() {
+  public void startRound() {
 
     if (currentGameId == null) {
       createGame();
@@ -76,19 +74,25 @@ public class Referee {
       }
     }
 
-    for (int i = 0; i < 5; i++) {
-      players.add(new Player("Player#" + i));
-    }
-
-    List<Player> playersList = new ArrayList<>(players);
-    Collections.shuffle(playersList);
-    Player winner = playersList.get(0);
-    round.winner = winner.getName();
     game.completeRound(currentRound);
-    onRoundEnd(round);
     currentRound++;
+    addWinner();
+  }
+
+  @Transactional
+  void addWinner() {
+    Game game = Game.findById(currentGameId);
+    Round round = game.getRounds().get(4);
+    round.winner = pickWinner();
     game.persist();
-    return game;
+    onRoundEnd(round);
+  }
+
+  private String pickWinner() {
+
+    List<String> playersList = new ArrayList<>(players);
+    Collections.shuffle(playersList);
+    return playersList.get(0);
   }
 
   public Round getCurrentRound() {
@@ -104,9 +108,13 @@ public class Referee {
     return game;
   }
 
+  public void addPlayer(String player) {
+    this.players.add(player);
+  }
+
   void onNextQuote(Quote quote) {
     NextQuoteEvent event = new NextQuoteEvent(EventType.NextQuoteEvent, quote);
-    nextQuoteEventHandler.handle(quote);
+    nextQuoteEventHandler.handle(event);
     System.out.println("onNextQuote");
   }
 

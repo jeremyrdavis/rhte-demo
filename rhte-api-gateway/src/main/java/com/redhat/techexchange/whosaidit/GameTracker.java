@@ -97,6 +97,7 @@ public class GameTracker {
     System.out.println("startRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
     eventsSocket.broadcast(new RoundStartedEvent());
+/*
     for (int i = 0; i < 4; i++) {
       Quote q = round.quotes.get(i);
       System.out.println("next quote: " + q.text + " " + q.getAuthor().name());
@@ -106,6 +107,17 @@ public class GameTracker {
     }
     round.setWinner("@winner");
     eventsSocket.broadcast(new RoundEndedEvent());
+*/
+    currentRound++;
+  }
+
+  @ConsumeEvent("roundEnd")
+  public void endRound(Game game) {
+
+    System.out.println("endRound: " + currentRound);
+    Round round = this.game.getRounds().get(currentRound);
+//    round.setWinner("@winner");
+    eventsSocket.broadcast(new RoundEndedEvent(EventType.RoundEndedEvent, round));
     currentRound++;
   }
 }

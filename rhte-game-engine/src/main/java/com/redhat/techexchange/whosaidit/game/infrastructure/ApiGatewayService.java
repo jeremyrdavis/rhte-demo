@@ -1,9 +1,6 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.Event;
-import com.redhat.techexchange.whosaidit.game.domain.GameStartedEvent;
-import com.redhat.techexchange.whosaidit.game.domain.NextQuoteEvent;
-import com.redhat.techexchange.whosaidit.game.domain.RoundStartedEvent;
+import com.redhat.techexchange.whosaidit.game.domain.*;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.POST;
@@ -33,4 +30,7 @@ public interface ApiGatewayService{
   @Path("/event/round/start")
   public CompletionStage<Response> sendRoundStartedEvent(RoundStartedEvent event);
 
+  @POST
+  @Path("/event/round/end")
+  CompletionStage<Response> sendRoundEndedEvent(RoundEndedEvent roundEndedEvent);
 }

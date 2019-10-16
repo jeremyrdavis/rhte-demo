@@ -18,6 +18,9 @@ public class Referee {
   RoundStartedEventHandler roundStartedEventHandler;
 
   @Inject
+  RoundEndedEventHandler roundEndedEventHandler;
+
+  @Inject
   NextQuoteEventHandler nextQuoteEventHandler;
 
   Long currentGameId;
@@ -83,6 +86,7 @@ public class Referee {
     Player winner = playersList.get(0);
     round.winner = winner.getName();
     game.completeRound(currentRound);
+    onRoundEnd(round);
     currentRound++;
     game.persist();
     return game;
@@ -114,6 +118,11 @@ public class Referee {
   private void onRoundStart(Round round) {
     System.out.println("onRoundStart");
     roundStartedEventHandler.handle(round);
+  }
+
+  void onRoundEnd(Round round) {
+    System.out.println("onRoundEnd");
+    roundEndedEventHandler.handle(round);
   }
 
   public void testQuote() {

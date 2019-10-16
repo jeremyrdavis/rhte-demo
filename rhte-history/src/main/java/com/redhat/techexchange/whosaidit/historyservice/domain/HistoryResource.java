@@ -44,7 +44,7 @@ public class HistoryResource {
       gameEvent.entityType = EntityType.Game;
       gameEvent.data = jsonPayload.getJsonObject("game").toString();
     } else if (eventType.equals(EventType.RoundStartedEvent.title)) {
-      gameEvent.eventType = EventType.RoundEndedEvent;
+      gameEvent.eventType = EventType.RoundStartedEvent;
       gameEvent.entityType = EntityType.Round;
       gameEvent.data = jsonPayload.getJsonObject("round").toString();
     } else if (eventType.equals(EventType.RoundEndedEvent)) {

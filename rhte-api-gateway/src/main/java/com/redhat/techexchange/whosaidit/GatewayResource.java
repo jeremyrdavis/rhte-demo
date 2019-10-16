@@ -66,6 +66,14 @@ public class GatewayResource {
     return Response.ok().build();
   }
 
+  @POST
+  @Path("/event/round/end")
+  public Response endRound() {
+    System.out.println("GatewayResource.endRound");
+    eventBus.publish("roundEnd", null);
+    return Response.ok().build();
+  }
+
   @GET
   @Path("/rounds/")
   public CompletionStage<String> startMockGame() {

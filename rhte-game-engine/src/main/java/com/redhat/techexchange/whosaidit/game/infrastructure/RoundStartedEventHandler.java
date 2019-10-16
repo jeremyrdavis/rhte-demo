@@ -14,8 +14,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.concurrent.CompletionStage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ApplicationScoped
 public class RoundStartedEventHandler {
+
+  Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Inject
   @RestClient
@@ -33,13 +38,13 @@ public class RoundStartedEventHandler {
 
     RoundStartedEvent roundStartedEvent = new RoundStartedEvent(EventType.RoundStartedEvent, round);
 
-    System.out.println(roundStartedEvent.getEventType().title);
+    logger.debug(roundStartedEvent.getEventType().title);
 
     //call Api Gateway
     CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendRoundStartedEvent(roundStartedEvent)
       .thenApply(r -> {
         if (r.getStatus() != 200) {
-          throw new RuntimeException(String.valueOf(r.getStatus()));
+          logger.error(String.valueOf(r.getStatus()));
         }
         return r;
       });
@@ -48,7 +53,7 @@ public class RoundStartedEventHandler {
     CompletionStage<Response> historyServiceResponse = historyService.sendEvent(roundStartedEvent)
       .thenApply(r -> {
         if (r.getStatus() != 200) {
-          throw new RuntimeException(String.valueOf(r.getStatus()));
+          logger.error(String.valueOf(r.getStatus()));
         }
         return r;
       });
@@ -58,12 +63,12 @@ public class RoundStartedEventHandler {
     StringBuilder builder = new StringBuilder()
       .append("WhoSaidIt? New Round!")
       .append("\n")
-      .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("America/New_York"))));
+      .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("America/New_York"))));
 
     CompletionStage<Response> twitterServiceResponse = twitterService.sendStatusUpdate(new StatusUpdate(builder.toString()))
       .thenApply(r -> {
         if (r.getStatus() != 201) {
-          throw new RuntimeException(String.valueOf(r.getStatus()));
+          logger.error(String.valueOf(r.getStatus()));
         }
         return r;
       });

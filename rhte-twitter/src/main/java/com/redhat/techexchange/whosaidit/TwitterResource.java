@@ -16,6 +16,9 @@ public class TwitterResource {
   @Inject
   TwitterService twitterService;
 
+  @Inject
+  TwitterReader twitterReader;
+
   @POST
   @Path("/status")
   public Response publishStatus(PublishStatusCommand publishStatusCommand) {
@@ -32,4 +35,17 @@ public class TwitterResource {
     return Response.status(Response.Status.OK).entity(replies).build();
   }
 
+  @POST
+  @Path("/activate")
+  public Response activateReader() {
+    twitterReader.setActive(true);
+    return Response.status(Response.Status.OK).build();
+  }
+
+  @POST
+  @Path("/deactivate")
+  public Response deactivateReader() {
+    twitterReader.setActive(false);
+    return Response.status(Response.Status.OK).build();
+  }
 }

@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit;
 
 import com.redhat.techexchange.whosaidit.domain.*;
 import io.vertx.axle.core.eventbus.EventBus;
+import io.vertx.axle.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +51,7 @@ public class GatewayResource {
   @Path("/event/game/start")
   public Response startGame() {
     logger.debug("GatewayResource.startGame");
+    eventBus.publish("events", null);
     gameTracker.startGame();
     return Response.ok().build();
   }
@@ -64,9 +66,9 @@ public class GatewayResource {
 
   @POST
   @Path("/event/round/start")
-  public Response startRound() {
+  public Response startRound(RoundStartedEvent event) {
     logger.debug("GatewayResource.startRound");
-    eventBus.publish("roundStart", null);
+    eventBus.publish("events", null);
     return Response.ok().build();
   }
 

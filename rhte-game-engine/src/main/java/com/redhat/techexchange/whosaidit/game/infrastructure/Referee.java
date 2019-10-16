@@ -1,7 +1,6 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.*;
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,7 +14,7 @@ public class Referee {
   GameStartedEventHandler gameStartedEventHandler;
 
   @Inject
-  RoundStartedEventHandler roundStartedEventHandler;
+  RoundStartedHandler roundStartedHandler;
 
   @Inject
   RoundEndedEventHandler roundEndedEventHandler;
@@ -117,7 +116,7 @@ public class Referee {
 
   private void onRoundStart(Round round) {
     System.out.println("onRoundStart");
-    roundStartedEventHandler.handle(round);
+    roundStartedHandler.handle(new RoundStartedEvent(EventType.RoundStartedEvent, round));
   }
 
   void onRoundEnd(Round round) {

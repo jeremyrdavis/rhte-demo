@@ -33,7 +33,7 @@ public class EventsSocket {
 
   @ConsumeEvent("events")
   public void broadcast(Event event) {
-    System.out.println("Sessions: " + sessions.size());
+    System.out.println("Broadcasting: " + event.getEventType() + " to " + sessions.size() + " sessions");
       sessions.values().forEach(s -> {
       s.getAsyncRemote().sendObject(event.toString(), result ->  {
         if (result.getException() != null) {

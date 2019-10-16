@@ -43,6 +43,22 @@ public class HistoryResource {
       gameEvent.eventType = EventType.GameStartedEvent;
       gameEvent.entityType = EntityType.Game;
       gameEvent.data = jsonPayload.getJsonObject("game").toString();
+    } else if (eventType.equals(EventType.RoundStartedEvent.title)) {
+      gameEvent.eventType = EventType.RoundEndedEvent;
+      gameEvent.entityType = EntityType.Round;
+      gameEvent.data = jsonPayload.getJsonObject("round").toString();
+    } else if (eventType.equals(EventType.RoundEndedEvent)) {
+      gameEvent.eventType = EventType.RoundEndedEvent;
+      gameEvent.entityType = EntityType.Round;
+      gameEvent.data = jsonPayload.getJsonObject("round").toString();
+    } else if (eventType.equals(EventType.GuessReceivedEvent)) {
+      gameEvent.eventType = EventType.GuessReceivedEvent;
+      gameEvent.entityType = EntityType.Guess;
+      gameEvent.data = jsonPayload.getJsonObject("player").toString();
+    } else if (eventType.equals(EventType.GameEndedEvent)) {
+      gameEvent.eventType = EventType.RoundEndedEvent;
+      gameEvent.entityType = EntityType.Round;
+      gameEvent.data = jsonPayload.getJsonObject("round").toString();
     }
     gameEvent.persist();
     return Response.ok().build();

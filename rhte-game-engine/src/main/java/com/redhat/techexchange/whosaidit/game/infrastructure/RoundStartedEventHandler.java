@@ -34,7 +34,7 @@ public class RoundStartedEventHandler {
     RoundStartedEvent roundStartedEvent = new RoundStartedEvent(EventType.RoundStartedEvent, round);
 
     //call Api Gateway
-    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendEvent(roundStartedEvent)
+    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendRoundStartedEvent(roundStartedEvent)
       .thenApply(r -> {
         if (r.getStatus() != 200) {
           throw new RuntimeException(String.valueOf(r.getStatus()));

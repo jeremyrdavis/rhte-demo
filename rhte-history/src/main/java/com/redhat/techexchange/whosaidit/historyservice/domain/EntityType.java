@@ -4,7 +4,8 @@ public enum EntityType {
 
   Game("Game"),
   Round("Round"),
-  Quote("Quote");
+  Quote("Quote"),
+  Guess("Guess");
 
   public String title;
 

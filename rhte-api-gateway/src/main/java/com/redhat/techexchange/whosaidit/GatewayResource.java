@@ -42,8 +42,8 @@ public class GatewayResource {
     return Response.ok(gameTracker.getLatestEvent()).build();
   }
 
-  @GET
-  @Path("/game")
+  @POST
+  @Path("/event/game/start")
   public Response startGame() {
     System.out.println("GatewayResource.startGame");
     gameTracker.startGame();
@@ -53,13 +53,15 @@ public class GatewayResource {
   @POST
   @Path("/event/quote")
   public Response nextQuote() {
+    System.out.println("GatewayResource.nextQuote");
     eventBus.publish("nextQuote", null);
     return Response.ok().build();
   }
 
   @POST
-  @Path("/round/start")
+  @Path("/event/round/start")
   public Response startRound() {
+    System.out.println("GatewayResource.startRound");
     eventBus.publish("roundStart", null);
     return Response.ok().build();
   }
@@ -115,6 +117,7 @@ public class GatewayResource {
   @Path("/test/{eventType}")
   public Response getEventType(@PathParam("eventType") String eventType) {
 
+    System.out.println(eventType);
     switch (eventType) {
       case "GameEndedEvent" :
         return Response.ok(new GameEndedEvent(EventType.GameEndedEvent, mockGame())).build();

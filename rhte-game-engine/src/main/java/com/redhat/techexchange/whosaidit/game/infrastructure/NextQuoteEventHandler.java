@@ -38,7 +38,7 @@ public class NextQuoteEventHandler {
     nextQuoteEvent.setQuote(quote);
     nextQuoteEvent.setEventType(EventType.NextQuoteEvent);
 //    nextQuoteEvent.timestamp = Date.from(Instant.now());
-    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendNextQuoteEvent(nextQuoteEvent)
+    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendNextQuoteEvent(nextQuoteEvent.toString())
       .thenApply(r -> {
         if (r.getStatus() != 200) {
           throw new RuntimeException(String.valueOf(r.getStatus()));

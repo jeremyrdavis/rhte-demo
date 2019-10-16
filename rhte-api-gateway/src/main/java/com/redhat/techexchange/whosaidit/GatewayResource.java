@@ -68,7 +68,7 @@ public class GatewayResource {
 
   @POST
   @Path("/event/round/start")
-  public Response startRound(RoundStartedEvent event) {
+  public Response startRound() {
     logger.debug("GatewayResource.startRound");
     eventsSocket.broadcast("Round Started!");
 //    eventBus.publish("events", null);

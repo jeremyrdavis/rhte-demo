@@ -8,6 +8,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
@@ -42,9 +48,13 @@ public class RoundStartedHandler {
       latch.countDown();
     };
 
-    API_GATEWAY_CLIENT.sendRoundStartedEvent(event).whenCompleteAsync(consumer);
+    API_GATEWAY_CLIENT.sendRoundStartedEvent().whenCompleteAsync(consumer);
     HISTORY_SERVICE_CLIENT.sendEvent(event).whenCompleteAsync(consumer);
-    TWITTER_SERVICE_CLIENT.sendStatusUpdate(new StatusUpdate("Round Completed\n" + "Winner: " + event.getRound().winner)).whenCompleteAsync(consumer);
+    TWITTER_SERVICE_CLIENT.sendStatusUpdate(new StatusUpdate(new StringBuilder()
+      .append("WhoSaidIt? Round Started!")
+      .append("\n")
+      .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("America/New_York")))).toString()
+    )).whenCompleteAsync(consumer);
 
     try {
       latch.await();

@@ -46,7 +46,7 @@ public class GameStartedEventHandler {
       throw new RuntimeException(String.valueOf(apiGatewayResponse.getStatus()));
 */
 
-    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendGameStartedEvent(gameStartedEvent)
+    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendGameStartedEvent()
       .thenApply(r -> {
         if (r.getStatus() != 200) {
           throw new RuntimeException(String.valueOf(r.getStatus()));
@@ -59,7 +59,7 @@ public class GameStartedEventHandler {
     StringBuilder builder = new StringBuilder()
       .append("WhoSaidIt? Game Started!")
       .append("\n")
-      .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("America/New_York"))));
+      .append(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("America/New_York"))));
 
     StatusUpdate statusUpdate = new StatusUpdate(builder.toString());
     CompletionStage<Response> twitterServiceResponse = twitterService.sendStatusUpdate(statusUpdate)

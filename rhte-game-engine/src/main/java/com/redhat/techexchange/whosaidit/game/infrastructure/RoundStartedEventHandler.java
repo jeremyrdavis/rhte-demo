@@ -59,7 +59,7 @@ public class RoundStartedEventHandler {
 
 
     //call Api Gateway
-    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendRoundStartedEvent(roundStartedEvent)
+    CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendRoundStartedEvent()
       .thenApply(r -> {
         if (r.getStatus() != 200) {
           logger.error(String.valueOf(r.getStatus()));

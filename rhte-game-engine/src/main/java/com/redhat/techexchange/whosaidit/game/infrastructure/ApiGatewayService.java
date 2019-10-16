@@ -20,17 +20,17 @@ public interface ApiGatewayService{
 
   @POST
   @Path("/event/game/start")
-  public CompletionStage<Response> sendGameStartedEvent(GameStartedEvent event);
+  public CompletionStage<Response> sendGameStartedEvent();
 
   @POST
   @Path("/event/quote")
-  public CompletionStage<Response> sendNextQuoteEvent(NextQuoteEvent event);
+  public CompletionStage<Response> sendNextQuoteEvent(String event);
 
   @POST
   @Path("/event/round/start")
-  public CompletionStage<Response> sendRoundStartedEvent(RoundStartedEvent event);
+  public CompletionStage<Response> sendRoundStartedEvent();
 
   @POST
   @Path("/event/round/end")
-  CompletionStage<Response> sendRoundEndedEvent(RoundEndedEvent roundEndedEvent);
+  CompletionStage<Response> sendRoundEndedEvent(String roundEndedEvent);
 }

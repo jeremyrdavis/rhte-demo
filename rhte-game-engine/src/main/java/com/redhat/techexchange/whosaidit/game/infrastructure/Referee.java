@@ -68,7 +68,7 @@ public class Referee {
       System.out.println(q.text);
       onNextQuote(q);
       try {
-        Thread.sleep(5000);
+        Thread.sleep(30000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
@@ -92,6 +92,9 @@ public class Referee {
 
     List<String> playersList = new ArrayList<>(players);
     Collections.shuffle(playersList);
+    if (playersList.isEmpty()) {
+      return "@nobody";
+    }
     return playersList.get(0);
   }
 

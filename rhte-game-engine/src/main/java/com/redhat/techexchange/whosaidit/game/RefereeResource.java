@@ -73,9 +73,10 @@ public class RefereeResource {
 
   @POST
   @Path("/mentions")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response addMention(String player) {
     referee.addPlayer(player);
+    System.out.println("adding " + player);
     return Response.ok().build();
   }
 

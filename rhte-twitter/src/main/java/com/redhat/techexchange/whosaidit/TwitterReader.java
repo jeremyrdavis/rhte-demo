@@ -6,6 +6,11 @@ import twitter4j.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -15,9 +20,6 @@ import java.util.List;
 
 @ApplicationScoped
 public class TwitterReader {
-
-  @Inject
-  GameService gameService;
 
   org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TwitterReader.class);
 
@@ -31,6 +33,9 @@ public class TwitterReader {
   @Scheduled(every="30s")
   public void readTimeline() {
 
+    Client client = ClientBuilder.newClient();
+    WebTarget target = client.target("http://localhost:8080/game/mentions");
+
     if (active) {
       try {
         ResponseList<Status> userTimeline = twitter.getMentionsTimeline();
@@ -43,10 +48,15 @@ public class TwitterReader {
             System.out.println(s);
             mentions.add(s);
           }
+          System.out.println("and now sending the mentions");
           mentions.forEach(m ->{
-            gameService.reportMention();
+            System.out.println(m.getUser().getName());
+            Response response = target.request().post(Entity.json(m.getUser().getName()));
+//            gameService.reportMention();
+            response.close();
           });
         });
+        client.close();
       } catch (TwitterException e) {
         e.printStackTrace();
       }

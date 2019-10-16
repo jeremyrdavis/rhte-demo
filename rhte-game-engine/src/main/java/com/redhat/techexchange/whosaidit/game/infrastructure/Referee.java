@@ -1,13 +1,12 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.*;
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class Referee {
@@ -25,7 +24,10 @@ public class Referee {
 
   Integer currentRound = 1;
 
+  Set<Player> players = new HashSet<>();
+
   @Transactional
+
   public Game createGame() {
 
     List<Quote> allQuotes = Quote.listAll();
@@ -70,9 +72,16 @@ public class Referee {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-      round.status = RoundStatus.COMPLETED;
     }
 
+    for (int i = 0; i < 5; i++) {
+      players.add(new Player("Player#" + i));
+    }
+
+    List<Player> playersList = new ArrayList<>(players);
+    Collections.shuffle(playersList);
+    Player winner = playersList.get(0);
+    round.winner = winner.getName();
     game.completeRound(currentRound);
     currentRound++;
     game.persist();

@@ -2,6 +2,8 @@ package com.redhat.techexchange.whosaidit;
 
 import com.redhat.techexchange.whosaidit.domain.*;
 import io.vertx.axle.core.eventbus.EventBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -17,6 +19,8 @@ import java.util.concurrent.CompletionStage;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class GatewayResource {
+
+  Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Inject
   GameTracker gameTracker;
@@ -45,7 +49,7 @@ public class GatewayResource {
   @POST
   @Path("/event/game/start")
   public Response startGame() {
-    System.out.println("GatewayResource.startGame");
+    logger.debug("GatewayResource.startGame");
     gameTracker.startGame();
     return Response.ok().build();
   }
@@ -53,7 +57,7 @@ public class GatewayResource {
   @POST
   @Path("/event/quote")
   public Response nextQuote() {
-    System.out.println("GatewayResource.nextQuote");
+    logger.debug("GatewayResource.nextQuote");
     eventBus.publish("nextQuote", null);
     return Response.ok().build();
   }
@@ -61,7 +65,7 @@ public class GatewayResource {
   @POST
   @Path("/event/round/start")
   public Response startRound() {
-    System.out.println("GatewayResource.startRound");
+    logger.debug("GatewayResource.startRound");
     eventBus.publish("roundStart", null);
     return Response.ok().build();
   }
@@ -69,7 +73,7 @@ public class GatewayResource {
   @POST
   @Path("/event/round/end")
   public Response endRound() {
-    System.out.println("GatewayResource.endRound");
+    logger.debug("GatewayResource.endRound");
     eventBus.publish("roundEnd", null);
     return Response.ok().build();
   }

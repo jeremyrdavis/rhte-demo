@@ -5,6 +5,8 @@ import com.redhat.techexchange.whosaidit.infrastructure.EventsSocket;
 import io.quarkus.vertx.ConsumeEvent;
 import io.vertx.axle.core.Vertx;
 import io.vertx.axle.core.eventbus.EventBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class GameTracker {
+
+  Logger logger = LoggerFactory.getLogger(this.getClass());
 
   int currentRound = 1;
 
@@ -94,7 +98,7 @@ public class GameTracker {
   @ConsumeEvent("roundStart")
   public void startRound(Game game) {
 
-    System.out.println("startRound: " + currentRound);
+    logger.debug("startRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
     eventsSocket.broadcast(new RoundStartedEvent());
 /*
@@ -114,7 +118,7 @@ public class GameTracker {
   @ConsumeEvent("roundEnd")
   public void endRound(Game game) {
 
-    System.out.println("endRound: " + currentRound);
+    logger.debug("endRound: " + currentRound);
     Round round = this.game.getRounds().get(currentRound);
 //    round.setWinner("@winner");
     eventsSocket.broadcast(new RoundEndedEvent(EventType.RoundEndedEvent, round));

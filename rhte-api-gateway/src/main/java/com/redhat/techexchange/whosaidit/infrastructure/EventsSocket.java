@@ -5,6 +5,7 @@ import io.quarkus.vertx.ConsumeEvent;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -26,13 +27,17 @@ public class EventsSocket {
     sessions.put("client", session);
   }
 
+  @OnError
+  public void onError(Session session, Throwable throwable) {
+    System.out.println(throwable);
+  }
+
   @OnClose
   public void onClose(Session session) {
     sessions.remove("client");
   }
 
   public void broadcast(String event) {
-//    System.out.println("Broadcasting: " + event.getEventType() + " to " + sessions.size() + " sessions");
     System.out.println("Broadcasting: " + event + " to " + sessions.size() + " sessions");
       sessions.values().forEach(s -> {
       s.getAsyncRemote().sendObject(event, result ->  {

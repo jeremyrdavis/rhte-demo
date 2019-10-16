@@ -64,8 +64,11 @@ public class RoundStartedHandler {
 
     Throwable t = throwable.get();
     if (t != null) {
+      System.out.println(t);
+/*
       throw new WebApplicationException("Failure in downstream service",
         t, 500);
+*/
     }
   }
 }

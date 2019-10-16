@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
@@ -48,12 +51,16 @@ public class GatewayResource {
     return Response.ok(gameTracker.getLatestEvent()).build();
   }
 
-  @POST
+  @GET
   @Path("/event/game/start")
   public Response startGame() {
-    logger.debug("GatewayResource.startGame");
     eventsSocket.broadcast("Game started!");
-    gameTracker.startGame();
+    Client client = ClientBuilder.newClient();
+    WebTarget target = client.target("http://localhost:8080/game/start");
+    Response response = target.request().get();
+    response.close();
+    client.close();
+
     return Response.ok().build();
   }
 
@@ -66,12 +73,17 @@ public class GatewayResource {
     return Response.ok().build();
   }
 
-  @POST
+  @GET
   @Path("/event/round/start")
   public Response startRound() {
     logger.debug("GatewayResource.startRound");
     eventsSocket.broadcast("Round Started!");
 //    eventBus.publish("events", null);
+    Client client = ClientBuilder.newClient();
+    WebTarget target = client.target("http://localhost:8080/game/rounds/start");
+    Response response = target.request().get();
+    response.close();
+    client.close();
     return Response.ok().build();
   }
 

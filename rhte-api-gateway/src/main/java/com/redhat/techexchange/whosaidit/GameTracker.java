@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -34,7 +38,7 @@ public class GameTracker {
 
   Game game;
 
-  private LinkedHashSet<BaseEvent> events;
+  LinkedHashSet<BaseEvent> events;
 
   public Game getGame() {
 
@@ -93,10 +97,6 @@ public class GameTracker {
     this.events.add(event);
   }
 
-  public void startGame() {
-    System.out.println("GameTracker.startGame");
-  }
-
   @ConsumeEvent("roundStart")
   public void startRound(Game game) {
 
@@ -125,5 +125,9 @@ public class GameTracker {
 //    round.setWinner("@winner");
 //    eventsSocket.broadcast(new RoundEndedEvent(EventType.RoundEndedEvent, round));
     currentRound++;
+  }
+
+  public void startGame() {
+
   }
 }

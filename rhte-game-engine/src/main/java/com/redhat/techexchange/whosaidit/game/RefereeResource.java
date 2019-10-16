@@ -22,7 +22,7 @@ public class RefereeResource {
   @Inject
   Referee referee;
 
-  @POST
+  @GET
   @Path("/start")
   @Transactional
   public Response startGame() {
@@ -31,7 +31,7 @@ public class RefereeResource {
     return Response.ok(game).status(Response.Status.CREATED).build();
   }
 
-  @POST
+  @GET
   @Path("/rounds/start")
   @Transactional
   public Response startRound() {

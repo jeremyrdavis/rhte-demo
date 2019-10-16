@@ -1,0 +1,21 @@
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'You have to remember something: Everybody pities the weak; jealousy you have to earn.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'Strength does not come from winning. Your struggles develop your strengths. When you go through hardships and decide not to surrender, that is strength.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'What is the point of being on this Earth if you are going to be like everyone else?');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'Just like in bodybuilding, failure is also a necessary experience for growth in our own lives, for if we’re never tested to our limits, how will we know how strong we really are? How will we ever grow?');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'For me life is continuously being hungry. The meaning of life is not simply to exist, to survive, but to move ahead, to go up, to achieve, to conquer.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'Help others and give something back. I guarantee you will discover that while public service improves the lives and the world around you, its greatest reward is the enrichment and new meaning it will bring your own life.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'The resistance that you fight physically in the gym and the resistance that you fight in life can only build a strong character.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'The mind is the limit. As long as the mind can envision the fact that you can do something, you can do it, as long as you really believe 100 percent.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'If you don’t find the time, if you don’t do the work, you don’t get the results.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'If you want to turn a vision into reality, you have to give 100% and never stop believing in your dream.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'Be hungry for success, hungry to make your mark, hungry to be seen and to be heard and to have an effect. And as you move up and become successful, make sure also to be hungry for helping others.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Swarzeneggar', 'The more knowledge you have, the more you’re free to rely on your instincts.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'Give all the power to the many, they will oppress the few. Give all the power to the few, they will oppress the many.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'Those who stand for nothing fall for everything.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'A well adjusted person is one who makes the same mistake twice without getting nervous.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'A nation which can prefer disgrace to danger is prepared for a master, and deserves one.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'Why has government been instituted at all? Because the passions of man will not conform to the dictates of reason and justice without constraint.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'Hard words are very rarely useful. Real firmness is good for every thing.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'Vigor of government is essential to the security of liberty.');
+insert into Quote(id, text, author) values (nextval('hibernate_sequence'), 'Hamilton', 'It will be of little avail to the people, that the laws are made by men of their own choice, if the laws be so voluminous that they cannot be read, or so incoherent that they cannot be understood;');
+

@@ -45,14 +45,6 @@ public class RefereeTest {
   }
 
   @Test
-  public void testStartRound() throws InterruptedException {
-
-    Game game = referee.createGame();
-    game = referee.startRound();
-    Thread.sleep(30000);
-  }
-
-  @Test
   public void testCompleteRound() {
 
   }

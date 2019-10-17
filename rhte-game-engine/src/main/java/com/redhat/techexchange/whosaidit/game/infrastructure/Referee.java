@@ -91,10 +91,12 @@ public class Referee {
   private String pickWinner() {
 
     List<String> playersList = new ArrayList<>(players);
-    Collections.shuffle(playersList);
+    // add a couple of people to make sure we have someone when testing
     if (playersList.isEmpty()) {
-      return "@nobody";
+      playersList.add("@Tortugasl");
+      playersList.add("@thedesignatic");
     }
+    Collections.shuffle(playersList);
     return playersList.get(0);
   }
 

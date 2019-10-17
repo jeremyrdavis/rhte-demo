@@ -1,8 +1,6 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.NextQuoteEvent;
-import com.redhat.techexchange.whosaidit.game.domain.Quote;
-import com.redhat.techexchange.whosaidit.game.domain.RoundStartedEvent;
+import com.redhat.techexchange.whosaidit.game.domain.RoundEndedEvent;
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -16,7 +14,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 
 @ApplicationScoped
-public class NextQuestionHandler {
+public class RoundEndedHandler {
+
   private static final ApiGatewayService API_GATEWAY_CLIENT =
     RestClientBuilder.newBuilder()
       .baseUri(URI.create("http://localhost:8091"))
@@ -32,15 +31,13 @@ public class NextQuestionHandler {
       .baseUri(URI.create("http://localhost:8093"))
       .build(TwitterService.class);
 
-  void handle(NextQuoteEvent event) {
-
+  void handle(RoundEndedEvent event) {
     // Update TwitterService
     StringBuilder builder = new StringBuilder()
-      .append(event.getQuote().text)
+      .append("We have a winner!\n")
+      .append("Congratulations, ")
+      .append(event.getRound().winner)
       .append("\n")
-      .append("A. Shakespeare\n")
-      .append("B. Swarzeneggar\n")
-      .append("C. Hamilton\n")
       .append(UUID.randomUUID());
 
     final CountDownLatch latch = new CountDownLatch(3);
@@ -53,9 +50,9 @@ public class NextQuestionHandler {
       latch.countDown();
     };
 
-    System.out.println("NextQuestionHandler sending\n" + event.getQuote().text);
+    System.out.println("RoundEndendHandler sending\n" + event.getRound().winner);
 
-    API_GATEWAY_CLIENT.sendNextQuoteEvent(event).whenCompleteAsync(consumer);
+    API_GATEWAY_CLIENT.sendRoundEndedEvent(event.getRound().winner).whenCompleteAsync(consumer);
     HISTORY_SERVICE_CLIENT.sendEvent(event).whenCompleteAsync(consumer);
     TWITTER_SERVICE_CLIENT.sendStatusUpdate(new StatusUpdate(builder.toString())).whenCompleteAsync(consumer);
 

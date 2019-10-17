@@ -4,6 +4,9 @@ import com.redhat.techexchange.whosaidit.domain.Event;
 import io.quarkus.vertx.ConsumeEvent;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.Json;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnOpen;
@@ -37,10 +40,12 @@ public class EventsSocket {
     sessions.remove("client");
   }
 
-  public void broadcast(String event) {
+  public void broadcast(Event event) {
     System.out.println("Broadcasting: " + event + " to " + sessions.size() + " sessions");
-      sessions.values().forEach(s -> {
-      s.getAsyncRemote().sendObject(event, result ->  {
+    Jsonb jsonb = JsonbBuilder.create();
+    String payload = jsonb.toJson(event);
+    sessions.values().forEach(s -> {
+      s.getAsyncRemote().sendObject(payload, result ->  {
         if (result.getException() != null) {
           System.out.println("Unable to send message: " + result.getException());
         }

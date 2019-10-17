@@ -1,25 +1,16 @@
 package com.redhat.techexchange.whosaidit.domain;
 
-public class GameStartedEvent extends BaseEvent implements Event{
+public class GameStartedEvent implements Event{
 
-  Game game;
+  EventType eventType = EventType.GameStartedEvent;
 
   public GameStartedEvent() {
-    super(EventType.GameStartedEvent);
   }
 
-  public GameStartedEvent(EventType eventType, Game game) {
-    super(EventType.GameStartedEvent);
-    this.game = game;
+  public String getEventType() {
+    return eventType.title;
   }
 
-  public Game getGame() {
-    return game;
-  }
-
-  public void setGame(Game game) {
-    this.game = game;
-  }
 }
 
 

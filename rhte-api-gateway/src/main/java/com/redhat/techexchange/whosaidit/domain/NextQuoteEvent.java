@@ -7,12 +7,15 @@ public class NextQuoteEvent implements Event{
   Quote quote;
 
   public NextQuoteEvent() {
-    this.eventType = EventType.NextQuoteEvent;
   }
 
   public NextQuoteEvent(EventType eventType, Quote quote) {
-    this.eventType = EventType.NextQuoteEvent;
-    this.quote = (Quote) quote;
+    this.eventType = eventType;
+    this.quote = quote;
+  }
+
+  public EventType getEventType() {
+    return eventType;
   }
 
   public void setEventType(EventType eventType) {
@@ -27,8 +30,15 @@ public class NextQuoteEvent implements Event{
     this.quote = quote;
   }
 
-  public String getEventType() {
-    return this.eventType.title;
+  @Override
+  public String toString() {
+    return new StringBuilder()
+      .append("NextQuoteEvent[eventType=")
+      .append(eventType.title)
+      .append(",quote=[")
+      .append(quote.text)
+      .append(",author=")
+      .append(quote.author.name()).toString();
   }
 }
 

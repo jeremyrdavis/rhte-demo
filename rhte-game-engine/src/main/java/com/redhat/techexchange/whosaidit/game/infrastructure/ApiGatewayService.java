@@ -24,7 +24,7 @@ public interface ApiGatewayService{
 
   @POST
   @Path("/event/quote")
-  public CompletionStage<Response> sendNextQuoteEvent(String event);
+  public CompletionStage<Response> sendNextQuoteEvent(NextQuoteEvent event);
 
   @POST
   @Path("/event/round/start")

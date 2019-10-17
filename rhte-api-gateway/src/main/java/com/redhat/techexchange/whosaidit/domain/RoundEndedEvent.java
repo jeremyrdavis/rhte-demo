@@ -1,26 +1,20 @@
 package com.redhat.techexchange.whosaidit.domain;
 
-public class RoundEndedEvent extends BaseEvent {
+public class RoundEndedEvent implements Event {
 
-  Round round;
+  EventType eventType = EventType.RoundEndedEvent;
 
   public RoundEndedEvent() {
-    super(EventType.RoundEndedEvent);
   }
 
   String winner;
 
-  public RoundEndedEvent(EventType eventType, Round round) {
-    super(eventType);
-    this.round = round;
+  public RoundEndedEvent(String winner) {
+    this.winner = winner;
   }
 
-  public Round getRound() {
-    return round;
-  }
-
-  public void setRound(Round round) {
-    this.round = round;
+  public String getEventType() {
+    return eventType.title;
   }
 
   public String getWinner() {

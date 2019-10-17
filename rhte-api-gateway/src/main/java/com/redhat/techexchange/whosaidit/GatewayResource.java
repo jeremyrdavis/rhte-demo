@@ -54,7 +54,7 @@ public class GatewayResource {
   @GET
   @Path("/event/game/start")
   public Response startGame() {
-    eventsSocket.broadcast("Game started!");
+    eventsSocket.broadcast(new GameStartedEvent());
     Client client = ClientBuilder.newClient();
     WebTarget target = client.target("http://localhost:8080/game/start");
     Response response = target.request().get();
@@ -68,7 +68,7 @@ public class GatewayResource {
   @Path("/event/quote")
   public Response nextQuote(String event) {
     logger.debug("GatewayResource.nextQuote");
-    eventsSocket.broadcast(event);
+    eventsSocket.broadcast(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote(event, Quote.Author.Hamilton)));
 //    eventBus.publish("nextQuote", event);
     return Response.ok().build();
   }
@@ -77,7 +77,7 @@ public class GatewayResource {
   @Path("/event/round/start")
   public Response startRound() {
     logger.debug("GatewayResource.startRound");
-    eventsSocket.broadcast("Round Started!");
+    eventsSocket.broadcast(new RoundStartedEvent());
 //    eventBus.publish("events", null);
     Client client = ClientBuilder.newClient();
     WebTarget target = client.target("http://localhost:8080/game/rounds/start");
@@ -91,7 +91,7 @@ public class GatewayResource {
   @Path("/event/round/end")
   public Response endRound(String event) {
     logger.debug("GatewayResource.endRound");
-    eventsSocket.broadcast(event);
+    eventsSocket.broadcast(new RoundEndedEvent(event));
 //    eventBus.publish("roundEnd", null);
     return Response.ok().build();
   }
@@ -154,16 +154,16 @@ public class GatewayResource {
       case "RoundEndedEvent":
         Round round = mockGame().getRounds().get(1);
         round.setWinner("@winner");
-        return Response.ok(new RoundEndedEvent(EventType.RoundEndedEvent, round)).build();
+        return Response.ok(new RoundEndedEvent("@winner")).build();
       case "RoundStartedEvent":
         round = mockGame().getRounds().get(1);
-        return Response.ok(new RoundEndedEvent(EventType.RoundStartedEvent, round)).build();
+        return Response.ok(new RoundStartedEvent()).build();
       case "GuessReceivedEvent" :
         return Response.ok(new GuessReceivedEvent(EventType.GuessReceivedEvent, "@player1")).build();
       case "NextQuoteEvent" :
-        return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Quote.Author.Shakespeare))).build();
+        return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A quote", Quote.Author.Shakespeare))).build();
       case "GameStartedEvent" :
-        return Response.ok(new GameStartedEvent(EventType.GameStartedEvent, mockGame())).build();
+        return Response.ok(new GameStartedEvent()).build();
 /*
         Round round = this.mockGame().getCurrentRound();
 */

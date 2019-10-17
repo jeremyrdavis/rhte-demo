@@ -38,7 +38,7 @@ public class GameTracker {
 
   Game game;
 
-  LinkedHashSet<BaseEvent> events;
+  LinkedHashSet<Event> events;
 
   public Game getGame() {
 
@@ -92,7 +92,7 @@ public class GameTracker {
     return this.events.stream().collect(Collectors.toList());
   }
 
-  public void addEvent(BaseEvent event) {
+  public void addEvent(Event event) {
 
     this.events.add(event);
   }

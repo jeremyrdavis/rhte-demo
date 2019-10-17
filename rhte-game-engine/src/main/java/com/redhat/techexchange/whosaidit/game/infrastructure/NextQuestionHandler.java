@@ -40,7 +40,8 @@ public class NextQuestionHandler {
       .append("\n")
       .append("A. Shakespeare\n")
       .append("B. Swarzeneggar\n")
-      .append("C. Hamilton\n")
+      .append("C. Hamilton\n\n")
+      .append("#Quarkus\n\n")
       .append(UUID.randomUUID());
 
     final CountDownLatch latch = new CountDownLatch(3);

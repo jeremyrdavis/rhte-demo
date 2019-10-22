@@ -34,18 +34,7 @@ public class Referee {
     List<Quote> allQuotes = Quote.listAll();
     Collections.shuffle(allQuotes);
 
-    Game game = new Game();
-
-    for (int i = 0; i < 4; i++) {
-      Round r = new Round();
-      r.status = RoundStatus.CREATED;
-      for (int j = 0; j < 4; j++) {
-        Quote quote = allQuotes.remove(j);
-        r.addQuote(quote);
-      }
-      game.addRound(r);
-    }
-
+    Game game = new Game(allQuotes);
     game.persist();
     onGameStart(game);
     currentGameId = game.id;

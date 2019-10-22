@@ -2,8 +2,6 @@ package com.redhat.techexchange.whosaidit.game;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.redhat.techexchange.whosaidit.game.domain.Author;
-import com.redhat.techexchange.whosaidit.game.domain.Quote;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
@@ -98,7 +96,7 @@ public class RefereeRESTIntegrationTest {
     Response response = given()
       .contentType(MediaType.APPLICATION_JSON)
       .when()
-      .post("/game/start");
+      .get("/game/start");
 
     assertEquals(HttpStatus.SC_CREATED, response.statusCode());
     assertEquals(4, response.jsonPath().getMap("rounds").values().size());

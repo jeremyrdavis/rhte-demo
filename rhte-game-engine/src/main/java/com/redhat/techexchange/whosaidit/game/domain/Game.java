@@ -15,7 +15,7 @@ import java.util.Map;
 @Entity
 public class Game extends PanacheEntity {
 
-  public GameStatus gameStatus;
+  public GameStatus status;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id")
@@ -31,11 +31,11 @@ public class Game extends PanacheEntity {
   }
 
   public Game() {
-    this.gameStatus = GameStatus.CREATED;
+    this.status = GameStatus.CREATED;
   }
 
   public Game(List<Quote> quotes) {
-    this.gameStatus = GameStatus.CREATED;
+    this.status = GameStatus.CREATED;
     for (int i = 0; i < 4; i++) {
       Round r = new Round();
       r.status = RoundStatus.CREATED;
@@ -72,7 +72,7 @@ public class Game extends PanacheEntity {
   }
 
   public void start() {
-    this.gameStatus = GameStatus.IN_PROGRESS;
+    this.status = GameStatus.IN_PROGRESS;
     this.rounds.get(1).status = RoundStatus.ACTIVE;
   }
 }

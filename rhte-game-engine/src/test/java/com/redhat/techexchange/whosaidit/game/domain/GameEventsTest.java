@@ -28,9 +28,9 @@ public class GameEventsTest {
   public void testGameStartEvent() {
 
     Game game = new Game(mockQuotes());
-    assertEquals(GameStatus.CREATED, game.gameStatus);
+    assertEquals(GameStatus.CREATED, game.status);
     game.start();
-    assertEquals(GameStatus.IN_PROGRESS, game.gameStatus);
+    assertEquals(GameStatus.IN_PROGRESS, game.status);
   }
 
   List<Quote> mockQuotes() {

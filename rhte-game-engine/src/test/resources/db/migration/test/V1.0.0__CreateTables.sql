@@ -6,7 +6,8 @@ drop sequence if exists hibernate_sequence;
 create sequence hibernate_sequence start with 1 increment by 1;
 create table Game (
                       id bigint not null,
-                      primary key (id)
+                      primary key (id),
+                      status varchar(15)
 );
 create table Quote (
                        id bigint not null,
@@ -17,6 +18,7 @@ create table Quote (
 create table Round (
                        id bigint not null,
                        status varchar(15),
+                       winner varchar(255),
                        game_id bigint,
                        rounds_KEY integer,
                        primary key (id)

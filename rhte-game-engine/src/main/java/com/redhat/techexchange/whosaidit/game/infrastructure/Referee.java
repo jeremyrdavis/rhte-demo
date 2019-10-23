@@ -33,8 +33,19 @@ public class Referee {
 
     List<Quote> allQuotes = Quote.listAll();
     Collections.shuffle(allQuotes);
+    Map<Integer,Round> rounds = new HashMap<>();
 
-    Game game = new Game(allQuotes);
+    for (int i = 0; i < 4; i++) {
+      Round r = new Round();
+      r.status = RoundStatus.CREATED;
+      for (int j = 0; j < 4; j++) {
+        Quote quote = allQuotes.remove(j);
+        r.addQuote(quote);
+      }
+      rounds.put(i,r);
+    }
+
+    Game game = new Game(rounds);
     game.persist();
     onGameStart(game);
     currentGameId = game.id;

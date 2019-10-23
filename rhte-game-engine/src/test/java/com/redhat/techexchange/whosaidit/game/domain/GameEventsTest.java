@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,16 +27,16 @@ public class GameEventsTest {
   @Test
   public void testGameStartEvent() {
 
-    Game game = new Game(mockQuotes());
+    Game game = new Game(mockRounds());
     assertEquals(GameStatus.CREATED, game.status);
     game.start();
     assertEquals(GameStatus.IN_PROGRESS, game.status);
   }
 
-  List<Quote> mockQuotes() {
-    List<Quote> retVal = new ArrayList<>(16);
-    for (int i = 0; i < 20; i++) {
-      retVal.add(new Quote("Quote#" + i, Author.Hamilton));
+  Map<Integer, Round> mockRounds() {
+    Map<Integer, Round> retVal = new HashMap<>();
+    for (int i = 0; i < 4; i++) {
+      retVal.put(i, new Round());
     }
     return retVal;
   }

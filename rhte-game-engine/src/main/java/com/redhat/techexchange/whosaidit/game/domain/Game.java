@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -34,17 +33,9 @@ public class Game extends PanacheEntity {
     this.status = GameStatus.CREATED;
   }
 
-  public Game(List<Quote> quotes) {
+  public Game(Map<Integer, Round> rounds) {
     this.status = GameStatus.CREATED;
-    for (int i = 0; i < 4; i++) {
-      Round r = new Round();
-      r.status = RoundStatus.CREATED;
-      for (int j = 0; j < 4; j++) {
-        Quote quote = quotes.remove(j);
-        r.addQuote(quote);
-      }
-      this.addRound(r);
-    }
+    this.rounds = rounds;
   }
 
   public Round getCurrentRound() {

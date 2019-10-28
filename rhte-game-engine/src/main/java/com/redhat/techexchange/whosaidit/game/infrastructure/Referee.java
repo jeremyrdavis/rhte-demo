@@ -29,7 +29,7 @@ public class Referee {
   Set<String> players = new HashSet<>();
 
   @Transactional
-  public Game createGame() {
+  public GameCreatedEvent createGame() {
 
     List<Quote> allQuotes = Quote.listAll();
     Collections.shuffle(allQuotes);
@@ -45,11 +45,11 @@ public class Referee {
       rounds.put(i,r);
     }
 
-    Game game = new Game(rounds);
-    game.persist();
-    onGameStart(game);
-    currentGameId = game.id;
-    return game;
+    GameCreatedEvent gameCreatedEvent = Game.createGame(rounds);
+    gameCreatedEvent.getGame().persist();
+    onGameStart(gameCreatedEvent.getGame());
+    currentGameId = gameCreatedEvent.getGame().id;
+    return gameCreatedEvent;
   }
 
   public void startRound() {
@@ -118,7 +118,7 @@ public class Referee {
   }
 
   void onNextQuote(Quote quote) {
-    NextQuoteEvent event = new NextQuoteEvent(EventType.NextQuoteEvent, quote);
+    NextQuoteEvent event = new NextQuoteEvent(DomainEventType.NextQuoteEvent, quote);
     nextQuoteEventHandler.handle(event);
     System.out.println("onNextQuote");
   }
@@ -130,7 +130,7 @@ public class Referee {
 
   private void onRoundStart(Round round) {
     System.out.println("onRoundStart");
-    roundStartedHandler.handle(new RoundStartedEvent(EventType.RoundStartedEvent, round));
+    roundStartedHandler.handle(new RoundStartedEvent(DomainEventType.RoundStartedEvent, round));
   }
 
   void onRoundEnd(Round round) {
@@ -143,4 +143,11 @@ public class Referee {
   }
 
 
+  public GameStartedEvent startGame(Long id) {
+
+    Game game = Game.findById(id);
+    game.status = GameStatus.IN_PROGRESS;
+    game.persist();
+    return new GameStartedEvent(game);
+  }
 }

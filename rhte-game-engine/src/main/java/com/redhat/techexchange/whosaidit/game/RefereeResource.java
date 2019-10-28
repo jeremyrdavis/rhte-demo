@@ -5,7 +5,6 @@ import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 
 import javax.inject.Inject;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -22,13 +21,23 @@ public class RefereeResource {
   @Inject
   Referee referee;
 
-  @GET
-  @Path("/start")
+  @POST
+  @Path("/create")
   @Transactional
-  public Response startGame() {
+  public Response createGame() {
 
-    Game game = referee.createGame();
-    return Response.ok(game).status(Response.Status.CREATED).build();
+    GameCreatedEvent gameCreatedEvent = referee.createGame();
+    return Response.ok(gameCreatedEvent).status(Response.Status.CREATED).build();
+  }
+
+
+  @POST
+  @Path("/start/{gameId}")
+  @Transactional
+  public Response startGame(@PathParam("gameId") Long gameId) {
+
+    GameStartedEvent gameStartedEvent = referee.startGame(gameId);
+    return Response.ok(gameStartedEvent).status(Response.Status.OK).build();
   }
 
   @GET
@@ -96,13 +105,15 @@ public class RefereeResource {
         Round round = mockGame().getCurrentRound();
         round.status = RoundStatus.COMPLETED;
         round.winner = "@winner";
-        return Response.ok(new RoundEndedEvent(EventType.RoundStartedEvent, round)).build();
+        return Response.ok(new RoundEndedEvent(DomainEventType.RoundStartedEvent, round)).build();
       case "RoundStartedEvent":
-        return Response.ok(new RoundStartedEvent(EventType.RoundStartedEvent, mockGame().getCurrentRound())).build();
+        return Response.ok(new RoundStartedEvent(DomainEventType.RoundStartedEvent, mockGame().getCurrentRound())).build();
       case "NextQuoteEvent" :
-        return Response.ok(new NextQuoteEvent(EventType.NextQuoteEvent, new Quote("A Test", Author.Shakespeare))).build();
+        return Response.ok(new NextQuoteEvent(DomainEventType.NextQuoteEvent, new Quote("A Test", Author.Shakespeare))).build();
       case "GameStartedEvent" :
-        return Response.ok(new GameStartedEvent(EventType.GameStartedEvent, mockGame())).build();
+        return Response.ok(new GameStartedEvent(DomainEventType.GameStartedEvent, mockGame())).build();
+      case "GameCreatedEvent" :
+        return Response.ok(new GameCreatedEvent(mockGame())).build();
       default:
         return Response.status(Response.Status.BAD_REQUEST).build();
     }

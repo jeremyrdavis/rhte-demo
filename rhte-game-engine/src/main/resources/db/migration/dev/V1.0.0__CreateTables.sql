@@ -1,6 +1,6 @@
-alter table Round drop constraint if exists FK9pdqsvps1d4vjy5ftnm6j2pek;
-alter table round_quotes drop constraint if exists FK4e0q12a7w00714yas97fvypsk;
-alter table round_quotes drop constraint if exists FKp6519m9dxcvj87beu3tlkwxve;
+alter table if exists Round drop constraint if exists FK9pdqsvps1d4vjy5ftnm6j2pek;
+alter table if exists round_quotes drop constraint if exists FK4e0q12a7w00714yas97fvypsk;
+alter table if exists round_quotes drop constraint if exists FKp6519m9dxcvj87beu3tlkwxve;
 drop table if exists Game;
 drop table if exists Quote;
 drop table if exists Round;
@@ -9,7 +9,8 @@ drop sequence if exists hibernate_sequence;
 create sequence hibernate_sequence start with 1 increment by 1;
 create table Game (
                       id bigint not null,
-                      primary key (id)
+                      primary key (id),
+                      status varchar(15)
 );
 create table Quote (
                        id bigint not null,

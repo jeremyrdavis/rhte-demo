@@ -1,7 +1,6 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.Event;
-import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
+import com.redhat.techexchange.whosaidit.game.domain.DomainEvent;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,6 +14,6 @@ public interface HistoryService {
 
   @POST
   @Produces(MediaType.APPLICATION_JSON)
-  public CompletionStage<Response> sendEvent(Event event);
+  public CompletionStage<Response> sendEvent(DomainEvent domainEvent);
 
 }

@@ -1,6 +1,6 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.EventType;
+import com.redhat.techexchange.whosaidit.game.domain.DomainEventType;
 import com.redhat.techexchange.whosaidit.game.domain.Round;
 import com.redhat.techexchange.whosaidit.game.domain.RoundStartedEvent;
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
@@ -38,9 +38,9 @@ public class RoundStartedEventHandler {
 
   public void handle(Round round) {
 
-    RoundStartedEvent roundStartedEvent = new RoundStartedEvent(EventType.RoundStartedEvent, round);
+    RoundStartedEvent roundStartedEvent = new RoundStartedEvent(DomainEventType.RoundStartedEvent, round);
 
-    logger.debug(roundStartedEvent.getEventType().title);
+    logger.debug(roundStartedEvent.getDomainEventType().title);
 
     //send update to Twitter
     // Update TwitterService

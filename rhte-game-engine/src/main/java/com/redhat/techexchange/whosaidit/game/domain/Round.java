@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@Table(name = "round")
 public class Round extends PanacheEntity {
 
   @JsonbTransient

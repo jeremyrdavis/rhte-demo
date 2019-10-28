@@ -4,14 +4,12 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@Table(name = "game")
 public class Game extends PanacheEntity {
 
   public GameStatus status;
@@ -29,13 +27,11 @@ public class Game extends PanacheEntity {
     return this.rounds;
   }
 
-  public Game() {
-    this.status = GameStatus.CREATED;
-  }
-
-  public Game(Map<Integer, Round> rounds) {
-    this.status = GameStatus.CREATED;
-    this.rounds = rounds;
+  public static GameCreatedEvent createGame(Map<Integer, Round> roundsToSet) {
+    Game game = new Game();
+    game.status = GameStatus.CREATED;
+    game.rounds = roundsToSet;
+    return new GameCreatedEvent(game);
   }
 
   public Round getCurrentRound() {

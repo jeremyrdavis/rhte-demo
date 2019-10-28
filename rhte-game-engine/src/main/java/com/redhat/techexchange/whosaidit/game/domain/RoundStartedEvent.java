@@ -1,26 +1,26 @@
 package com.redhat.techexchange.whosaidit.game.domain;
 
-public class RoundStartedEvent implements Event{
+public class RoundStartedEvent implements DomainEvent {
 
-  EventType eventType;
+  DomainEventType domainEventType;
 
   Round round;
 
   public RoundStartedEvent() {
-    this.eventType = EventType.RoundStartedEvent;
+    this.domainEventType = DomainEventType.RoundStartedEvent;
   }
 
-  public RoundStartedEvent(EventType eventType, Round round) {
-    this.eventType = eventType;
+  public RoundStartedEvent(DomainEventType domainEventType, Round round) {
+    this.domainEventType = domainEventType;
     this.round = round;
   }
 
-  public EventType getEventType() {
-    return eventType;
+  public DomainEventType getDomainEventType() {
+    return domainEventType;
   }
 
-  public void setEventType(EventType eventType) {
-    this.eventType = eventType;
+  public void setDomainEventType(DomainEventType domainEventType) {
+    this.domainEventType = domainEventType;
   }
 
   public Round getRound() {

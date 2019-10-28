@@ -1,25 +1,25 @@
 package com.redhat.techexchange.whosaidit.game.domain;
 
-public class NextQuoteEvent implements Event{
+public class NextQuoteEvent implements DomainEvent {
 
-  EventType eventType;
+  DomainEventType domainEventType;
 
   Quote quote;
 
   public NextQuoteEvent() {
   }
 
-  public NextQuoteEvent(EventType eventType, Quote quote) {
-    this.eventType = eventType;
+  public NextQuoteEvent(DomainEventType domainEventType, Quote quote) {
+    this.domainEventType = domainEventType;
     this.quote = quote;
   }
 
-  public EventType getEventType() {
-    return eventType;
+  public DomainEventType getDomainEventType() {
+    return domainEventType;
   }
 
-  public void setEventType(EventType eventType) {
-    this.eventType = eventType;
+  public void setDomainEventType(DomainEventType domainEventType) {
+    this.domainEventType = domainEventType;
   }
 
   public Quote getQuote() {
@@ -34,7 +34,7 @@ public class NextQuoteEvent implements Event{
   public String toString() {
     return new StringBuilder()
       .append("NextQuoteEvent[eventType=")
-      .append(eventType.title)
+      .append(domainEventType.title)
       .append(",quote=[")
       .append(quote.text)
       .append(",author=")

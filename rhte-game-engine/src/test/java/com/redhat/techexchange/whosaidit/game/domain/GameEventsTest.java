@@ -27,7 +27,8 @@ public class GameEventsTest {
   @Test
   public void testGameStartEvent() {
 
-    Game game = new Game(mockRounds());
+    GameCreatedEvent gameCreatedEvent = Game.createGame(mockRounds());
+    Game game = gameCreatedEvent.getGame();
     assertEquals(GameStatus.CREATED, game.status);
     game.start();
     assertEquals(GameStatus.IN_PROGRESS, game.status);

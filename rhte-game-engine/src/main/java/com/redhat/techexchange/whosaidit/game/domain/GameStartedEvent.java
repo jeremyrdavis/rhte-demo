@@ -1,25 +1,28 @@
 package com.redhat.techexchange.whosaidit.game.domain;
 
-public class GameStartedEvent implements Event{
+public class GameStartedEvent implements DomainEvent {
 
-  EventType eventType;
+  DomainEventType domainEventType = DomainEventType.GameStartedEvent;
 
   Game game;
 
   public GameStartedEvent() {
   }
 
-  public GameStartedEvent(EventType eventType, Game game) {
-    this.eventType = eventType;
+  public GameStartedEvent(Game game) {
     this.game = game;
   }
 
-  public EventType getEventType() {
-    return eventType;
+  public GameStartedEvent(DomainEventType domainEventType, Game game) {
+    this.game = game;
   }
 
-  public void setEventType(EventType eventType) {
-    this.eventType = eventType;
+  public DomainEventType getDomainEventType() {
+    return domainEventType;
+  }
+
+  public void setDomainEventType(DomainEventType domainEventType) {
+    this.domainEventType = domainEventType;
   }
 
   public Game getGame() {

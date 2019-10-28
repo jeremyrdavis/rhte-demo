@@ -16,7 +16,7 @@ public interface ApiGatewayService{
 
   @POST
   @Produces(MediaType.APPLICATION_JSON)
-  public CompletionStage<Response> sendEvent(Event event);
+  public CompletionStage<Response> sendEvent(DomainEvent domainEvent);
 
   @POST
   @Path("/event/game/start")

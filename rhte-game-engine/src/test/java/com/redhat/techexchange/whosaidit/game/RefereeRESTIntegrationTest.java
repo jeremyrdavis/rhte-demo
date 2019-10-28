@@ -2,6 +2,7 @@ package com.redhat.techexchange.whosaidit.game;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.redhat.techexchange.whosaidit.game.domain.GameStatus;
 import com.redhat.techexchange.whosaidit.game.infrastructure.Referee;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
@@ -91,20 +92,38 @@ public class RefereeRESTIntegrationTest {
   }
 
   @Test
-  public void testGameStart() {
+  public void testCreateGame() {
 
     Response response = given()
       .contentType(MediaType.APPLICATION_JSON)
       .when()
-      .get("/game/start");
+      .post("/game/create");
+
+    System.out.println(response.jsonPath().prettify());
 
     assertEquals(HttpStatus.SC_CREATED, response.statusCode());
-    assertEquals(4, response.jsonPath().getMap("rounds").values().size());
+    assertEquals(4, response.jsonPath().getMap("game.rounds").values().size());
   }
 
   @Test
-  public void testRoundStart() {
+  public void testStartGame() {
 
+    Response createResponse = given()
+      .contentType(MediaType.APPLICATION_JSON)
+      .when()
+      .post("/game/create");
+
+    System.out.println(createResponse.jsonPath().prettify());
+    System.out.println(createResponse.jsonPath().get("game").toString());
+    Long id = createResponse.jsonPath().getLong("game.id");
+
+    Response response = given()
+      .contentType(MediaType.APPLICATION_JSON)
+      .when()
+      .post("/game/start/" + id);
+    assertEquals(HttpStatus.SC_OK, response.statusCode());
+    assertEquals(GameStatus.IN_PROGRESS.toString(), response.jsonPath().getString("game.status"));
+    assertEquals(4, response.jsonPath().getMap("game.rounds").values().size());
   }
 
 

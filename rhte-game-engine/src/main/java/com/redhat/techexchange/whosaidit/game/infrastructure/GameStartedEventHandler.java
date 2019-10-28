@@ -1,6 +1,6 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
-import com.redhat.techexchange.whosaidit.game.domain.EventType;
+import com.redhat.techexchange.whosaidit.game.domain.DomainEventType;
 import com.redhat.techexchange.whosaidit.game.domain.Game;
 import com.redhat.techexchange.whosaidit.game.domain.GameStartedEvent;
 import com.redhat.techexchange.whosaidit.game.domain.StatusUpdate;
@@ -35,7 +35,7 @@ public class GameStartedEventHandler {
   void handle(Game game) {
 
     GameStartedEvent gameStartedEvent = new GameStartedEvent();
-    gameStartedEvent.setEventType(EventType.GameStartedEvent);
+    gameStartedEvent.setDomainEventType(DomainEventType.GameStartedEvent);
     gameStartedEvent.setGame(game);
 //    gameStartedEvent.timestamp = Date.from(Instant.now());
 

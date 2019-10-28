@@ -3,16 +3,17 @@ package com.redhat.techexchange.whosaidit.game.domain;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "quotes")
 public class Quote extends PanacheEntity {
 
   public String text;

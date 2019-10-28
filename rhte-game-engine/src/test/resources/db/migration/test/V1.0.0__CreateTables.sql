@@ -1,43 +1,49 @@
-drop table Game if exists;
-drop table Quote if exists;
-drop table Round if exists;
-drop table round_quotes if exists;
+alter table if exists round
+    drop constraint if exists FKppxonwn9e98lccy46m2eve67m;
+alter table if exists round_quotes
+    drop constraint if exists FKmaye551bmf4137n3ssfa8th12;
+alter table if exists round_quotes
+    drop constraint if exists FK4c5hwk5dg72b12exw7381weqa;
+drop table if exists game cascade;
+drop table if exists quotes cascade;
+drop table if exists round cascade;
+drop table if exists round_quotes cascade;
 drop sequence if exists hibernate_sequence;
-create sequence hibernate_sequence start with 1 increment by 1;
-create table Game (
-                      id bigint not null,
-                      primary key (id),
-                      status varchar(15)
+create sequence hibernate_sequence start 1 increment 1;
+create table game (
+                      id int8 not null,
+                      status int4,
+                      primary key (id)
 );
-create table Quote (
-                       id bigint not null,
-                       author varchar(255),
-                       text varchar(255),
-                       primary key (id)
+create table quotes (
+                        id int8 not null,
+                        author varchar(255),
+                        text varchar(255),
+                        primary key (id)
 );
-create table Round (
-                       id bigint not null,
-                       status varchar(15),
+create table round (
+                       id int8 not null,
+                       status varchar(255),
                        winner varchar(255),
-                       game_id bigint,
-                       rounds_KEY integer,
+                       game_id int8,
+                       rounds_KEY int4,
                        primary key (id)
 );
 create table round_quotes (
-                              fk_round bigint not null,
-                              fk_quote bigint not null,
-                              quotes_KEY integer not null,
+                              fk_round int8 not null,
+                              fk_quote int8 not null,
+                              quotes_KEY int4 not null,
                               primary key (fk_round, quotes_KEY)
 );
-alter table Round
-    add constraint FK9pdqsvps1d4vjy5ftnm6j2pek
+alter table if exists round
+    add constraint FKppxonwn9e98lccy46m2eve67m
         foreign key (game_id)
-            references Game;
-alter table round_quotes
-    add constraint FK4e0q12a7w00714yas97fvypsk
+            references game;
+alter table if exists round_quotes
+    add constraint FKmaye551bmf4137n3ssfa8th12
         foreign key (fk_quote)
-            references Quote;
-alter table round_quotes
-    add constraint FKp6519m9dxcvj87beu3tlkwxve
+            references quotes;
+alter table if exists round_quotes
+    add constraint FK4c5hwk5dg72b12exw7381weqa
         foreign key (fk_round)
-            references Round;
+            references round;

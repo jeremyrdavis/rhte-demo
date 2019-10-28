@@ -1,17 +1,17 @@
 package com.redhat.techexchange.whosaidit.game.domain;
 
-public enum EventType {
+public enum DomainEventType {
 
-  NextQuoteEvent("NextQuoteEvent"),
+  GameCreatedEvent("GameCreatedEvent"),
   GameStartedEvent("GameStartedEvent"),
+  NextQuoteEvent("NextQuoteEvent"),
   RoundStartedEvent("RoundStartedEvent"),
   RoundEndedEvent("RoundEndedEvent");
 
   public String title;
 
-  private EventType(String titleToSet) {
+  private DomainEventType(String titleToSet) {
     this.title = titleToSet;
   }
 
-  public enum RoundEndedEvent {}
 }

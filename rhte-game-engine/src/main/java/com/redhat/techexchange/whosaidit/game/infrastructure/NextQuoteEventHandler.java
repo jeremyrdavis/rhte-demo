@@ -1,16 +1,11 @@
 package com.redhat.techexchange.whosaidit.game.infrastructure;
 
 import com.redhat.techexchange.whosaidit.game.domain.*;
-import io.reactivex.Observable;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Date;
 import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
@@ -36,7 +31,7 @@ public class NextQuoteEventHandler {
     // Update ApiGateway
     NextQuoteEvent nextQuoteEvent = new NextQuoteEvent();
     nextQuoteEvent.setQuote(quote);
-    nextQuoteEvent.setEventType(EventType.NextQuoteEvent);
+    nextQuoteEvent.setDomainEventType(DomainEventType.NextQuoteEvent);
 //    nextQuoteEvent.timestamp = Date.from(Instant.now());
     CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendNextQuoteEvent(new NextQuoteEvent())
 

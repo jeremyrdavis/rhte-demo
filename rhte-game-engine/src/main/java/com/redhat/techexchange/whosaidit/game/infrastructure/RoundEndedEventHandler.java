@@ -35,9 +35,9 @@ public class RoundEndedEventHandler {
 
   public void handle(Round round) {
 
-    RoundEndedEvent roundEndedEvent = new RoundEndedEvent(EventType.RoundStartedEvent, round);
+    RoundEndedEvent roundEndedEvent = new RoundEndedEvent(DomainEventType.RoundStartedEvent, round);
 
-    logger.debug(roundEndedEvent.getEventType().title);
+    logger.debug(roundEndedEvent.getDomainEventType().title);
 
     //call Api Gateway
     CompletionStage<Response> apiGatewayResponse = apiGatewayService.sendRoundEndedEvent(roundEndedEvent.getRound().winner)

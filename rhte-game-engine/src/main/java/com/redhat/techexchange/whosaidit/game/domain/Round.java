@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -24,6 +25,13 @@ public class Round extends PanacheEntity {
     joinColumns = {@JoinColumn(name = "fk_round")},
     inverseJoinColumns = {@JoinColumn(name = "fk_quote")})
   public Map<Integer, Quote> quotes = new HashMap<>();
+
+
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+  @JoinTable(name = "round_guesses",
+    joinColumns = {@JoinColumn(name = "fk_round")},
+    inverseJoinColumns = {@JoinColumn(name = "fk_guess")})
+  public List<Guess> guesses;
 
   public String winner;
 
